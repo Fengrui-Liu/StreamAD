@@ -1,8 +1,8 @@
-# Streaming time series analysis on Flink
+# Streaming time series anomaly detection on Flink
 
-Online streaming time series analysis based on Flink and Kafka, including anomaly detector and prediction.
+Online streaming time series anomaly detection, including anomaly detector and prediction.
 
-基于FLink和Kafka的实时在线时序数据分析，包括异常检测和时序预测。
+基于FLink和Kafka的实时在线时序数据异常检测。
 
 [[English version](./README.md)][[中文版本](./README_zh_CN.md)]
 
@@ -25,7 +25,7 @@ $ ./bin/start-cluster.sh
 $ tail -f log/flink-*.out
 ```
 
-Kafka: 详细安装步骤请参照[Kafka](http://kafka.apache.org/downloads)
+Kafka: Detailed instructions in [Kafka](http://kafka.apache.org/downloads)
 
 ```zsh
 $ tar -xzf kafka_2.13-2.6.0.tgz
@@ -35,15 +35,15 @@ $ ./zookeeper-server-start.sh ../config/zookeeper.properties
 # Open another terminal，start kafka server
 $ ./kafka-server-start.sh ../config/server.properties
 # Open another terminal, start kafka producer and input the data in realtime.
-$ ./bin/kafka-console-producer.sh --broker-list localhost:9092 --topic test
+$ ./kafka-console-producer.sh --broker-list localhost:9092 --topic test
 # (Optional) Open another terminal, start kafka consumer and print the input data in realtime.
-$ ./bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test --from-beginning
+$ ./kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test --from-beginning
 ```
 
 streamingTS
 
 ```
-git clone git@github.com:Fengrui-Liu/streamingTS.git
+git clone git@github.com:Fengrui-Liu/streamingAD.git
 ```
 
 

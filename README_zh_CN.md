@@ -1,8 +1,8 @@
-# 基于FLink的流式时序分析
+# 基于FLink的流式时序异常检测
 
-Online streaming time series analysis, including anomaly detector and prediction.
+Online streaming time series anomaly detection, including anomaly detector and prediction.
 
-基于FLink和Kafka的实时在线时序数据分析，包括异常检测和时序预测。
+基于FLink和Kafka的实时在线时序数据异常检测。
 
 [[English version](./README.md)][[中文版本](./README_zh_CN.md)]
 
@@ -43,7 +43,7 @@ $ ./bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test
 streamingTS
 
 ```
-git clone git@github.com:Fengrui-Liu/streamingTS.git
+git clone git@github.com:Fengrui-Liu/streamingAD.git
 ```
 
 
