@@ -1,11 +1,10 @@
 # Streaming time series analysis on Flink
 
-Online streaming time series analysis, including anomaly detector and prediction.
-基于FLink的实时在线时序数据分析，包括异常检测和时序预测。
+Online streaming time series analysis based on Flink and Kafka, including anomaly detector and prediction.
+
+基于FLink和Kafka的实时在线时序数据分析，包括异常检测和时序预测。
 
 [[English version](./README.md)][[中文版本](./README_zh_CN.md)]
-
-
 
 ---
 
@@ -16,10 +15,29 @@ Flink: Detailed instructions in [Flink](https://ci.apache.org/projects/flink/fli
 ```zsh
 $ tar -xzf flink-1.11.2-bin-scala_2.11.tgz
 $ cd flink-1.11.2-bin-scala_2.11
+# Start cluster
 $ ./bin/start-cluster.sh
-Starting cluster.
-Starting standalonesession daemon on host.
-Starting taskexecutor daemon on host.
+# Starting cluster.
+# Starting standalonesession daemon on host.
+# Starting taskexecutor daemon on host.
+
+# (optional)Check the output while running the program
+$ tail -f log/flink-*.out
+```
+
+Kafka: 详细安装步骤请参照[Kafka](http://kafka.apache.org/downloads)
+
+```zsh
+$ tar -xzf kafka_2.13-2.6.0.tgz
+$ cd ./kafka/bin
+# Start zookeeper service
+$ ./zookeeper-server-start.sh ../config/zookeeper.properties
+# Open another terminal，start kafka server
+$ ./kafka-server-start.sh ../config/server.properties
+# Open another terminal, start kafka producer and input the data in realtime.
+$ ./bin/kafka-console-producer.sh --broker-list localhost:9092 --topic test
+# (Optional) Open another terminal, start kafka consumer and print the input data in realtime.
+$ ./bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test --from-beginning
 ```
 
 streamingTS
@@ -42,7 +60,7 @@ git clone git@github.com:Fengrui-Liu/streamingTS.git
     - [] [Twitter ADVec v1.0.0](https://github.com/twitter/AnomalyDetection)
     - [] [Windowed Gaussian](https://github.com/numenta/NAB/blob/master/nab/detectors/gaussian/windowedGaussian_detector.py)
     - [] [Etsy Skyline](https://github.com/etsy/skyline)
-    - [] 
+    
 - Prediction
     - [] [prophet](https://facebook.github.io/prophet/)
 
