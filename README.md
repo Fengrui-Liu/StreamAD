@@ -1,8 +1,6 @@
-# Streaming time series anomaly detection on Flink
+# Online streaming anomaly detection(Outlier detection).
 
-Online streaming time series anomaly detection, including anomaly detector and prediction.
-
-基于FLink和Kafka的实时在线时序数据异常检测。
+实时数据流异常检测。
 
 [[English version](./README.md)][[中文版本](./README_zh_CN.md)]
 
@@ -10,37 +8,8 @@ Online streaming time series anomaly detection, including anomaly detector and p
 
 ## Installation
 
-Flink: Detailed instructions in [Flink](https://ci.apache.org/projects/flink/flink-docs-release-1.11/try-flink/local_installation.html)
 
-```zsh
-$ tar -xzf flink-1.11.2-bin-scala_2.11.tgz
-$ cd flink-1.11.2-bin-scala_2.11
-# Start cluster
-$ ./bin/start-cluster.sh
-# Starting cluster.
-# Starting standalonesession daemon on host.
-# Starting taskexecutor daemon on host.
-
-# (optional)Check the output while running the program
-$ tail -f log/flink-*.out
-```
-
-Kafka: Detailed instructions in [Kafka](http://kafka.apache.org/downloads)
-
-```zsh
-$ tar -xzf kafka_2.13-2.6.0.tgz
-$ cd ./kafka/bin
-# Start zookeeper service
-$ ./zookeeper-server-start.sh ../config/zookeeper.properties
-# Open another terminal，start kafka server
-$ ./kafka-server-start.sh ../config/server.properties
-# Open another terminal, start kafka producer and input the data in realtime.
-$ ./kafka-console-producer.sh --broker-list localhost:9092 --topic test
-# (Optional) Open another terminal, start kafka consumer and print the input data in realtime.
-$ ./kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test --from-beginning
-```
-
-streamingTS
+streamingAD
 
 ```
 git clone git@github.com:Fengrui-Liu/streamingAD.git
@@ -48,6 +17,7 @@ git clone git@github.com:Fengrui-Liu/streamingAD.git
 
 
 ---
+TODO:
 
 - Anomaly detector
     - [] [IsolationForest](https://cs.nju.edu.cn/zhouzh/zhouzh.files/publication/icdm08b.pdf)
