@@ -3,14 +3,16 @@
 """
 Author: liufr
 Github: https://github.com/Fengrui-Liu
-LastEditTime: 2020-11-27 16:03:10
+LastEditTime: 2020-11-27 21:16:28
 Copyright 2020 liufr
 Description: Iterate item of pandas, numpy array, list
 """
 
 import random
 from operator import le
+from types import GeneratorType
 from typing import Generator, Iterable, Sequence, Tuple, Union
+import typing
 
 import numpy as np
 import pandas as pd
@@ -19,8 +21,9 @@ import pandas as pd
 class StreamGenerator:
     def __init__(
         self,
-        X: np.ndarray,
-        y: np.ndarray = None,
+        X: pd.DataFrame,
+        y: pd.DataFrame = None,
+        feature_names: list = None,
         shuffle: bool = False,
     ):
         """Init stream generator
@@ -36,6 +39,7 @@ class StreamGenerator:
         self.X = X
         self.y = y
         self.index = list(range(len(X)))
+        self.features = feature_names
         if shuffle:
             np.random.shuffle(self.index)
 
@@ -63,7 +67,9 @@ class StreamGenerator:
 
         if self.y is None:
             for i in self.index:
-                yield self.X[i], None
+                yield pd.Series(self.X[i], index=self.features), None
         else:
             for i in self.index:
-                yield self.X[i], self.y[i]
+                yield pd.Series(self.X[i], index=self.features), pd.Series(
+                    self.y[i], index=["label"]
+                )
