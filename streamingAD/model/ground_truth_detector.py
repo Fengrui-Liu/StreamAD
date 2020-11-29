@@ -3,11 +3,11 @@
 """
 Author: liufr
 Github: https://github.com/Fengrui-Liu
-LastEditTime: 2020-11-23 11:16:51
+LastEditTime: 2020-11-29 10:26:00
 Copyright 2020 liufr
 Description: Ground truth detector
 """
-from streamingAD.core.BaseDetector import BaseDetector
+from streamingAD.base.BaseDetector import BaseDetector
 from collections import deque
 
 

@@ -3,12 +3,12 @@
 """
 Author: liufr
 Github: https://github.com/Fengrui-Liu
-LastEditTime: 2020-11-23 15:37:20
+LastEditTime: 2020-11-29 21:06:44
 Copyright 2020 liufr
 Description: Models collection
 """
 
 from .ground_truth_detector import GroundTruthDetctor
-from .kNNAD import kNNAD
+from .KNN_Detector import KNNDetector
 
-__all__ = ["GroundTruthDetctor", "kNNAD"]
+__all__ = ["GroundTruthDetctor", "KNNDetector"]

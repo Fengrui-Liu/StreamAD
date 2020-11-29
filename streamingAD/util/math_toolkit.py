@@ -3,46 +3,20 @@
 """
 Author: liufr
 Github: https://github.com/Fengrui-Liu
-LastEditTime: 2020-11-28 20:37:49
+LastEditTime: 2020-11-28 20:50:04
 Copyright 2020 liufr
-Description:
+Description: Mathtookit for stream statistic
 """
 import math
 import collections
 import numpy as np
 
-# class StreamStatistic:
-#     def __init__(self, dim=1):
-
-#         self.num_items = 0
-#         self.max = [-math.inf] * dim
-#         self.min = [math.inf] * dim
-#         self.sum = [0.0] * dim
-#         self.mean = [0.0] * dim
-#         self.sum_squares = [0.0] * dim
-#         self.var = [0.0] * dim
-#         self.std = [0.0] * dim
-#         self.dim = dim
-
-#     def update(self, num):
-#         #
-#         self.num_items += 1
-#         for index, item in enumerate(num):
-#             self.max[index] = self.max[index] if self.max[index] > item else item
-#             self.min[index] = self.min[index] if self.min[index] < item else item
-#             self.sum[index] += num[index]
-#             old_mean = self.mean[index]
-#             self.mean[index] = self.sum[index] / self.num_items
-#             self.sum_squares[index] += (num[index] - old_mean) * (
-#                 num[index] - self.mean[index]
-#             )
-#             self.var[index] = self.sum_squares[index] / self.num_items
-#             self.std[index] = math.sqrt(self.var[index])
-
 
 class StreamStatistic:
     def __init__(self):
-
+        """Statistic for stream
+        We support max, min, sum, mean, sum of squares, var, std and standard scaler for streams
+        """
         self.num_items = 0
         self.max = collections.defaultdict(lambda: -math.inf)
         self.min = collections.defaultdict(lambda: math.inf)
@@ -53,6 +27,11 @@ class StreamStatistic:
         self.std = collections.defaultdict(float)
 
     def update(self, num):
+        """Update a pd.Series to stream
+
+        Args:
+            num ([pd.Series]): An item from StreamGenerator
+        """
         self.num_items += 1
         for index, item in num.items():
             # print(index, "---", item)
@@ -68,7 +47,14 @@ class StreamStatistic:
             self.std[index] = math.sqrt(self.var[index])
 
     def standard_scaler(self, num):
+        """Standard scaler for current item of stream
 
+        Args:
+            num (pd.Series): Update and standard scale for item withe the same item
+
+        Returns:
+            pd.Series: Results after standard scaling
+        """
         stand_result = collections.defaultdict(float)
         for index, item in num.items():
             stand_result[index] = np.divide(

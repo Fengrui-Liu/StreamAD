@@ -3,13 +3,12 @@
 """
 Author: liufr
 Github: https://github.com/Fengrui-Liu
-LastEditTime: 2020-11-24 16:47:17
+LastEditTime: 2020-11-29 21:07:03
 Copyright 2020 liufr
 Description: Base class of all detectors
 """
 
 from abc import ABC, abstractmethod
-import pdb
 from sklearn.utils.validation import check_is_fitted
 import numpy as np
 
@@ -29,7 +28,7 @@ class BaseDetector(ABC):
 
     def fit_score_partial(self, X, Y):
 
-        return self.fit_partial(X, Y).score_partial(X)
+        return self.fit_partial(X, Y).score_partial()
 
     def fit(self, X, Y=None):
 
@@ -48,13 +47,10 @@ class BaseDetector(ABC):
         return np.array(y_pred)
 
     def fit_score(self, X, Y=None):
-        y_pred = list()
 
         if Y == None:
             Y = np.empty(len(X))
 
-        for x, y in zip(X, Y):
-            pred_result = self.fit_score_partial(x, y)
-            y_pred.append(pred_result)
+        pred_result = self.fit_score_partial(X, Y)
 
-        return np.array(y_pred)
+        return pred_result
