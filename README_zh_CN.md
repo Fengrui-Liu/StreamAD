@@ -1,3 +1,4 @@
+
 # 实时数据流异常检测
 
 Online streaming anomaly detection(Outlier detection).
@@ -22,11 +23,12 @@ git clone git@github.com:Fengrui-Liu/streamingAD.git
 TODO:
 
 - Anomaly detector
+    - [*] [KNN CAD](https://github.com/numenta/NAB/tree/master/nab/detectors/knncad)
+    - [*] [xStream](https://cmuxstream.github.io/)
     - [] [IsolationForest](https://cs.nju.edu.cn/zhouzh/zhouzh.files/publication/icdm08b.pdf)
     - [] [Numenta HTM](https://github.com/numenta/nupic)
     - [] [CAD OSE](https://github.com/smirmik/CAD)
     - [] [earthgecko Skyline](https://github.com/earthgecko/skyline)
-    - [] [KNN CAD](https://github.com/numenta/NAB/tree/master/nab/detectors/knncad)
     - [] [Relative Entropy](http://www.hpl.hp.com/techreports/2011/HPL-2011-8.pdf)
     - [] [Random Cut Forest](http://proceedings.mlr.press/v48/guha16.pdf)
     - [] [Twitter ADVec v1.0.0](https://github.com/twitter/AnomalyDetection)
