@@ -3,7 +3,7 @@
 """
 Author: liufr
 Github: https://github.com/Fengrui-Liu
-LastEditTime: 2020-11-28 20:50:04
+LastEditTime: 2020-12-01 21:33:25
 Copyright 2020 liufr
 Description: Mathtookit for stream statistic
 """
@@ -33,12 +33,16 @@ class StreamStatistic:
             num ([pd.Series]): An item from StreamGenerator
         """
         self.num_items += 1
+
+        tmp = collections.defaultdict(float)
+
         for index, item in num.items():
             # print(index, "---", item)
             self.max[index] = self.max[index] if self.max[index] > item else item
             self.min[index] = self.min[index] if self.min[index] < item else item
             self.sum[index] += num[index]
             old_mean = self.mean[index]
+            tmp[index] = item - self.mean[index]
             self.mean[index] = self.sum[index] / self.num_items
             self.sum_squares[index] += (num[index] - old_mean) * (
                 num[index] - self.mean[index]

@@ -3,7 +3,7 @@
 """
 Author: liufr
 Github: https://github.com/Fengrui-Liu
-LastEditTime: 2020-11-29 21:21:55
+LastEditTime: 2020-12-01 20:34:11
 Copyright 2020 liufr
 Description: KNN-based anomaly detector
 """
@@ -14,33 +14,34 @@ import pdb
 import numpy as np
 import pandas as pd
 from scipy.spatial import distance
-from streamingAD.base.BaseDetector import BaseDetector
+from streamingAD.base import BaseDetector
 
 
 class KNNDetector(BaseDetector):
     def __init__(
-        self, observe_length: int, k_neighbor: int = 1, threshold: float = 0.9
-    ) -> None:
+        self,
+        observation_length: int = -1,
+        k_neighbor: int = 1,
+    ):
         """KNN anomaly detector with mahalanobis distance.
 
         Args:
-            observe_length (int): The history records used for the reference
-            k_neighbor (int, optional): The number of neighbors to search for. Defaults to 1.
+            observation_length (int): The history records used for the reference. Defaults to -1, use all the history records.
+            k_neighbor (int, optional): The number of neighbors to search for. Defaults to 1. Suggest larger than half of features name.
             threshold (float, optional): The threshold of anomaly probability. Defaults to 0.9.
         """
         self.training = []
         self.scores = []
         self.record_count = 0
         self.k = k_neighbor
-        self.window_length = observe_length
-        self.threshold = threshold
-        self.sigma = np.diag(np.ones(self.window_length))
+        self.window_length = max(observation_length, 2 * k_neighbor)
+        self.all_history = True if observation_length == -1 else False
+        self.sigma = 0.0
         self.feature_names = []
 
     def _ncm(self, item, item_in_array=False):
 
         arr = [distance.mahalanobis(x, item, self.sigma) for x in self.training]
-
         result = np.sum(
             np.partition(arr, self.k + item_in_array)[: self.k + item_in_array]
         )
@@ -75,6 +76,7 @@ class KNNDetector(BaseDetector):
 
         ost = self.record_count % self.window_length
         if ost == 0 or ost == int(self.window_length / 2):
+
             cov = np.cov(self.training, rowvar=False)
             try:
                 self.sigma = np.linalg.inv(cov)
@@ -88,7 +90,7 @@ class KNNDetector(BaseDetector):
 
         new_score = self._ncm(new_item)
 
-        if self.record_count >= self.window_length * 2:
+        if self.record_count >= self.window_length and self.all_history == False:
             self.training.pop(0)
             self.scores.pop(0)
 
@@ -96,14 +98,15 @@ class KNNDetector(BaseDetector):
 
         return self
 
-    def score_partial(self):
+    def score_partial(self) -> float:
         """Score the last item.
 
         Returns:
-            dict: A dict which contains anomaly tag according to threshold and corresponding probability.
+            float: Anomaly probability.
         """
+
         if len(self.training) < self.window_length:
-            return "Observating"
+            return -1.0
 
         new_score = self.scores[-1]
 
@@ -111,8 +114,4 @@ class KNNDetector(BaseDetector):
             1.0 * len(np.where(np.array(self.scores) < new_score)[0]) / len(self.scores)
         )
 
-        anomaly = False
-        if result > self.threshold:
-            anomaly = True
-
-        return {"Anomaly": anomaly, "Anomaly Probability": result}
+        return result

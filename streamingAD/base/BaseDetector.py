@@ -3,7 +3,7 @@
 """
 Author: liufr
 Github: https://github.com/Fengrui-Liu
-LastEditTime: 2020-11-29 21:07:03
+LastEditTime: 2020-12-04 09:55:09
 Copyright 2020 liufr
 Description: Base class of all detectors
 """
@@ -26,9 +26,9 @@ class BaseDetector(ABC):
     def score_partial(self, X):
         pass
 
-    def fit_score_partial(self, X, Y):
+    def fit_score_partial(self, X, Y=None):
 
-        return self.fit_partial(X, Y).score_partial()
+        return self.fit_partial(X, Y).score_partial(X)
 
     def fit(self, X, Y=None):
 

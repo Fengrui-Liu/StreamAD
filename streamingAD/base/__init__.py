@@ -3,9 +3,12 @@
 """
 Author: liufr
 Github: https://github.com/Fengrui-Liu
-LastEditTime: 2020-11-21 16:21:15
+LastEditTime: 2020-11-30 20:41:35
 Copyright 2020 liufr
-Description: 
+Description:
 """
 
+from .BaseDetector import BaseDetector
 
+
+__all__ = ["BaseDetector"]
