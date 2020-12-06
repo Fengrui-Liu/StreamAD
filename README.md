@@ -21,8 +21,9 @@ git clone git@github.com:Fengrui-Liu/streamingAD.git
 TODO:
 
 - Anomaly detector
-    - [*] [KNN CAD](https://github.com/numenta/NAB/tree/master/nab/detectors/knncad)
-    - [*] [xStream](https://cmuxstream.github.io/)
+    - [x] [KNN CAD](https://github.com/numenta/NAB/tree/master/nab/detectors/knncad)
+
+    - [x] [xStream](https://cmuxstream.github.io/)
     - [] [IsolationForest](https://cs.nju.edu.cn/zhouzh/zhouzh.files/publication/icdm08b.pdf)
     - [] [Numenta HTM](https://github.com/numenta/nupic)
     - [] [CAD OSE](https://github.com/smirmik/CAD)
