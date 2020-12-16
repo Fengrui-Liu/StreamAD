@@ -3,7 +3,7 @@
 """
 Author: liufr
 Github: https://github.com/Fengrui-Liu
-LastEditTime: 2020-11-27 21:16:28
+LastEditTime: 2020-12-10 09:23:28
 Copyright 2020 liufr
 Description: Iterate item of pandas, numpy array, list
 """
@@ -11,7 +11,7 @@ Description: Iterate item of pandas, numpy array, list
 import random
 from operator import le
 from types import GeneratorType
-from typing import Generator, Iterable, Sequence, Tuple, Union
+from typing import Generator, Iterable, Optional, Sequence, Tuple, Union
 import typing
 
 import numpy as np
@@ -21,7 +21,7 @@ import pandas as pd
 class StreamGenerator:
     def __init__(
         self,
-        X: pd.DataFrame,
+        X: Optional[Union[pd.DataFrame, np.ndarray]],
         y: pd.DataFrame = None,
         feature_names: list = None,
         shuffle: bool = False,

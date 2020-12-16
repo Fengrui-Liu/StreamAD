@@ -1,29 +1,30 @@
 
+
+<!--
+ * @Author: liufr
+ * @Github: https://github.com/Fengrui-Liu
+ * @LastEditTime: 2020-12-16 19:51:01
+ * @Copyright 2020 liufr
+ * @Description:
+-->
+
 # Online streaming anomaly detection(Outlier detection).
+
 
 实时数据流异常检测。
 
 [[English version](./README.md)][[中文版本](./README_zh_CN.md)]
 
----
-
-## Installation
-
-
-streamingAD
-
-```
-git clone git@github.com:Fengrui-Liu/streamingAD.git
-```
-
 
 ---
-TODO:
+
+
+## TODO:
 
 - Anomaly detector
     - [x] [KNN CAD](https://github.com/numenta/NAB/tree/master/nab/detectors/knncad)
-
     - [x] [xStream](https://cmuxstream.github.io/)
+    - [x] [SPOT](https://dl.acm.org/doi/10.1145/3097983.3098144)
     - [] [IsolationForest](https://cs.nju.edu.cn/zhouzh/zhouzh.files/publication/icdm08b.pdf)
     - [] [Numenta HTM](https://github.com/numenta/nupic)
     - [] [CAD OSE](https://github.com/smirmik/CAD)

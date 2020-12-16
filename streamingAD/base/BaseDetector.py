@@ -3,7 +3,7 @@
 """
 Author: liufr
 Github: https://github.com/Fengrui-Liu
-LastEditTime: 2020-12-04 09:55:09
+LastEditTime: 2020-12-16 08:59:31
 Copyright 2020 liufr
 Description: Base class of all detectors
 """
@@ -11,6 +11,7 @@ Description: Base class of all detectors
 from abc import ABC, abstractmethod
 from sklearn.utils.validation import check_is_fitted
 import numpy as np
+import pandas as pd
 
 
 class BaseDetector(ABC):
@@ -19,7 +20,7 @@ class BaseDetector(ABC):
         pass
 
     @abstractmethod
-    def fit_partial(self, X, Y=None):
+    def fit_partial(self, X: pd.Series, Y: pd.Series = None):
         pass
 
     @abstractmethod
