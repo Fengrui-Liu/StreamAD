@@ -3,7 +3,7 @@
 <!--
  * @Author: liufr
  * @Github: https://github.com/Fengrui-Liu
- * @LastEditTime: 2020-12-16 19:50:45
+ * @LastEditTime: 2020-12-23 19:12:02
  * @Copyright 2020 liufr
  * @Description:
 -->
@@ -24,6 +24,7 @@ Online streaming anomaly detection(Outlier detection).
     - [x] [KNN CAD](https://github.com/numenta/NAB/tree/master/nab/detectors/knncad)
     - [x] [xStream](https://cmuxstream.github.io/)
     - [x] [SPOT](https://dl.acm.org/doi/10.1145/3097983.3098144)
+    - [x] [LSTMAutoencoder]
     - [] [IsolationForest](https://cs.nju.edu.cn/zhouzh/zhouzh.files/publication/icdm08b.pdf)
     - [] [Numenta HTM](https://github.com/numenta/nupic)
     - [] [CAD OSE](https://github.com/smirmik/CAD)

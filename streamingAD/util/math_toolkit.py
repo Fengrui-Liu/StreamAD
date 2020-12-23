@@ -3,7 +3,7 @@
 """
 Author: liufr
 Github: https://github.com/Fengrui-Liu
-LastEditTime: 2020-12-01 21:33:25
+LastEditTime: 2020-12-23 16:32:10
 Copyright 2020 liufr
 Description: Mathtookit for stream statistic
 """
@@ -49,6 +49,7 @@ class StreamStatistic:
             )
             self.var[index] = self.sum_squares[index] / self.num_items
             self.std[index] = math.sqrt(self.var[index])
+        return self
 
     def standard_scaler(self, num):
         """Standard scaler for current item of stream
@@ -61,8 +62,14 @@ class StreamStatistic:
         """
         stand_result = collections.defaultdict(float)
         for index, item in num.items():
-            stand_result[index] = np.divide(
-                (item - self.mean[index]), self.std[index], where=self.std[index] != 0
+            stand_result[index] = (
+                np.divide((item - self.mean[index]), self.std[index])
+                if self.std[index] != 0
+                else 0
             )
 
-        return stand_result
+        return pd.Series(stand_result)
+
+    def update_standard_scaler(self, num):
+
+        return self.update(num).standard_scaler(num)
