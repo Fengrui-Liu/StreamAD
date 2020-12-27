@@ -9,8 +9,8 @@ Description: [xStream](https://github.com/cmuxstream/cmuxstream-baselines)
 """
 
 
-from streamingAD.model.multivariate.xStream_StreamHash import StreamhashProjector
-from streamingAD.base import BaseDetector
+from streamAD.model.multivariate.xStream_StreamHash import StreamhashProjector
+from streamAD.base import BaseDetector
 import pandas as pd
 import numpy as np
 

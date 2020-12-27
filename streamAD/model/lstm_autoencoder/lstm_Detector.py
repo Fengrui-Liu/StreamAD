@@ -10,10 +10,10 @@ Description: Lstm and autoencoder anomaly detection
 
 
 from sklearn.utils import shuffle
-from streamingAD.base import BaseDetector
+from streamAD.base import BaseDetector
 import pandas as pd
 import torch
-from streamingAD.model.lstm_autoencoder.lstm_AE import RnnAutoencoder
+from streamAD.model.lstm_autoencoder.lstm_AE import RnnAutoencoder
 from torch import nn, optim
 import copy
 from sklearn.model_selection import train_test_split

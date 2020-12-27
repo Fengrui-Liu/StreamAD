@@ -23,8 +23,8 @@ import numpy as np
 import pandas as pd
 import pytest
 from sklearn.datasets import load_wine
-from streamingAD.util import StreamGenerator, StreamStatistic
-from streamingAD.model import KNNDetector, xStreamDetector
+from streamAD.util import StreamGenerator, StreamStatistic
+from streamAD.model import KNNDetector, xStreamDetector
 
 dataset = load_wine()
 X = dataset.data

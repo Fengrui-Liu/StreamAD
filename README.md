@@ -3,17 +3,22 @@
 <!--
  * @Author: liufr
  * @Github: https://github.com/Fengrui-Liu
- * @LastEditTime: 2020-12-16 19:51:01
+ * @LastEditTime: 2020-12-27 16:16:59
  * @Copyright 2020 liufr
  * @Description:
 -->
 
-# Online streaming anomaly detection(Outlier detection).
+# Online stream anomaly detection(Outlier detection).
 
 
 实时数据流异常检测。
 
 [[English version](./README.md)][[中文版本](./README_zh_CN.md)]
+
+
+## Why streamAD
+
+Anomaly detection aims to finding unexpected patterns or outlier points among plenty of data. In practical application, such as Intrusion Detection System(IDS), anomalies must be identified and stopped as soon as possible, we tend to provide **streamAD** library for anomaly detection on-line; Another reason is that concept drift problem which refers the distribution and features of data change over time. The performance of some trained models may decrease and no longer suitable when concept drift occurs, thus, we need models that can be continuously updated to overcome this problem.
 
 
 ---

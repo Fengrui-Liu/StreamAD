@@ -10,7 +10,7 @@
 
 # 实时数据流异常检测
 
-Online streaming anomaly detection(Outlier detection).
+Online stream anomaly detection(Outlier detection).
 
 
 

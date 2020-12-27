@@ -17,8 +17,8 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname("__file__"), ".."))
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
-from streamingAD.model import SpotDetector
-from streamingAD.util import StreamGenerator
+from streamAD.model import SpotDetector
+from streamAD.util import StreamGenerator
 
 matplotlib.use("TkAgg")
 

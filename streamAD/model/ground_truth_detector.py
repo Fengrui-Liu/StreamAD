@@ -7,7 +7,7 @@ LastEditTime: 2020-11-29 10:26:00
 Copyright 2020 liufr
 Description: Ground truth detector
 """
-from streamingAD.base.BaseDetector import BaseDetector
+from streamAD.base.BaseDetector import BaseDetector
 from collections import deque
 
 
