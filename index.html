@@ -14,9 +14,9 @@
         <meta name="author" content="liufr">
       
       
-        <link rel="canonical" href="https://github.io.fengrui_liu.streamAD.com/">
+        <link rel="canonical" href="https://www.liufr.com/streamAD/">
       
-      <link rel="shortcut icon" href="assets/images/favicon.png">
+      <link rel="shortcut icon" href="img/stream.svg">
       <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.3">
     
     
@@ -81,10 +81,9 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header-nav md-grid" aria-label="Header">
-    <a href="https://github.io.fengrui_liu.streamAD.com" title="streamAD" class="md-header-nav__button md-logo" aria-label="streamAD">
+    <a href="https://www.liufr.com/streamAD/" title="streamAD" class="md-header-nav__button md-logo" aria-label="streamAD">
       
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+  <img src="img/stream.svg" alt="logo">
 
     </a>
     <label class="md-header-nav__button md-icon" for="__drawer">
@@ -250,7 +249,6 @@
             vertical-align: middle;
             -webkit-transform: perspective(1px) translateZ(0);
             transform: perspective(1px) translateZ(0);
-            /* Black, with 10% opacity */
             box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
             position: relative;
             overflow: hidden;
@@ -259,7 +257,10 @@
         .tx-hero .md-button--primary {
             background-color: var(--md-primary-bg-color);
             color: rgb(64, 158, 196);
-            border-color: var(--md-primary-bg-color)
+            border-color: var(--md-primary-bg-color);
+            width:9rem;
+            text-align: center;
+
         }
 
         .tx-hero .md-button:focus,
@@ -505,16 +506,15 @@
         <div class="md-grid md-typeset">
           <div class="tx-hero">
 
-
             <!-- Hero content -->
             <div class="tx-hero__content">
               <h1> streamAD </h1>
               <p>Anomaly detection package for data streams in Python.</p>
               <a href="getting-started/installation/" title="Installation" class="md-button md-button--primary">
-                Get started
+                Quick start
               </a>
               <a href="https://github.com/Fengrui-Liu/streamAD/" title="Go to repository" class="md-button md-button--primary">
-                GitHub Repo
+                GitHub repo
               </a>
             </div>
 
@@ -527,27 +527,30 @@
     <div class="top-hr">
         <div class="feature-item feature-item-underline">
             <h2>
-                Incremental
+                Purpose & Advantages
             </h2>
-            <p>All the tools in the library can be updated with a single observation at a time, and can therefore be used to process streaming data.</p>
+            <p>StreamAD focuses on streaming settings, where data features evolve and distributions change over time. To prevent the failure of static models, streamAD can correct its model as needed.
+            </p>
+        </div>
+
+        <div class="feature-item feature-item-underline">
+            <h2>
+                Incremental & Continual
+            </h2>
+            <p>StreamAD loads static datasets to a stream generator and feed a single observation at a time to any model in streamAD. Therefore it can be used to simulate real-time applications and process streaming data.</p>
         </div>
         <div class="feature-item feature-item-underline">
             <h2>
-                Adaptive
+                Models & Algorithms
             </h2>
-            <p>In the streaming setting, data can evolve. Adaptive methods are specifically designed to be robust against concept drift in dynamic environments.</p>
+            <p>StreamAD collects open source implementations and reproduce state-of-the-art papers. Thus, it can also be used as an benchmark for academic.  </p>
         </div>
+
         <div class="feature-item feature-item-underline">
             <h2>
-                General purpose
+                Efficient & Scalability
             </h2>
-            <p>River caters for different ml problems, including regression, classification, and unsupervised learning. It can also be used for adhoc tasks, such as computing online metrics, and concept drift detection. </p>
-        </div>
-        <div class="feature-item feature-item-underline">
-            <h2>
-                Efficient & easy to use
-            </h2>
-            <p>Streaming techniques efficiently handle resources such as memory and processing time given the unbounded nature of data streams. River is designed for users with any experience level.</p>
+            <p>StreamAD concerns about the running time, resources usage and usability of different models. It is implemented by python and you can design your own algorithms and run with StreamAD.</p>
         </div>
     </div>
 
@@ -574,10 +577,9 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="https://github.io.fengrui_liu.streamAD.com" title="streamAD" class="md-nav__button md-logo" aria-label="streamAD">
+    <a href="https://www.liufr.com/streamAD/" title="streamAD" class="md-nav__button md-logo" aria-label="streamAD">
       
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+  <img src="img/stream.svg" alt="logo">
 
     </a>
     streamAD

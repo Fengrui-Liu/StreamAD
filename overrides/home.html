@@ -55,7 +55,6 @@
             vertical-align: middle;
             -webkit-transform: perspective(1px) translateZ(0);
             transform: perspective(1px) translateZ(0);
-            /* Black, with 10% opacity */
             box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
             position: relative;
             overflow: hidden;
@@ -64,7 +63,10 @@
         .tx-hero .md-button--primary {
             background-color: var(--md-primary-bg-color);
             color: rgb(64, 158, 196);
-            border-color: var(--md-primary-bg-color)
+            border-color: var(--md-primary-bg-color);
+            width:9rem;
+            text-align: center;
+
         }
 
         .tx-hero .md-button:focus,
@@ -310,16 +312,15 @@
         <div class="md-grid md-typeset">
           <div class="tx-hero">
 
-
             <!-- Hero content -->
             <div class="tx-hero__content">
               <h1> streamAD </h1>
               <p>Anomaly detection package for data streams in Python.</p>
               <a href="{{ page.next_page.url | url }}" title="{{ page.next_page.title | striptags }}" class="md-button md-button--primary">
-                Get started
+                Quick start
               </a>
               <a href="{{ config.repo_url }}" title="{{ lang.t('source.link.title') }}" class="md-button md-button--primary">
-                GitHub Repo
+                GitHub repo
               </a>
             </div>
 
@@ -332,27 +333,30 @@
     <div class="top-hr">
         <div class="feature-item feature-item-underline">
             <h2>
-                Incremental
+                Purpose & Advantages
             </h2>
-            <p>All the tools in the library can be updated with a single observation at a time, and can therefore be used to process streaming data.</p>
+            <p>StreamAD focuses on streaming settings, where data features evolve and distributions change over time. To prevent the failure of static models, streamAD can correct its model as needed.
+            </p>
+        </div>
+
+        <div class="feature-item feature-item-underline">
+            <h2>
+                Incremental & Continual
+            </h2>
+            <p>StreamAD loads static datasets to a stream generator and feed a single observation at a time to any model in streamAD. Therefore it can be used to simulate real-time applications and process streaming data.</p>
         </div>
         <div class="feature-item feature-item-underline">
             <h2>
-                Adaptive
+                Models & Algorithms
             </h2>
-            <p>In the streaming setting, data can evolve. Adaptive methods are specifically designed to be robust against concept drift in dynamic environments.</p>
+            <p>StreamAD collects open source implementations and reproduce state-of-the-art papers. Thus, it can also be used as an benchmark for academic.  </p>
         </div>
+
         <div class="feature-item feature-item-underline">
             <h2>
-                General purpose
+                Efficient & Scalability
             </h2>
-            <p>River caters for different ml problems, including regression, classification, and unsupervised learning. It can also be used for adhoc tasks, such as computing online metrics, and concept drift detection. </p>
-        </div>
-        <div class="feature-item feature-item-underline">
-            <h2>
-                Efficient & easy to use
-            </h2>
-            <p>Streaming techniques efficiently handle resources such as memory and processing time given the unbounded nature of data streams. River is designed for users with any experience level.</p>
+            <p>StreamAD concerns about the running time, resources usage and usability of different models. It is implemented by python and you can design your own algorithms and run with StreamAD.</p>
         </div>
     </div>
 
