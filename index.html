@@ -1,0 +1,718 @@
+<!-- Custom HTML site displayed as the landing page -->
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Anomaly detection for data streams in Python">
+      
+      
+      
+        <meta name="author" content="liufr">
+      
+      
+        <link rel="canonical" href="https://github.io.fengrui_liu.streamAD.com/">
+      
+      <link rel="shortcut icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.3">
+    
+    
+      
+        <title>streamAD - streamAD</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.3b61ea93.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.39b8e14a.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#4051b5">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="css/version-select.css">
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="indigo" data-md-color-accent="indigo">
+      
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="https://github.io.fengrui_liu.streamAD.com" title="streamAD" class="md-header-nav__button md-logo" aria-label="streamAD">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      <div class="md-header-nav__ellipsis">
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            streamAD
+          </span>
+        </div>
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            
+              streamAD
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header-nav__source">
+        
+<a href="https://github.com/Fengrui-Liu/streamAD/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Fengrui-Liu/streamAD
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+    
+        
+          
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    
+  
+
+
+  <li class="md-tabs__item">
+    <a href="." class="md-tabs__link md-tabs__link--active">
+      Home
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="getting-started.md" class="md-tabs__link">
+        Getting started
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+        
+      
+
+   <link href="https://fonts.cdnfonts.com/css/gilroy-bold" rel="stylesheet">
+
+    <!-- Additional styles for landing page -->
+    <style>
+
+        /*Landing page container*/
+        .tx-container {
+            padding-top: .0rem;
+            background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1123 258'><path d='M1124,2c0,0 0,256 0,256l-1125,0l0,-48c0,0 16,5 55,5c116,0 197,-92 325,-92c121,0 114,46 254,46c140,0 214,-167 572,-166Z' style='fill: hsla(0, 0%, 100%, 1)' /></svg>") no-repeat bottom,
+            linear-gradient(
+                    to bottom,
+                    var(--md-primary-fg-color),
+                    rgb(64, 158, 196) 99%,
+                    var(--md-default-bg-color) 99%
+            )
+        }
+
+        .tx-hero {
+            margin: 32px 2.8rem;
+            color: var(--md-primary-bg-color);
+            justify-content: center;
+        }
+
+        .tx-hero h1 {
+            margin-bottom: 1rem;
+            color: currentColor;
+            font-weight: 600;
+            font-size: 64px;
+            font-family: 'Gilroy-Regular', sans-serif;
+        }
+
+        .tx-hero__content {
+            padding-bottom: 1rem;
+            margin: 0 auto;
+            font-family: 'Lato', sans-serif;
+        }
+
+        .tx-hero__image{
+            width:70%;
+            order:1;
+        }
+
+        .tx-hero .md-button {
+            margin-top: .5rem;
+            margin-right: .5rem;
+            color: var(--md-primary-bg-color);
+            display: inline-block;
+            vertical-align: middle;
+            -webkit-transform: perspective(1px) translateZ(0);
+            transform: perspective(1px) translateZ(0);
+            /* Black, with 10% opacity */
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tx-hero .md-button--primary {
+            background-color: var(--md-primary-bg-color);
+            color: rgb(64, 158, 196);
+            border-color: var(--md-primary-bg-color)
+        }
+
+        .tx-hero .md-button:focus,
+        .tx-hero .md-button:hover {
+            background-color: var(--md-accent-fg-color);
+            color: var(--md-default-bg-color);
+            border-color: var(--md-accent-fg-color)
+        }
+
+        .feature-item h2 svg {
+            height: 30px;
+            float: left;
+            margin-right: 10px;
+            transform: translateY(10%);
+        }
+
+        .top-hr {
+            margin-top: 42px;
+        }
+
+        @media screen and (max-width:30em) {
+            .tx-hero h1 {
+                font-size: 1.4rem
+            }
+        }
+
+        .hr {
+            border-bottom: 1px solid #eee;
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        .text-center {
+            text-align: center;
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-right: auto;
+            margin-left: auto;
+            margin-top: 15px;
+            font-family: 'Lato', sans-serif;
+            font-size: 23px;
+            font-weight: 300;
+            padding-bottom: 10px;
+        }
+
+        /* Application header should be static for the landing page */
+        .md-header {
+          position: initial;
+        }
+
+        /* Remove spacing, as we cannot hide it completely */
+        .md-main__inner {
+          margin: 0;
+        }
+
+        /* Hide main content for now */
+        .md-content {
+          display: none;
+        }
+
+        /* Hide table of contents */
+        @media screen and (min-width: 60em) {
+          .md-sidebar--secondary {
+            display: none;
+          }
+        }
+
+        /* Hide navigation */
+        @media screen and (min-width: 76.25em) {
+          .md-sidebar--primary {
+            display: none;
+          }
+        }
+
+        .feature-item h2 svg {
+        height: 30px;
+        float: left;
+        margin-right: 10px;
+        transform: translateY(10%);
+        }
+
+        .feature-item {
+            font-family: 'Lato', sans-serif;
+            font-weight: 300;
+            padding: 15px 15px;
+            word-break: break-word;
+            border-radius: 3px;
+            /*height: 240px;*/
+            min-width: 275px;
+            /*width: 300px;*/
+            margin: 15px 15px;
+        }
+
+        .feature-item h2 {
+            color: #333;
+            font-weight: 300;
+            font-size: 20px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: normal;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-family: inherit;
+        }
+
+        .feature-item p {
+            font-size: 14px;
+            line-height: 1.8em;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            color: #111;
+            margin: 0 0 10px;
+            display: block;
+        }
+
+        .feature-item-underline {
+            display: inline-block;
+            vertical-align: middle;
+            -webkit-transform: perspective(1px) translateZ(0);
+            transform: perspective(1px) translateZ(0);
+            /* Black, with 10% opacity */
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        @media screen and (max-width:30em) {
+            .tx-hero h1 {
+                font-size: 1.4rem
+            }
+        }
+
+        @media screen and (min-width:60em) {
+            .md-sidebar--secondary {
+                display: none
+            }
+
+            .tx-hero {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .tx-hero__content {
+                max-width: 22rem;
+                margin-top: 3.5rem;
+                margin-bottom: 3.5rem;
+                margin-left: 1.0rem;
+                margin-right: 4.0rem;
+                align-items: center;
+            }
+        }
+
+        @media screen and (min-width:76.25em) {
+            .md-sidebar--primary {
+                display: none
+            }
+
+            .top-hr {
+                width: 100%;
+                display: flex;
+                max-width: 61rem;
+                margin-right: auto;
+                margin-left: auto;
+                padding: 0 .2rem;
+            }
+
+            .bottom-hr {
+                margin-top: 10px;
+                width: 100%;
+                display: flex;
+                max-width: 61rem;
+                margin-right: auto;
+                margin-left: auto;
+                padding: 0 .2rem;
+            }
+
+            .feature-item {
+                flex: 1;
+                min-width: 0;
+            }
+
+            .feature-item:hover {
+                background-color: #526cfe47;
+                border-radius: 3px;
+            }
+        }
+
+        .hr {
+            border-bottom: 1px solid #eee;
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        .text-center {
+            text-align: center;
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-right: auto;
+            margin-left: auto;
+            margin-top: 15px;
+            font-family: 'Lato', sans-serif;
+            font-size: 23px;
+            font-weight: 300;
+            padding-bottom: 10px;
+        }
+
+        .logos {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-flow: row wrap;
+            margin: 0 auto;
+        }
+
+        .logos img {
+            flex: 1 1 auto;
+            padding: 25px;
+            max-height: 130px;
+            vertical-align: middle;
+        }
+
+        .hr-logos {
+            margin-top: 0;
+            margin-bottom: 30px;
+        }
+
+        .md-footer-meta__inner {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 1.0rem;
+        }
+
+        .md-footer-social {
+            padding-top: 20px;
+        }
+    </style>
+
+    <!-- Hero for landing page -->
+    <section class="tx-container">
+        <div class="md-grid md-typeset">
+          <div class="tx-hero">
+
+
+            <!-- Hero content -->
+            <div class="tx-hero__content">
+              <h1> streamAD </h1>
+              <p>Anomaly detection package for data streams in Python.</p>
+              <a href="getting-started/installation/" title="Installation" class="md-button md-button--primary">
+                Get started
+              </a>
+              <a href="https://github.com/Fengrui-Liu/streamAD/" title="Go to repository" class="md-button md-button--primary">
+                GitHub Repo
+              </a>
+            </div>
+
+
+
+          </div>
+        </div>
+    </section>
+
+    <div class="top-hr">
+        <div class="feature-item feature-item-underline">
+            <h2>
+                Incremental
+            </h2>
+            <p>All the tools in the library can be updated with a single observation at a time, and can therefore be used to process streaming data.</p>
+        </div>
+        <div class="feature-item feature-item-underline">
+            <h2>
+                Adaptive
+            </h2>
+            <p>In the streaming setting, data can evolve. Adaptive methods are specifically designed to be robust against concept drift in dynamic environments.</p>
+        </div>
+        <div class="feature-item feature-item-underline">
+            <h2>
+                General purpose
+            </h2>
+            <p>River caters for different ml problems, including regression, classification, and unsupervised learning. It can also be used for adhoc tasks, such as computing online metrics, and concept drift detection. </p>
+        </div>
+        <div class="feature-item feature-item-underline">
+            <h2>
+                Efficient & easy to use
+            </h2>
+            <p>Streaming techniques efficiently handle resources such as memory and processing time given the unbounded nature of data streams. River is designed for users with any experience level.</p>
+        </div>
+    </div>
+
+    <div class="top-hr">
+        <div class="hr">
+        </div>
+    </div>
+
+
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://github.io.fengrui_liu.streamAD.com" title="streamAD" class="md-nav__button md-logo" aria-label="streamAD">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    streamAD
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/Fengrui-Liu/streamAD/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Fengrui-Liu/streamAD
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+    
+    <a href="." class="md-nav__link md-nav__link--active">
+      Home
+    </a>
+    
+  </li>
+
+    
+      
+      
+      
+
+
+
+  
+  <li class="md-nav__item md-nav__item--nested">
+    
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" >
+    
+    <label class="md-nav__link" for="nav-2">
+      Getting started
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Getting started" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        <span class="md-nav__icon md-icon"></span>
+        Getting started
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="getting-started.md" class="md-nav__link">
+      In a nutshell
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+
+  <li class="md-nav__item">
+    <a href="getting-started/installation/" class="md-nav__link">
+      Installation
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+    </div>
+    
+      <script src="assets/javascripts/vendor.08c56446.min.js"></script>
+      <script src="assets/javascripts/bundle.6ced434e.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      
+      <script>
+        app = initialize({
+          base: ".",
+          features: ['navigation.tabs', 'navigation.instant'],
+          search: Object.assign({
+            worker: "assets/javascripts/worker/search.8c7e0a7e.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+      
+        <script src="js/version-select.js"></script>
+      
+    
+  </body>
+</html>
