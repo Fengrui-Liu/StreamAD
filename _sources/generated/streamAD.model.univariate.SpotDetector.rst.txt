@@ -1,6 +1,6 @@
-﻿streamAD.model.univariate.SpotDetector
+﻿streamad.model.univariate.SpotDetector
 ======================================
-.. currentmodule:: streamAD.model.univariate
+.. currentmodule:: streamad.model.univariate
 .. autoclass:: SpotDetector
    
    

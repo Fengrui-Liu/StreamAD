@@ -1,6 +1,6 @@
-﻿streamAD.base.BaseDetector
+﻿streamad.base.BaseDetector
 ==========================
-.. currentmodule:: streamAD.base
+.. currentmodule:: streamad.base
 .. autoclass:: BaseDetector
    
    

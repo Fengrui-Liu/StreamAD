@@ -1,16 +1,16 @@
-Why streamAD
+Why StreamAD
 =============
 
 
 Purpose & Advantages
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-StreamAD focuses on streaming settings, where data features evolve and distributions change over time. To prevent the failure of static models, streamAD can correct its model as needed.
+StreamAD focuses on streaming settings, where data features evolve and distributions change over time. To prevent the failure of static models, StreamAD can correct its model as needed.
 
 Incremental & Continual
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-StreamAD loads static datasets to a stream generator and feed a single observation at a time to any model in streamAD. Therefore it can be used to simulate real-time applications and process streaming data.
+StreamAD loads static datasets to a stream generator and feed a single observation at a time to any model in StreamAD. Therefore it can be used to simulate real-time applications and process streaming data.
 
 
 Models & Algorithms
@@ -29,4 +29,4 @@ StreamAD concerns about the running time, resources usage and usability of diffe
 Free & Open Source Software (FOSS)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-`PySAD` is distributed under `BSD License 3.0 <https://github.com/Fengrui-Liu/streamAD/master/LICENSE>`_ and favors FOSS principles.
+`StreamAD` is distributed under `BSD License 3.0 <https://github.com/Fengrui-Liu/StreamAD/master/LICENSE>`_ and favors FOSS principles.
