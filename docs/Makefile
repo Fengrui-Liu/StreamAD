@@ -20,9 +20,16 @@ help:
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
 api:
-	sphinx-apidoc -f -E -M -o ./source ../streamAD
+	sphinx-apidoc -f -E -M -o ./source ../streamad
 
 doc:
 	make clean
 	sphinx-autogen -o generated -t source/_templates/class.rst source/index.rst
 	make html
+
+
+gh-pages:
+	rm -rf /tmp/gh-pages
+	cp -r $(BUILDDIR)/html /tmp/gh-pages
+	git checkout gh-pages
+	rm -rf * && cp -r /tmp/gh-pages/* ./ && rm -rf /tmp/gh-pages && git add . && git commit -m "Updated gh-pages" && git push -f && git checkout main

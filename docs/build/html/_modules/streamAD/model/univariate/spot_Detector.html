@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>streamAD.model.univariate.spot_Detector &mdash; streamAD 0.1.0 documentation</title>
+  <title>streamad.model.univariate.spot_Detector &mdash; StreamAD 0.1.0 documentation</title>
   
 
   
@@ -52,7 +52,7 @@
           
 
           
-            <a href="../../../../index.html" class="icon icon-home" alt="Documentation Home"> streamAD
+            <a href="../../../../index.html" class="icon icon-home" alt="Documentation Home"> StreamAD
           
 
           
@@ -110,7 +110,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../../../index.html">streamAD</a>
+          <a href="../../../../index.html">StreamAD</a>
         
       </nav>
 
@@ -143,7 +143,7 @@
         
           <li><a href="../../../index.html">Module code</a> &raquo;</li>
         
-      <li>streamAD.model.univariate.spot_Detector</li>
+      <li>streamad.model.univariate.spot_Detector</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -158,7 +158,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for streamAD.model.univariate.spot_Detector</h1><div class="highlight"><pre>
+  <h1>Source code for streamad.model.univariate.spot_Detector</h1><div class="highlight"><pre>
 <span></span>#!/usr/bin/env python
 # coding=utf-8
 &quot;&quot;&quot;
@@ -170,16 +170,15 @@ Description: SPOT anomaly detection
 &quot;&quot;&quot;
 
 
-from streamAD.base import BaseDetector
+from streamad.base import BaseDetector
 import pandas as pd
 import numpy as np
 from math import log, floor
-
 from scipy.optimize import minimize
 import pdb
 
 
-<div class="viewcode-block" id="SpotDetector"><a class="viewcode-back" href="../../../../generated/streamAD.model.univariate.SpotDetector.html#streamAD.model.univariate.SpotDetector">[docs]</a>class SpotDetector(BaseDetector):
+<div class="viewcode-block" id="SpotDetector"><a class="viewcode-back" href="../../../../generated/streamad.model.univariate.SpotDetector.html#streamad.model.univariate.SpotDetector">[docs]</a>class SpotDetector(BaseDetector):
     def __init__(self, proba=1e-4, window_size: int = 10, init_length: int = 1000):
         self.proba = proba
         self.data = []

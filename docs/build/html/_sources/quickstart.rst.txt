@@ -2,12 +2,12 @@ Quick Start
 ============
 
 
-The PySAD framework can be installed via:
+The StreamAD framework can be installed via:
 
 
 .. code-block:: bash
 
-    pip install -U streamAD
+    pip install -U StreamAD
 
 
 Alternatively, you can install the library directly using the source code in Github repository by:
@@ -15,6 +15,6 @@ Alternatively, you can install the library directly using the source code in Git
 
 .. code-block:: bash
 
-    git clone https://github.com/Fengrui-Liu/streamAD.git
-    cd streamAD
+    git clone https://github.com/Fengrui-Liu/StreamAD.git
+    cd StreamAD
     pip install .

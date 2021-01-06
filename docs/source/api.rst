@@ -1,17 +1,17 @@
 API Reference
 =============
 
-This is the API documentation for ``PySAD``.
+This is the API documentation for ``StreamAD``.
 
 
 Core
 ^^^^
 
-.. automodule:: streamAD.base
+.. automodule:: streamad.base
     :no-members:
     :no-inherited-members:
 
-.. currentmodule:: streamAD
+.. currentmodule:: streamad
 
 .. autosummary::
    :nosignatures:
@@ -24,11 +24,11 @@ Core
 Individual Anomaly Models
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. automodule:: streamAD.model
+.. automodule:: streamad.model
     :no-members:
     :no-inherited-members:
 
-.. currentmodule:: streamAD
+.. currentmodule:: streamad
 
 .. autosummary::
    :nosignatures:

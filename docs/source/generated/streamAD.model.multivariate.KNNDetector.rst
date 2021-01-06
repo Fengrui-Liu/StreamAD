@@ -1,6 +1,6 @@
-﻿streamAD.model.multivariate.KNNDetector
+﻿streamad.model.multivariate.KNNDetector
 =======================================
-.. currentmodule:: streamAD.model.multivariate
+.. currentmodule:: streamad.model.multivariate
 .. autoclass:: KNNDetector
    
    

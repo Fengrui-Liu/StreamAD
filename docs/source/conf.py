@@ -26,13 +26,13 @@ from os.path import dirname, abspath
 sys.path.insert(0, os.path.abspath("."))
 sys.path.insert(0, os.path.abspath("../"))
 sys.path.insert(0, os.path.abspath("../../"))
-streamAD_dir = dirname(dirname(dirname(abspath(__file__))))
-version_path = os.path.join(streamAD_dir, "streamAD", "version.py")
+StreamAD_dir = dirname(dirname(dirname(abspath(__file__))))
+version_path = os.path.join(StreamAD_dir, "streamad", "version.py")
 exec(open(version_path).read())
 
 # -- Project information -----------------------------------------------------
 
-project = "streamAD"
+project = "StreamAD"
 copyright = "2021, liufr"
 author = "liufr"
 
@@ -129,7 +129,7 @@ autosummary_imported_members = True
 
 
 def remove_module_docstring(app, what, name, obj, options, lines):
-    if what == "module" and name == "streamAD":
+    if what == "module" and name == "streamad":
         del lines[:]
 
 
