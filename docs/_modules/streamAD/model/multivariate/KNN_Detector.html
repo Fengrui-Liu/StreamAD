@@ -1,0 +1,327 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en,zh-cn" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>streamad.model.multivariate.KNN_Detector &mdash; StreamAD 0.1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/clipboard.min.js"></script>
+        <script src="../../../../_static/copybutton.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home" alt="Documentation Home"> StreamAD
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../quickstart.html">Quick Start</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Documentation:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">StreamAD</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>streamad.model.multivariate.KNN_Detector</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for streamad.model.multivariate.KNN_Detector</h1><div class="highlight"><pre>
+<span></span>#!/usr/bin/env python
+# coding=utf-8
+&quot;&quot;&quot;
+Author: liufr
+Github: https://github.com/Fengrui-Liu
+LastEditTime: 2020-12-01 20:34:11
+Copyright 2020 liufr
+Description: KNN-based anomaly detector
+&quot;&quot;&quot;
+
+import os
+import pdb
+
+import numpy as np
+import pandas as pd
+from scipy.spatial import distance
+from streamad.base import BaseDetector
+
+
+<div class="viewcode-block" id="KNNDetector"><a class="viewcode-back" href="../../../../generated/streamad.model.multivariate.KNNDetector.html#streamad.model.multivariate.KNNDetector">[docs]</a>class KNNDetector(BaseDetector):
+    def __init__(
+        self,
+        observation_length: int = -1,
+        k_neighbor: int = 1,
+    ):
+        &quot;&quot;&quot;KNN anomaly detector with mahalanobis distance.
+
+        Args:
+            observation_length (int): The history records used for the reference. Defaults to -1, use all the history records.
+            k_neighbor (int, optional): The number of neighbors to search for. Defaults to 1. Suggest larger than half of features name.
+            threshold (float, optional): The threshold of anomaly probability. Defaults to 0.9.
+        &quot;&quot;&quot;
+        self.training = []
+        self.scores = []
+        self.record_count = 0
+        self.k = k_neighbor
+        self.window_length = max(observation_length, 2 * k_neighbor)
+        self.all_history = True if observation_length == -1 else False
+        self.sigma = 0.0
+        self.feature_names = []
+
+    def _ncm(self, item, item_in_array=False):
+
+        arr = [distance.mahalanobis(x, item, self.sigma) for x in self.training]
+        result = np.sum(
+            np.partition(arr, self.k + item_in_array)[: self.k + item_in_array]
+        )
+
+        return result
+
+<div class="viewcode-block" id="KNNDetector.fit_partial"><a class="viewcode-back" href="../../../../generated/streamad.model.multivariate.KNNDetector.html#streamad.model.multivariate.KNNDetector.fit_partial">[docs]</a>    def fit_partial(self, X: pd.Series, y: pd.Series = None):
+        &quot;&quot;&quot;Record and anlyse one record from the stream
+
+        Args:
+            X (pd.Series): New item from the stream generator.
+            y (pd.Series, optional): No need in this detector. Defaults to None.
+
+        Raises:
+            Exception: Input data shape is inconsistent.
+
+        Returns:
+            KNNDetector: self
+        &quot;&quot;&quot;
+        if not self.feature_names:
+            self.feature_names = X.index.tolist()
+        elif self.feature_names != X.index.tolist():
+            raise Exception(
+                &quot;Feature names change and operations abort. Please check the input data!&quot;
+            )
+
+        self.training.append(X.values)
+        self.record_count += 1
+
+        if len(self.training) &lt; self.window_length:
+            return self
+
+        ost = self.record_count % self.window_length
+        if ost == 0 or ost == int(self.window_length / 2):
+
+            cov = np.cov(self.training, rowvar=False)
+            try:
+                self.sigma = np.linalg.inv(cov)
+            except np.linalg.linalg.LinAlgError:
+                print(&quot;Singular Matrix at record&quot;, self.record_count)
+
+        if len(self.scores) == 0:
+            self.scores = [self._ncm(v, True) for v in self.training]
+
+        new_item = X.values
+
+        new_score = self._ncm(new_item)
+
+        if self.record_count &gt;= self.window_length and self.all_history == False:
+            self.training.pop(0)
+            self.scores.pop(0)
+
+        self.scores.append(new_score)
+
+        return self</div>
+
+<div class="viewcode-block" id="KNNDetector.score_partial"><a class="viewcode-back" href="../../../../generated/streamad.model.multivariate.KNNDetector.html#streamad.model.multivariate.KNNDetector.score_partial">[docs]</a>    def score_partial(self) -&gt; float:
+        &quot;&quot;&quot;Score the last item.
+
+        Returns:
+            float: Anomaly probability.
+        &quot;&quot;&quot;
+
+        if len(self.training) &lt; self.window_length:
+            return -1.0
+
+        new_score = self.scores[-1]
+
+        result = (
+            1.0 * len(np.where(np.array(self.scores) &lt; new_score)[0]) / len(self.scores)
+        )
+
+        return result</div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2021, liufr
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
