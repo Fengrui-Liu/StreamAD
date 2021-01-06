@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # coding=utf-8
-"""
-Author: liufr
-Github: https://github.com/Fengrui-Liu
-LastEditTime: 2020-11-29 10:26:00
-Copyright 2020 liufr
-Description: Ground truth detector
-"""
-from streamAD.base.BaseDetector import BaseDetector
+#
+# Author: liufr
+# Github: https://github.com/Fengrui-Liu
+# LastEditTime: 2021-01-05 20:41:00
+# Copyright 2021 liufr
+# Description:
+#
+from streamAD.base import BaseDetector
 from collections import deque
 
 

@@ -1,21 +1,26 @@
 #!/usr/bin/env python
 # coding=utf-8
-"""
-Author: liufr
-Github: https://github.com/Fengrui-Liu
-LastEditTime: 2020-12-16 08:59:31
-Copyright 2020 liufr
-Description: Base class of all detectors
-"""
+#
+# Author: liufr
+# Github: https://github.com/Fengrui-Liu
+# LastEditTime: 2021-01-06 08:51:54
+# Copyright 2021 liufr
+# Description:
+#
+
 
 from abc import ABC, abstractmethod
-from sklearn.utils.validation import check_is_fitted
 import numpy as np
 import pandas as pd
 
 
 class BaseDetector(ABC):
-    @abstractmethod
+    """Abstract class for base detector
+
+    Args:
+        ABC (abstract): Abstract class
+    """
+
     def __init__(self):
         pass
 
