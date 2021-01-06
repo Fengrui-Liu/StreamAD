@@ -26,8 +26,3 @@ doc:
 	make clean
 	sphinx-autogen -o generated -t source/_templates/class.rst source/index.rst
 	make html
-
-
-gh-pages:
-	git checkout gh-pages
-	git add $(BUILDDIR)/html && git commit -m "Updated gh-pages" && git push && git checkout master
