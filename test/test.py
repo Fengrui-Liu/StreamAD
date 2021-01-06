@@ -21,9 +21,9 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname("__file__"), "../..
 
 import numpy as np
 import pytest
-import streamAD.util.window as window
-from streamAD.model import GroundTruthDetctor as gtd
-from streamAD.model import kNNAD
+import StreamAD.util.window as window
+from StreamAD.model import GroundTruthDetctor as gtd
+from StreamAD.model import kNNAD
 import pdb
 
 

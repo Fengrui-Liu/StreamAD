@@ -1,12 +1,12 @@
 # Project information
-site_name: streamAD
+site_name: StreamAD
 site_description: Anomaly detection for data streams in Python
 site_author: liufr
-site_url: https://github.io.fengrui_liu.streamAD.com
+site_url: https://github.io.fengrui_liu.StreamAD.com
 
 # Repository
-repo_name: Fengrui-Liu/streamAD
-repo_url: https://github.com/Fengrui-Liu/streamAD
+repo_name: Fengrui-Liu/StreamAD
+repo_url: https://github.com/Fengrui-Liu/StreamAD
 
 
 
@@ -32,7 +32,7 @@ theme:
 extra:
     social:
       - icon: fontawesome/brands/github-alt
-        link: https://github.com/Fengrui-Liu/streamAD
+        link: https://github.com/Fengrui-Liu/StreamAD
 
 # Google Analytics
 # google_analytics:

@@ -7,7 +7,7 @@
 # Copyright 2021 liufr
 # Description:
 #
-from streamAD.base import BaseDetector
+from streamad.base import BaseDetector
 from collections import deque
 
 

@@ -15,8 +15,8 @@ import sys
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname("__file__"), "./")))
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname("__file__"), "..")))
-from streamAD.model import LSTMDetector
-from streamAD.util import StreamGenerator
+from StreamAD.model import LSTMDetector
+from StreamAD.util import StreamGenerator
 import pandas as pd
 
 df = pd.read_csv("./data/mllib/FOREST.csv", header=None)

@@ -11,14 +11,14 @@
 
 import os
 import sys
-import streamAD.base.
+import StreamAD.base.
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname("__file__"), "./")))
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname("__file__"), "..")))
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
-from streamAD.model import SpotDetector
-from streamAD.util import StreamGenerator
+from StreamAD.model import SpotDetector
+from StreamAD.util import StreamGenerator
 
 matplotlib.use("TkAgg")
 

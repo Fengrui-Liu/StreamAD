@@ -14,7 +14,7 @@ import pdb
 import numpy as np
 import pandas as pd
 from scipy.spatial import distance
-from streamAD.base import BaseDetector
+from streamad.base import BaseDetector
 
 
 class KNNDetector(BaseDetector):

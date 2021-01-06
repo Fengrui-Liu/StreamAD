@@ -9,11 +9,10 @@ Description: SPOT anomaly detection
 """
 
 
-from streamAD.base import BaseDetector
+from streamad.base import BaseDetector
 import pandas as pd
 import numpy as np
 from math import log, floor
-
 from scipy.optimize import minimize
 import pdb
 

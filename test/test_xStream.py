@@ -21,8 +21,8 @@ import pdb
 import numpy as np
 import pandas as pd
 import pytest
-from streamAD.model import xStreamDetector
-from streamAD.util import StreamGenerator
+from StreamAD.model import xStreamDetector
+from StreamAD.util import StreamGenerator
 from sklearn.metrics import average_precision_score, roc_auc_score
 import tqdm
 
