@@ -1,7 +1,10 @@
-.. image:: .docs/source/images/logo_htmlwithname.svg
+.. image:: ./docs/source/images/logo_htmlwithname.svg
     :align: center
 
 An anomaly detection package for streaming data.
+
+`Document <www.liufr.com/StreamAD/>`
+
 
 ------------------------------------------------------
 
