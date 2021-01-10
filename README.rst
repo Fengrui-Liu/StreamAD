@@ -3,7 +3,7 @@
 
 An anomaly detection package for streaming data.
 
-`Document <www.liufr.com/StreamAD/>`
+`Documentation <www.liufr.com/StreamAD/>`_
 
 
 ------------------------------------------------------
