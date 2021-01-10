@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1061px" height="203px" viewBox="0 0 1061 203" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>StreamingAD</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <polyline id="路径" stroke="#454474" stroke-width="14" points="62 57 128 100.5 62 144"></polyline>
+        <polyline id="路径" stroke="#454474" stroke-width="14" points="128 57 194 100.5 128 144"></polyline>
+        <polyline id="路径" stroke="#454474" stroke-width="14" points="194 57 260 100.5 194 144"></polyline>
+        <polyline id="路径" stroke="#454474" stroke-width="14" points="260 57 297.124775 81.468602 326 100.5 260 144"></polyline>
+        <polyline id="路径" stroke="#FCA84C" stroke-width="14" points="326 57 392 100.5 326 144"></polyline>
+        <polyline id="路径" stroke="#454474" stroke-width="14" points="392 57 458 100.5 392 144"></polyline>
+        <polyline id="路径" stroke="#454474" stroke-width="14" points="458 57 524 100.5 458 144"></polyline>
+        <text id="StreamAD" font-family="Arial-Black, Arial Black" font-size="75" font-weight="700">
+            <tspan x="576" y="131" fill="#474376">Stream</tspan>
+            <tspan x="872.99707" y="131" fill="#FCA93F">AD</tspan>
+        </text>
+    </g>
+</svg>

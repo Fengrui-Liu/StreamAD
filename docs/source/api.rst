@@ -4,6 +4,25 @@ API Reference
 This is the API documentation for ``StreamAD``.
 
 
+Individual Anomaly Models
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. automodule:: streamad.model
+    :no-members:
+    :no-inherited-members:
+
+.. currentmodule:: streamad
+
+.. autosummary::
+   :nosignatures:
+   :template: class.rst
+   :toctree: generated
+
+    model.RandomDetector
+    model.KNNDetector
+
+
+
 Core
 ^^^^
 
@@ -21,10 +40,10 @@ Core
    base.BaseDetector
 
 
-Individual Anomaly Models
-^^^^^^^^^^^^^^^^^^^^^^^^^
+Util
+^^^^
 
-.. automodule:: streamad.model
+.. automodule:: streamad.util
     :no-members:
     :no-inherited-members:
 
@@ -35,5 +54,4 @@ Individual Anomaly Models
    :template: class.rst
    :toctree: generated
 
-    model.multivariate.KNNDetector
-    model.univariate.SpotDetector
+   util.StreamGenerator

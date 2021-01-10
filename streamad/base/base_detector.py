@@ -3,60 +3,68 @@
 #
 # Author: liufr
 # Github: https://github.com/Fengrui-Liu
-# LastEditTime: 2021-01-06 08:51:54
+# LastEditTime: 2021-01-10 19:10:32
 # Copyright 2021 liufr
 # Description:
 #
 
 
 from abc import ABC, abstractmethod
+from typing import Union
+
 import numpy as np
 import pandas as pd
 
 
 class BaseDetector(ABC):
-    """Abstract class for base detector
-
-    Args:
-        ABC (abstract): Abstract class
-    """
+    """Abstract class for BaseDetector, supporting for customize detector."""
 
     def __init__(self):
+        """Initialization BaseDetector"""
         pass
 
     @abstractmethod
-    def fit_partial(self, X: pd.Series, Y: pd.Series = None):
+    def fit(
+        self,
+        X: Union[np.ndarray, pd.DataFrame],
+    ) -> None:
+        """Detector fit current observation from StreamGenerator.
+
+        Args:
+            X (Union[np.ndarray, pd.DataFrame]): The data value of current observation from StreamGenerator.
+        """
         pass
 
     @abstractmethod
-    def score_partial(self, X):
-        pass
+    def score(self, X: Union[np.ndarray, pd.DataFrame]) -> float:
+        """Detector score the probability of anomaly for current observation form StreamGenerator.
 
-    def fit_score_partial(self, X, Y=None):
+        Args:
+            X (Union[np.ndarray, pd.DataFrame]): The data value of current observation from StreamGenerator.
 
-        return self.fit_partial(X, Y).score_partial(X)
+        Returns:
+            float: Anomaly probability. 1.0 for anomaly and 0.0 for normal.
+        """
 
-    def fit(self, X, Y=None):
+        return 0.0
 
-        for x, y in zip(X, Y):
-            self.fit_partial(x, y)
+    def predict(
+        self, X: Union[np.ndarray, pd.DataFrame], threshold: float = 0.5
+    ) -> int:
+        """Detector predict the label of current observation form StreamGenerator.
 
-        return self
+        Args:
+            X (Union[np.ndarray, pd.DataFrame]): The data value of current observation from StreamGenerator.
+            threshold (float, optional): Threshold for labeling from data's score. Defaults to 0.5.
 
-    def score(self, X):
-
-        y_pred = list()
-
-        for x in X:
-            y_pred.append(self.score_partial(x))
-
-        return np.array(y_pred)
-
-    def fit_score(self, X, Y=None):
-
-        if Y == None:
-            Y = np.empty(len(X))
-
-        pred_result = self.fit_score_partial(X, Y)
-
-        return pred_result
+        Returns:
+            int: Data Label. 1 for anomaly and 0 for normal.
+        """
+        if threshold >= 1 or threshold <= 0:
+            raise ValueError(
+                "Invalid threshold %f, please select a threshold between (0,1)"
+            )
+        probability = self.score(X)
+        if probability >= threshold:
+            return 1
+        return 0

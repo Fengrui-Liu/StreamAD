@@ -1,13 +1,12 @@
 #!/usr/bin/env python
 # coding=utf-8
-"""
-Author: liufr
-Github: https://github.com/Fengrui-Liu
-LastEditTime: 2020-12-06 19:44:28
-Copyright 2020 liufr
-Description: StreamHash module for xStream
-"""
-
+#
+# Author: liufr
+# Github: https://github.com/Fengrui-Liu
+# LastEditTime: 2021-01-09 19:23:12
+# Copyright 2021 liufr
+# Description:
+#
 import numpy as np
 import pdb
 

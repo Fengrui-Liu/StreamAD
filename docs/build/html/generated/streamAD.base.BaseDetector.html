@@ -1,7 +1,7 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en,zh-cn" >
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
@@ -16,6 +16,8 @@
   <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
 
   
+  
+    <link rel="shortcut icon" href="../_static/logo_html.svg"/>
   
   
   
@@ -39,8 +41,8 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="streamad.model.multivariate.KNNDetector" href="streamad.model.multivariate.KNNDetector.html" />
-    <link rel="prev" title="API Reference" href="../api.html" /> 
+    <link rel="next" title="streamad.util.StreamGenerator" href="streamad.util.StreamGenerator.html" />
+    <link rel="prev" title="streamad.model.KNNDetector" href="streamad.model.KNNDetector.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -54,9 +56,12 @@
           
 
           
-            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> StreamAD
+            <a href="../index.html">
           
 
+          
+            
+            <img src="../_static/logo_htmlwithname.svg" class="logo" alt="Logo"/>
           
           </a>
 
@@ -92,18 +97,24 @@
               <p class="caption"><span class="caption-text">Getting Started</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Example usage</a></li>
 </ul>
-<p class="caption"><span class="caption-text">API Documentation:</span></p>
+<p class="caption"><span class="caption-text">API Document</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../api.html#module-streamad.model">Individual Anomaly Models</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../api.html#module-streamad.base">Core</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">streamad.base.BaseDetector</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../api.html#module-streamad.model">Individual Anomaly Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#module-streamad.util">Util</a></li>
 </ul>
 </li>
+</ul>
+<p class="caption"><span class="caption-text">Models</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../model.html">Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
 </ul>
 
             
@@ -200,12 +211,7 @@
 <dl class="py class">
 <dt id="streamad.base.BaseDetector">
 <em class="property">class </em><code class="sig-prename descclassname">streamad.base.</code><code class="sig-name descname">BaseDetector</code><a class="reference internal" href="../_modules/streamad/base/base_detector.html#BaseDetector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamad.base.BaseDetector" title="Permalink to this definition">¶</a></dt>
-<dd><p>Abstract class for base detector</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>ABC</strong> (<em>abstract</em>) -- Abstract class</p>
-</dd>
-</dl>
+<dd><p>Abstract class for BaseDetector, supporting for customize detector.</p>
 <p class="rubric">Methods</p>
 <table class="longtable docutils align-default">
 <colgroup>
@@ -214,28 +220,72 @@
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>()</p></td>
-<td><p>Initialize self.</p></td>
+<td><p>Initialization BaseDetector</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code>(X[, Y])</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#streamad.base.BaseDetector.fit" title="streamad.base.BaseDetector.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(X)</p></td>
+<td><p>Detector fit current observation from StreamGenerator.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_partial</span></code>(X[, Y])</p></td>
-<td><p></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#streamad.base.BaseDetector.predict" title="streamad.base.BaseDetector.predict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">predict</span></code></a>(X[, threshold])</p></td>
+<td><p>Detector predict the label of current observation form StreamGenerator.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_score</span></code>(X[, Y])</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_score_partial</span></code>(X[, Y])</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">score</span></code>(X)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">score_partial</span></code>(X)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#streamad.base.BaseDetector.score" title="streamad.base.BaseDetector.score"><code class="xref py py-obj docutils literal notranslate"><span class="pre">score</span></code></a>(X)</p></td>
+<td><p>Detector score the probability of anomaly for current observation form StreamGenerator.</p></td>
 </tr>
 </tbody>
 </table>
+<dl class="py method">
+<dt id="streamad.base.BaseDetector.fit">
+<em class="property">abstract </em><code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/base/base_detector.html#BaseDetector.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamad.base.BaseDetector.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Detector fit current observation from StreamGenerator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>Union</em><em>[</em><em>np.ndarray</em><em>, </em><em>pd.DataFrame</em><em>]</em>) – The data value of current observation from StreamGenerator.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamad.base.BaseDetector.predict">
+<code class="sig-name descname">predict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">threshold</span><span class="o">=</span><span class="default_value">0.5</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/base/base_detector.html#BaseDetector.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamad.base.BaseDetector.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Detector predict the label of current observation form StreamGenerator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>Union</em><em>[</em><em>np.ndarray</em><em>, </em><em>pd.DataFrame</em><em>]</em>) – The data value of current observation from StreamGenerator.</p></li>
+<li><p><strong>threshold</strong> (<em>float</em><em>, </em><em>optional</em>) – Threshold for labeling from data’s score. Defaults to 0.5.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Data Label. 1 for anomaly and 0 for normal.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="streamad.base.BaseDetector.score">
+<em class="property">abstract </em><code class="sig-name descname">score</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/base/base_detector.html#BaseDetector.score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamad.base.BaseDetector.score" title="Permalink to this definition">¶</a></dt>
+<dd><p>Detector score the probability of anomaly for current observation form StreamGenerator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>Union</em><em>[</em><em>np.ndarray</em><em>, </em><em>pd.DataFrame</em><em>]</em>) – The data value of current observation from StreamGenerator.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Anomaly probability. 1.0 for anomaly and 0.0 for normal.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </div>
@@ -248,10 +298,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="streamad.model.multivariate.KNNDetector.html" class="btn btn-neutral float-right" title="streamad.model.multivariate.KNNDetector" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="streamad.util.StreamGenerator.html" class="btn btn-neutral float-right" title="streamad.util.StreamGenerator" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../api.html" class="btn btn-neutral float-left" title="API Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="streamad.model.KNNDetector.html" class="btn btn-neutral float-left" title="streamad.model.KNNDetector" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

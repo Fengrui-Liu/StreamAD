@@ -1,7 +1,7 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en,zh-cn" >
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
@@ -16,6 +16,8 @@
   <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
 
   
+  
+    <link rel="shortcut icon" href="../../../_static/logo_html.svg"/>
   
   
   
@@ -52,9 +54,12 @@
           
 
           
-            <a href="../../../index.html" class="icon icon-home" alt="Documentation Home"> StreamAD
+            <a href="../../../index.html">
           
 
+          
+            
+            <img src="../../../_static/logo_htmlwithname.svg" class="logo" alt="Logo"/>
           
           </a>
 
@@ -90,11 +95,16 @@
               <p class="caption"><span class="caption-text">Getting Started</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Example usage</a></li>
 </ul>
-<p class="caption"><span class="caption-text">API Documentation:</span></p>
+<p class="caption"><span class="caption-text">API Document</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Models</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../model.html">Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../references.html">References</a></li>
 </ul>
 
             
@@ -164,63 +174,71 @@
 #
 # Author: liufr
 # Github: https://github.com/Fengrui-Liu
-# LastEditTime: 2021-01-06 08:51:54
+# LastEditTime: 2021-01-10 19:10:32
 # Copyright 2021 liufr
 # Description:
 #
 
 
 from abc import ABC, abstractmethod
+from typing import Union
+
 import numpy as np
 import pandas as pd
 
 
 <div class="viewcode-block" id="BaseDetector"><a class="viewcode-back" href="../../../generated/streamad.base.BaseDetector.html#streamad.base.BaseDetector">[docs]</a>class BaseDetector(ABC):
-    &quot;&quot;&quot;Abstract class for base detector
-
-    Args:
-        ABC (abstract): Abstract class
-    &quot;&quot;&quot;
+    &quot;&quot;&quot;Abstract class for BaseDetector, supporting for customize detector.&quot;&quot;&quot;
 
     def __init__(self):
+        &quot;&quot;&quot;Initialization BaseDetector&quot;&quot;&quot;
         pass
 
-    @abstractmethod
-    def fit_partial(self, X: pd.Series, Y: pd.Series = None):
-        pass
+<div class="viewcode-block" id="BaseDetector.fit"><a class="viewcode-back" href="../../../generated/streamad.base.BaseDetector.html#streamad.base.BaseDetector.fit">[docs]</a>    @abstractmethod
+    def fit(
+        self,
+        X: Union[np.ndarray, pd.DataFrame],
+    ) -&gt; None:
+        &quot;&quot;&quot;Detector fit current observation from StreamGenerator.
 
-    @abstractmethod
-    def score_partial(self, X):
-        pass
+        Args:
+            X (Union[np.ndarray, pd.DataFrame]): The data value of current observation from StreamGenerator.
+        &quot;&quot;&quot;
+        pass</div>
 
-    def fit_score_partial(self, X, Y=None):
+<div class="viewcode-block" id="BaseDetector.score"><a class="viewcode-back" href="../../../generated/streamad.base.BaseDetector.html#streamad.base.BaseDetector.score">[docs]</a>    @abstractmethod
+    def score(self, X: Union[np.ndarray, pd.DataFrame]) -&gt; float:
+        &quot;&quot;&quot;Detector score the probability of anomaly for current observation form StreamGenerator.
 
-        return self.fit_partial(X, Y).score_partial(X)
+        Args:
+            X (Union[np.ndarray, pd.DataFrame]): The data value of current observation from StreamGenerator.
 
-    def fit(self, X, Y=None):
+        Returns:
+            float: Anomaly probability. 1.0 for anomaly and 0.0 for normal.
+        &quot;&quot;&quot;
 
-        for x, y in zip(X, Y):
-            self.fit_partial(x, y)
+        return 0.0</div>
 
-        return self
+<div class="viewcode-block" id="BaseDetector.predict"><a class="viewcode-back" href="../../../generated/streamad.base.BaseDetector.html#streamad.base.BaseDetector.predict">[docs]</a>    def predict(
+        self, X: Union[np.ndarray, pd.DataFrame], threshold: float = 0.5
+    ) -&gt; int:
+        &quot;&quot;&quot;Detector predict the label of current observation form StreamGenerator.
 
-    def score(self, X):
+        Args:
+            X (Union[np.ndarray, pd.DataFrame]): The data value of current observation from StreamGenerator.
+            threshold (float, optional): Threshold for labeling from data&#39;s score. Defaults to 0.5.
 
-        y_pred = list()
-
-        for x in X:
-            y_pred.append(self.score_partial(x))
-
-        return np.array(y_pred)
-
-    def fit_score(self, X, Y=None):
-
-        if Y == None:
-            Y = np.empty(len(X))
-
-        pred_result = self.fit_score_partial(X, Y)
-
-        return pred_result</div>
+        Returns:
+            int: Data Label. 1 for anomaly and 0 for normal.
+        &quot;&quot;&quot;
+        if threshold &gt;= 1 or threshold &lt;= 0:
+            raise ValueError(
+                &quot;Invalid threshold %f, please select a threshold between (0,1)&quot;
+            )
+        probability = self.score(X)
+        if probability &gt;= threshold:
+            return 1
+        return 0</div></div>
 </pre></div>
 
            </div>

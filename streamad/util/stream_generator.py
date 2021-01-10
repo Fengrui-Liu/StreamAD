@@ -1,75 +1,66 @@
 #!/usr/bin/env python
 # coding=utf-8
-"""
-Author: liufr
-Github: https://github.com/Fengrui-Liu
-LastEditTime: 2020-12-10 09:23:28
-Copyright 2020 liufr
-Description: Iterate item of pandas, numpy array, list
-"""
+#
+# Author: liufr
+# Github: https://github.com/Fengrui-Liu
+# LastEditTime: 2021-01-09 20:35:38
+# Copyright 2021 liufr
+# Description:
+#
 
-import random
-from operator import le
-from types import GeneratorType
-from typing import Generator, Iterable, Optional, Sequence, Tuple, Union
-import typing
+from typing import Generator, Union
 
 import numpy as np
 import pandas as pd
 
 
 class StreamGenerator:
+    """Load static dataset and generate observation once a time."""
+
     def __init__(
         self,
-        X: Optional[Union[pd.DataFrame, np.ndarray]],
-        y: pd.DataFrame = None,
-        feature_names: list = None,
+        X: Union[pd.DataFrame, np.ndarray],
+        features: list = None,
         shuffle: bool = False,
     ):
-        """Init stream generator
+        """Initialize a StreamGenerator.
 
         Args:
-            X (np.ndarray or pd.Dataframe): Origin dataset
-            y (np.ndarray or pd.Dataframe, optional): Origin label. Defaults to None.
-            shuffle (bool, optional): Shuffle or not. Defaults to False.
+            X (Union[pd.DataFrame, np.ndarray]): Origin static dataset.
+            features (list, optional): Selected features from pd.DataFrame, None for all features and ingore for np.ndarray. Defaults to None.
+            shuffle (bool, optional): Reorder the data. Defaults to False.
+
+        Raises:
+            TypeError: Unexpected input data type.
         """
 
-        if y is not None:
-            assert len(X) == len(y)
-        self.X = X
-        self.y = y
+        if isinstance(X, np.ndarray):
+            self.X = X
+        elif isinstance(X, pd.DataFrame):
+            self.X = X.to_numpy() if features == None else X[features].to_numpy()
+        else:
+            raise TypeError(
+                "Unexpected input data type, except np.ndarray or pd.DataFrame"
+            )
+        self.features = features
         self.index = list(range(len(X)))
-        self.features = feature_names
         if shuffle:
             np.random.shuffle(self.index)
 
     def iter_item(self) -> Generator:
-        """Iterate item in dataset
-
-        Raises:
-            Exception: Unsupported datatype
+        """Iterate item once a time from the dataset.
 
         Yields:
-            Generator: One item of dataset and labels
+            Generator: One observation and corresponding label from dataset.
         """
-        if isinstance(self.X, (np.ndarray)):
-            yield from self._iter_array()
-        elif isinstance(self.X, (pd.DataFrame)):
-            self.X = self.X.to_numpy()
-            self.y = self.y.to_numpy() if self.y is not None else None
-            yield from self._iter_array()
-        else:
-            raise Exception(
-                "Unexcepted type, only accept numpy.ndarray or pandas.dataframe"
-            )
 
-    def _iter_array(self):
+        for i in self.index:
+            yield self.X[i]
 
-        if self.y is None:
-            for i in self.index:
-                yield pd.Series(self.X[i], index=self.features), None
-        else:
-            for i in self.index:
-                yield pd.Series(self.X[i], index=self.features), pd.Series(
-                    self.y[i], index=["label"]
-                )
+    def get_features(self) -> list:
+        """Get the selected features of current StreamGenerator
+
+        Returns:
+            list: Selected features
+        """
+        return self.features

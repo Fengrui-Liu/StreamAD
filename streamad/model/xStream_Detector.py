@@ -1,15 +1,4 @@
-#!/usr/bin/env python
-# coding=utf-8
-"""
-Author: liufr
-Github: https://github.com/Fengrui-Liu
-LastEditTime: 2020-12-16 19:48:29
-Copyright 2020 liufr
-Description: [xStream](https://github.com/cmuxstream/cmuxstream-baselines)
-"""
-
-
-from streamad.model.multivariate.xStream_StreamHash import StreamhashProjector
+from streamad.model.xStream_StreamHash import StreamhashProjector
 from streamad.base import BaseDetector
 import pandas as pd
 import numpy as np

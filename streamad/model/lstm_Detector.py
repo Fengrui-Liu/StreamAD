@@ -1,23 +1,13 @@
-#!/usr/bin/env python
-# coding=utf-8
-"""
-Author: liufr
-Github: https://github.com/Fengrui-Liu
-LastEditTime: 2020-12-23 19:06:04
-Copyright 2020 liufr
-Description: Lstm and autoencoder anomaly detection
-"""
+import copy
 
-
-from sklearn.utils import shuffle
-from streamad.base import BaseDetector
+import numpy as np
 import pandas as pd
 import torch
-from streamad.model.lstm_autoencoder.lstm_AE import RnnAutoencoder
-from torch import nn, optim
-import copy
 from sklearn.model_selection import train_test_split
-import numpy as np
+from sklearn.utils import shuffle
+from streamad.base import BaseDetector
+from streamad.model.lstm_AE import RnnAutoencoder
+from torch import nn, optim
 
 
 class LSTMDetector(BaseDetector):

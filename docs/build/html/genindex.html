@@ -1,7 +1,7 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en,zh-cn" >
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
@@ -16,6 +16,8 @@
   <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
 
   
+  
+    <link rel="shortcut icon" href="_static/logo_html.svg"/>
   
   
   
@@ -52,9 +54,12 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> StreamAD
+            <a href="index.html">
           
 
+          
+            
+            <img src="_static/logo_htmlwithname.svg" class="logo" alt="Logo"/>
           
           </a>
 
@@ -90,11 +95,16 @@
               <p class="caption"><span class="caption-text">Getting Started</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Example usage</a></li>
 </ul>
-<p class="caption"><span class="caption-text">API Documentation:</span></p>
+<p class="caption"><span class="caption-text">API Document</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Models</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="model.html">Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
 </ul>
 
             
@@ -164,8 +174,12 @@
 <div class="genindex-jumpbox">
  <a href="#B"><strong>B</strong></a>
  | <a href="#F"><strong>F</strong></a>
+ | <a href="#G"><strong>G</strong></a>
+ | <a href="#I"><strong>I</strong></a>
  | <a href="#K"><strong>K</strong></a>
  | <a href="#M"><strong>M</strong></a>
+ | <a href="#P"><strong>P</strong></a>
+ | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
  
 </div>
@@ -180,7 +194,33 @@
 <h2 id="F">F</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="generated/streamad.model.multivariate.KNNDetector.html#streamad.model.multivariate.KNNDetector.fit_partial">fit_partial() (streamad.model.multivariate.KNNDetector method)</a>
+      <li><a href="generated/streamad.base.BaseDetector.html#streamad.base.BaseDetector.fit">fit() (streamad.base.BaseDetector method)</a>
+
+      <ul>
+        <li><a href="generated/streamad.model.KNNDetector.html#streamad.model.KNNDetector.fit">(streamad.model.KNNDetector method)</a>
+</li>
+        <li><a href="generated/streamad.model.RandomDetector.html#streamad.model.RandomDetector.fit">(streamad.model.RandomDetector method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="generated/streamad.model.KNNDetector.html#streamad.model.KNNDetector.fit_partial">fit_partial() (streamad.model.KNNDetector method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="G">G</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="generated/streamad.util.StreamGenerator.html#streamad.util.StreamGenerator.get_features">get_features() (streamad.util.StreamGenerator method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="I">I</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="generated/streamad.util.StreamGenerator.html#streamad.util.StreamGenerator.iter_item">iter_item() (streamad.util.StreamGenerator method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -188,7 +228,7 @@
 <h2 id="K">K</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="generated/streamad.model.multivariate.KNNDetector.html#streamad.model.multivariate.KNNDetector">KNNDetector (class in streamad.model.multivariate)</a>
+      <li><a href="generated/streamad.model.KNNDetector.html#streamad.model.KNNDetector">KNNDetector (class in streamad.model)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -204,16 +244,46 @@
 </li>
         <li><a href="api.html#module-streamad.model">streamad.model</a>
 </li>
+        <li><a href="api.html#module-streamad.util">streamad.util</a>
+</li>
       </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="P">P</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="generated/streamad.base.BaseDetector.html#streamad.base.BaseDetector.predict">predict() (streamad.base.BaseDetector method)</a>
+
+      <ul>
+        <li><a href="generated/streamad.model.KNNDetector.html#streamad.model.KNNDetector.predict">(streamad.model.KNNDetector method)</a>
+</li>
+        <li><a href="generated/streamad.model.RandomDetector.html#streamad.model.RandomDetector.predict">(streamad.model.RandomDetector method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="R">R</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="generated/streamad.model.RandomDetector.html#streamad.model.RandomDetector">RandomDetector (class in streamad.model)</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="generated/streamad.model.multivariate.KNNDetector.html#streamad.model.multivariate.KNNDetector.score_partial">score_partial() (streamad.model.multivariate.KNNDetector method)</a>
+      <li><a href="generated/streamad.base.BaseDetector.html#streamad.base.BaseDetector.score">score() (streamad.base.BaseDetector method)</a>
+
+      <ul>
+        <li><a href="generated/streamad.model.KNNDetector.html#streamad.model.KNNDetector.score">(streamad.model.KNNDetector method)</a>
 </li>
-      <li><a href="generated/streamad.model.univariate.SpotDetector.html#streamad.model.univariate.SpotDetector">SpotDetector (class in streamad.model.univariate)</a>
+        <li><a href="generated/streamad.model.RandomDetector.html#streamad.model.RandomDetector.score">(streamad.model.RandomDetector method)</a>
+</li>
+      </ul></li>
+      <li><a href="generated/streamad.model.KNNDetector.html#streamad.model.KNNDetector.score_partial">score_partial() (streamad.model.KNNDetector method)</a>
 </li>
       <li>
     streamad.base
@@ -231,6 +301,15 @@
         <li><a href="api.html#module-streamad.model">module</a>
 </li>
       </ul></li>
+      <li>
+    streamad.util
+
+      <ul>
+        <li><a href="api.html#module-streamad.util">module</a>
+</li>
+      </ul></li>
+      <li><a href="generated/streamad.util.StreamGenerator.html#streamad.util.StreamGenerator">StreamGenerator (class in streamad.util)</a>
+</li>
   </ul></td>
 </tr></table>
 

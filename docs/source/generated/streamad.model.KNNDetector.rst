@@ -1,6 +1,6 @@
-﻿streamad.model.multivariate.KNNDetector
-=======================================
-.. currentmodule:: streamad.model.multivariate
+﻿streamad.model.KNNDetector
+==========================
+.. currentmodule:: streamad.model
 .. autoclass:: KNNDetector
    
    
@@ -10,8 +10,7 @@
       ~KNNDetector.__init__
       ~KNNDetector.fit
       ~KNNDetector.fit_partial
-      ~KNNDetector.fit_score
-      ~KNNDetector.fit_score_partial
+      ~KNNDetector.predict
       ~KNNDetector.score
       ~KNNDetector.score_partial
    

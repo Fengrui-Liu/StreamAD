@@ -1,16 +1,3 @@
-#!/usr/bin/env python
-# coding=utf-8
-"""
-Author: liufr
-Github: https://github.com/Fengrui-Liu
-LastEditTime: 2020-12-01 20:34:11
-Copyright 2020 liufr
-Description: KNN-based anomaly detector
-"""
-
-import os
-import pdb
-
 import numpy as np
 import pandas as pd
 from scipy.spatial import distance
@@ -18,6 +5,8 @@ from streamad.base import BaseDetector
 
 
 class KNNDetector(BaseDetector):
+    """KNN-CAD model with mahalanobis distance. :cite:`DBLP:journals/corr/BurnaevI16`. See `KNN-CAD <https://arxiv.org/abs/1608.04585>`_"""
+
     def __init__(
         self,
         observation_length: int = -1,

@@ -1,0 +1,4 @@
+{
+    "python.pythonPath": "/bin/python",
+    "restructuredtext.confPath": "${workspaceFolder}/docs/source",
+}

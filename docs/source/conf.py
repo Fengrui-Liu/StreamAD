@@ -1,12 +1,3 @@
-#!/usr/bin/env python
-# coding=utf-8
-"""
-Author: liufr
-Github: https://github.com/Fengrui-Liu
-LastEditTime: 2021-01-05 20:19:52
-Copyright 2021 liufr
-Description:
-"""
 # Configuration file for the Sphinx documentation builder.
 #
 # This file only contains a selection of the most common options. For a full
@@ -23,9 +14,9 @@ import os
 import sys
 from os.path import dirname, abspath
 
-sys.path.insert(0, os.path.abspath("."))
-sys.path.insert(0, os.path.abspath("../"))
+sys.path.insert(0, os.path.abspath("./"))
 sys.path.insert(0, os.path.abspath("../../"))
+sys.path.insert(0, os.path.abspath("../../streamad/"))
 StreamAD_dir = dirname(dirname(dirname(abspath(__file__))))
 version_path = os.path.join(StreamAD_dir, "streamad", "version.py")
 exec(open(version_path).read())
@@ -56,9 +47,9 @@ extensions = [
     "sphinx.ext.todo",
     "sphinx.ext.coverage",
     "sphinx.ext.doctest",
-    "sphinx.ext.intersphinx",
     "numpydoc",
     "sphinx_autodoc_typehints",
+    "sphinxcontrib.bibtex",
     "sphinx_rtd_theme",
     "sphinx.ext.autodoc",
     "sphinx.ext.autosectionlabel",
@@ -71,6 +62,13 @@ source_suffix = {
     ".md": "markdown",
 }
 
+bibtex_bibfiles = ["refs.bib"]
+nbsphinx_execute_arguments = [
+    "--InlineBackend.figure_formats={'svg', 'pdf'}",
+    "--InlineBackend.rc={'figure.dpi': 96}",
+]
+nbsphinx_input_prompt = "In [%s]:"
+nbsphinx_output_prompt = "Out[%s]:"
 master_doc = "index"
 pygments_style = "sphinx"
 
@@ -82,7 +80,7 @@ templates_path = ["_templates"]
 #
 # This is also used if you do content translation via gettext catalogs.
 # Usually you set "language" from the command line for these cases.
-language = "en,zh_cn"
+language = "en"
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -97,10 +95,26 @@ exclude_patterns = ["build"]
 #
 html_theme = "sphinx_rtd_theme"
 
+html_theme_options = {
+    "canonical_url": "",
+    "logo_only": True,
+    "display_version": True,
+    "prev_next_buttons_location": "bottom",
+    "style_external_links": False,
+    #'vcs_pageview_mode': '',
+    #'style_nav_header_background': 'white',
+    # Toc options
+    "collapse_navigation": True,
+    "sticky_navigation": True,
+    "navigation_depth": 7,
+    "includehidden": True,
+    "titles_only": False,
+}
+
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ["_static"]
+# html_static_path = ["_static"]
 
 
 highlight_language = "none"
@@ -115,17 +129,13 @@ autodoc_default_options = {
 }
 autodoc_typehints = "none"
 
-intersphinx_mapping = {
-    "python": ("https://docs.python.org/{.major}".format(sys.version_info), None),
-    "numpy": ("https://docs.scipy.org/doc/numpy/", None),
-    #'scipy': ('https://docs.scipy.org/doc/scipy/reference', None),
-    # 'matplotlib': ('https://matplotlib.org/', None),
-    #'sklearn': ('https://scikit-learn.org/stable', None)
-}
-
 numpydoc_show_class_members = False
 autosummary_generate = True
 autosummary_imported_members = True
+
+
+html_logo = "images/logo_htmlwithname.svg"
+html_favicon = "images/logo_html.svg"
 
 
 def remove_module_docstring(app, what, name, obj, options, lines):
