@@ -1,1 +1,1 @@
-docs/source/index.rst
+.. include:: docs/source/index.rst
