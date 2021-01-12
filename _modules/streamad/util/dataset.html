@@ -215,7 +215,6 @@ import pandas as pd
         super().__init__()
         module_path = dirname(__file__)
         data_path = join(module_path, &quot;../&quot;, &quot;data&quot;, &quot;uniDS.csv&quot;)
-        print(data_path)
         data = pd.read_csv(data_path)
         self.data = data[&quot;value&quot;].to_numpy()
         self.label = data[&quot;is_anomaly&quot;].to_numpy()</div>

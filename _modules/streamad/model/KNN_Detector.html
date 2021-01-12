@@ -277,7 +277,10 @@ from streamad.base import BaseDetector
         return self</div>
 
 <div class="viewcode-block" id="KNNDetector.score"><a class="viewcode-back" href="../../../generated/streamad.model.KNNDetector.html#streamad.model.KNNDetector.score">[docs]</a>    def score(self, X) -&gt; float:
-        &quot;&quot;&quot;Score the current observation. None for init data and float for the probability of anomalousness.
+        &quot;&quot;&quot;Score the current observation. None for init period and float for the probability of anomalousness.
+
+        Args:
+            X (np.ndarray): Current observation.
 
         Returns:
             float: Anomaly probability.
@@ -286,12 +289,10 @@ from streamad.base import BaseDetector
         if self.count &lt; 2 * self.window_length:
             return None
 
-        new_score = self.scores[-1]
+        score = self.scores[-1]
 
-        result = (
-            1.0 * len(np.where(np.array(self.scores) &lt; new_score)[0]) / len(self.scores)
-        )
-        return result</div></div>
+        prob = 1.0 * len(np.where(np.array(self.scores) &lt; score)[0]) / len(self.scores)
+        return prob</div></div>
 </pre></div>
 
            </div>

@@ -212,46 +212,36 @@
 <h1>streamad.model.SpotDetector<a class="headerlink" href="#streamad-model-spotdetector" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt id="streamad.model.SpotDetector">
-<em class="property">class </em><code class="sig-prename descclassname">streamad.model.</code><code class="sig-name descname">SpotDetector</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">proba</span><span class="o">=</span><span class="default_value">0.0001</span></em>, <em class="sig-param"><span class="n">window_size</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">init_length</span><span class="o">=</span><span class="default_value">1000</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/model/spot_Detector.html#SpotDetector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamad.model.SpotDetector" title="Permalink to this definition">¶</a></dt>
-<dd><p class="rubric">Methods</p>
+<em class="property">class </em><code class="sig-prename descclassname">streamad.model.</code><code class="sig-name descname">SpotDetector</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">prob</span><span class="o">=</span><span class="default_value">0.0001</span></em>, <em class="sig-param"><span class="n">window_size</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">init_len</span><span class="o">=</span><span class="default_value">300</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/model/spot_Detector.html#SpotDetector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamad.model.SpotDetector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Univariate Spot model. <span id="id1">[<a class="reference internal" href="../references.html#id4"><span>BSFTLargouet17</span></a>]</span>. See <a class="reference external" href="https://dl.acm.org/doi/10.1145/3097983.3098144">SPOT</a></p>
+<p class="rubric">Methods</p>
 <table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>([proba, window_size, init_length])</p></td>
-<td><p>Initialization BaseDetector</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>([prob, window_size, init_len])</p></td>
+<td><p>Spot detector.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#streamad.model.SpotDetector.fit" title="streamad.model.SpotDetector.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(X)</p></td>
-<td><p>Detector fit current observation from StreamGenerator.</p></td>
+<td><p>Record and analyse the current observation from the stream.</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_partial</span></code>(X[, Y])</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#streamad.model.SpotDetector.fit_score" title="streamad.model.SpotDetector.fit_score"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_score</span></code></a>(X)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#streamad.model.SpotDetector.fit_score" title="streamad.model.SpotDetector.fit_score"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_score</span></code></a>(X)</p></td>
 <td><p>Detector fit and score the probability of anomaly current observation from StreamGenerator.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#streamad.model.SpotDetector.score" title="streamad.model.SpotDetector.score"><code class="xref py py-obj docutils literal notranslate"><span class="pre">score</span></code></a>(X)</p></td>
-<td><p>Detector score the probability of anomaly for current observation form StreamGenerator.</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">score_partial</span></code>(X)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#streamad.model.SpotDetector.score" title="streamad.model.SpotDetector.score"><code class="xref py py-obj docutils literal notranslate"><span class="pre">score</span></code></a>(X)</p></td>
+<td><p>Score the current observation.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py method">
 <dt id="streamad.model.SpotDetector.fit">
-<em class="property">abstract </em><code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em><span class="sig-paren">)</span><a class="headerlink" href="#streamad.model.SpotDetector.fit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Detector fit current observation from StreamGenerator.</p>
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/model/spot_Detector.html#SpotDetector.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamad.model.SpotDetector.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Record and analyse the current observation from the stream. Detector collect the init data firstly, and add random drift.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>X</strong> (<em>Union</em><em>[</em><em>np.ndarray</em><em>, </em><em>pd.DataFrame</em><em>]</em>) – The data value of current observation from StreamGenerator.</p>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
+<dd class="field-odd"><p><strong>X</strong> (<em>np.ndarray</em>) – [description]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -275,14 +265,14 @@
 
 <dl class="py method">
 <dt id="streamad.model.SpotDetector.score">
-<em class="property">abstract </em><code class="sig-name descname">score</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em><span class="sig-paren">)</span><a class="headerlink" href="#streamad.model.SpotDetector.score" title="Permalink to this definition">¶</a></dt>
-<dd><p>Detector score the probability of anomaly for current observation form StreamGenerator.</p>
+<code class="sig-name descname">score</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/model/spot_Detector.html#SpotDetector.score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamad.model.SpotDetector.score" title="Permalink to this definition">¶</a></dt>
+<dd><p>Score the current observation. None for init period and float for the probability of anomalousness between two thresholds. 1.0 for certain anomaly point.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>X</strong> (<em>Union</em><em>[</em><em>np.ndarray</em><em>, </em><em>pd.DataFrame</em><em>]</em>) – The data value of current observation from StreamGenerator.</p>
+<dd class="field-odd"><p><strong>X</strong> (<em>np.ndarray</em>) – Current observation.</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Anomaly probability. 1.0 for anomaly and 0.0 for normal.</p>
+<dd class="field-even"><p>Anomaly probability.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>float</p>

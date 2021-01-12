@@ -169,12 +169,13 @@
            <div itemprop="articleBody">
             
   <h1>Source code for streamad.util.eval</h1><div class="highlight"><pre>
-<span></span>from sklearn.metrics import roc_auc_score, f1_score
-from abc import ABC, ABCMeta
+<span></span>from sklearn.metrics import roc_auc_score
 from streamad.base import BaseMetrics
 
 
 <div class="viewcode-block" id="AUCMetric"><a class="viewcode-back" href="../../../generated/streamad.util.AUCMetric.html#streamad.util.AUCMetric">[docs]</a>class AUCMetric(BaseMetrics):
+    &quot;&quot;&quot;ROC_AUC score for evaluation.&quot;&quot;&quot;
+
     def __init__(self) -&gt; None:
         super().__init__()
 

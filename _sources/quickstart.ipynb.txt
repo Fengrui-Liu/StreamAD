@@ -35,15 +35,7 @@
    "cell_type": "code",
    "execution_count": 1,
    "metadata": {},
-   "outputs": [
-    {
-     "output_type": "stream",
-     "name": "stdout",
-     "text": [
-      "/mnt/c/Users/liufr/myPh.D/Code/StreamAD/streamad/util/../data/uniDS.csv\n"
-     ]
-    }
-   ],
+   "outputs": [],
    "source": [
     "import os\n",
     "import sys\n",
@@ -58,14 +50,16 @@
     "from streamad.util import StreamStatistic\n",
     "from streamad.util import AUCMetric\n",
     "\n",
-    "ds = UnivariateDS()\n",
-    "# ds = MultivariateDS()\n",
     "eval = AUCMetric()\n",
     "\n",
-    "models_dict = {\n",
-    "    RandomDetector: {},\n",
-    "    # KNNDetector: {\"probationary_period\": 20, \"windowsize\": windowsize},\n",
-    "    }"
+    "uni_models = {\n",
+    "    KNNDetector: {\"init_len\": 100, \"k_neighbor\": 25},\n",
+    "    SpotDetector: {}\n",
+    "    }\n",
+    "    \n",
+    "multi_models = {\n",
+    "    xStreamDetector : {}\n",
+    "}"
    ]
   },
   {
@@ -86,20 +80,22 @@
      "output_type": "stream",
      "name": "stdout",
      "text": [
-      " Anomaly score: 0.31924198250728864\n",
-      " AUC_ROC metrics evaluation: 0.7873402724887874\n"
+      " Anomaly score: 0.0\n",
+      " AUC_ROC metrics evaluation: 0.9999000799360511\n"
      ]
     }
    ],
    "source": [
     "\n",
+    "ds = UnivariateDS()\n",
     "data = ds.data\n",
     "label = ds.label\n",
     "stream = StreamGenerator(data,label,shuffle=False)\n",
-    "init_length = 100\n",
-    "model = KNNDetector(init_len=init_length,k_neighbor=25)\n",
+    "model = SpotDetector()\n",
+    "\n",
     "for X,y in stream.iter_item():\n",
     "    score = model.fit_score(X)\n",
+    "\n",
     "    eval.update(y,score)\n",
     "    print(\"\\r Anomaly score: {}\".format(score), end=\"\",flush=\"True\")\n",
     "\n",
@@ -115,27 +111,32 @@
   },
   {
    "cell_type": "code",
-   "execution_count": 3,
+   "execution_count": 2,
    "metadata": {},
    "outputs": [
     {
      "output_type": "stream",
      "name": "stdout",
      "text": [
-      " Anomaly score: 0.9474929309564072"
+      " Anomaly score: 0.4555483452303699, count 3082\n",
+      " AUC_ROC metrics evaluation: 0.7309615132441647\n"
      ]
     }
    ],
    "source": [
     "\n",
+    "ds = MultivariateDS()\n",
     "data = pd.DataFrame(ds.data) \n",
-    "stream = StreamGenerator(data,shuffle=True)\n",
+    "label = pd.DataFrame(ds.label)\n",
+    "stream = StreamGenerator(data,label,shuffle=False)\n",
+    "model = xStreamDetector()\n",
     "\n",
     "for X,y in stream.iter_item():\n",
-    "    model = RandomDetector()\n",
     "    score = model.fit_score(X)\n",
+    "    eval.update(y,score)\n",
     "    print(\"\\r Anomaly score: {}\".format(score), end=\"\",flush=\"True\")\n",
-    "\n"
+    "\n",
+    "print('\\n AUC_ROC metrics evaluation:',eval.evaluate())"
    ]
   }
  ]

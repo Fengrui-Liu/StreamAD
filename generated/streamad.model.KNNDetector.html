@@ -266,13 +266,16 @@
 <dl class="py method">
 <dt id="streamad.model.KNNDetector.score">
 <code class="sig-name descname">score</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/model/KNN_Detector.html#KNNDetector.score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamad.model.KNNDetector.score" title="Permalink to this definition">¶</a></dt>
-<dd><p>Score the current observation. None for init data and float for the probability of anomalousness.</p>
+<dd><p>Score the current observation. None for init period and float for the probability of anomalousness.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>Anomaly probability.</p>
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>np.ndarray</em>) – Current observation.</p>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>float</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Anomaly probability.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
