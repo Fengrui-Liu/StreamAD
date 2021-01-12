@@ -9,10 +9,8 @@
    
       ~SpotDetector.__init__
       ~SpotDetector.fit
-      ~SpotDetector.fit_partial
       ~SpotDetector.fit_score
       ~SpotDetector.score
-      ~SpotDetector.score_partial
    
    
    

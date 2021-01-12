@@ -3,6 +3,8 @@ from streamad.base import BaseMetrics
 
 
 class AUCMetric(BaseMetrics):
+    """ROC_AUC score for evaluation."""
+
     def __init__(self) -> None:
         super().__init__()
 
