@@ -445,7 +445,7 @@ div.rendered_html tbody tr:hover {
 <div class="section" id="Example-usage">
 <h1>Example usage<a class="headerlink" href="#Example-usage" title="Permalink to this headline">¶</a></h1>
 <p>This the the example usage of StreamAD.</p>
-<div class="nbinput nblast docutils container">
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>In [1]:
 </pre></div>
 </div>
@@ -457,14 +457,30 @@ div.rendered_html tbody tr:hover {
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_iris</span>
+<span class="kn">from</span> <span class="nn">streamad.util</span> <span class="kn">import</span> <span class="n">MultivariateDS</span><span class="p">,</span> <span class="n">UnivariateDS</span>
 <span class="kn">from</span> <span class="nn">streamad.util</span> <span class="kn">import</span> <span class="n">StreamGenerator</span>
-<span class="kn">from</span> <span class="nn">streamad.model</span> <span class="kn">import</span> <span class="n">RandomDetector</span>
+<span class="kn">from</span> <span class="nn">streamad.model</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">streamad.util</span> <span class="kn">import</span> <span class="n">StreamStatistic</span>
+<span class="kn">from</span> <span class="nn">streamad.util</span> <span class="kn">import</span> <span class="n">AUCMetric</span>
 
-<span class="n">ds</span> <span class="o">=</span> <span class="n">load_iris</span><span class="p">()</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">UnivariateDS</span><span class="p">()</span>
+<span class="c1"># ds = MultivariateDS()</span>
+<span class="nb">eval</span> <span class="o">=</span> <span class="n">AUCMetric</span><span class="p">()</span>
+
+<span class="n">models_dict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">RandomDetector</span><span class="p">:</span> <span class="p">{},</span>
+    <span class="c1"># KNNDetector: {&quot;probationary_period&quot;: 20, &quot;windowsize&quot;: windowsize},</span>
+    <span class="p">}</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+/mnt/c/Users/liufr/myPh.D/Code/StreamAD/streamad/util/../data/uniDS.csv
+</pre></div></div>
 </div>
 <p>Load numpy data to StreamGenerator and get random results from RandomDetector.</p>
 <div class="nbinput docutils container">
@@ -474,16 +490,16 @@ div.rendered_html tbody tr:hover {
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 
 <span></span><span class="n">data</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">data</span>
-<span class="n">label</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">target</span>
-<span class="n">stream</span> <span class="o">=</span> <span class="n">StreamGenerator</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">label</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">label</span>
+<span class="n">stream</span> <span class="o">=</span> <span class="n">StreamGenerator</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">label</span><span class="p">,</span><span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">init_length</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">KNNDetector</span><span class="p">(</span><span class="n">init_len</span><span class="o">=</span><span class="n">init_length</span><span class="p">,</span><span class="n">k_neighbor</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">X</span><span class="p">,</span><span class="n">y</span> <span class="ow">in</span> <span class="n">stream</span><span class="o">.</span><span class="n">iter_item</span><span class="p">():</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit_score</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="nb">eval</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">score</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\r</span><span class="s2"> Anomaly score: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">score</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="n">flush</span><span class="o">=</span><span class="s2">&quot;True&quot;</span><span class="p">)</span>
 
-<span class="k">for</span> <span class="n">X</span> <span class="ow">in</span> <span class="n">stream</span><span class="o">.</span><span class="n">iter_item</span><span class="p">():</span>
-    <span class="n">model</span> <span class="o">=</span> <span class="n">RandomDetector</span><span class="p">()</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-    <span class="n">score</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-    <span class="n">label</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\r</span><span class="s2"> Anomaly score: </span><span class="si">{}</span><span class="s2">, predict label </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="n">label</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="n">flush</span><span class="o">=</span><span class="s2">&quot;True&quot;</span><span class="p">)</span>
-
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1"> AUC_ROC metrics evaluation:&#39;</span><span class="p">,</span><span class="nb">eval</span><span class="o">.</span><span class="n">evaluate</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
@@ -492,7 +508,8 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
- Anomaly score: 0.8013135736168802, predict label 0
+ Anomaly score: 0.31924198250728864
+ AUC_ROC metrics evaluation: 0.7873402724887874
 </pre></div></div>
 </div>
 <p>Load pandas Dataframe to StreamGenerator and get random results from RandomDetector.</p>
@@ -502,15 +519,13 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 
-<span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">data</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="n">ds</span><span class="o">.</span><span class="n">feature_names</span><span class="p">)</span>
+<span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
 <span class="n">stream</span> <span class="o">=</span> <span class="n">StreamGenerator</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-<span class="k">for</span> <span class="n">X</span> <span class="ow">in</span> <span class="n">stream</span><span class="o">.</span><span class="n">iter_item</span><span class="p">():</span>
+<span class="k">for</span> <span class="n">X</span><span class="p">,</span><span class="n">y</span> <span class="ow">in</span> <span class="n">stream</span><span class="o">.</span><span class="n">iter_item</span><span class="p">():</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">RandomDetector</span><span class="p">()</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-    <span class="n">score</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-    <span class="n">label</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\r</span><span class="s2"> Anomaly score: </span><span class="si">{}</span><span class="s2">, predict label </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="n">label</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="n">flush</span><span class="o">=</span><span class="s2">&quot;True&quot;</span><span class="p">)</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit_score</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\r</span><span class="s2"> Anomaly score: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">score</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="n">flush</span><span class="o">=</span><span class="s2">&quot;True&quot;</span><span class="p">)</span>
 
 
 </pre></div>
@@ -521,7 +536,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
- Anomaly score: 0.20901237823719931, predict label 0
+ Anomaly score: 0.9474929309564072
 </pre></div></div>
 </div>
 </div>

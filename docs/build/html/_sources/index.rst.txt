@@ -4,11 +4,11 @@
    contain the root `toctree` directive.
 
 .. image:: ./images/logo_htmlwithname.svg
-    :align: center
+   :align: center
 
 An anomaly detection package for streaming data.
 
-------------------------------------------------------
+-------------------------------------------------
 
 .. include:: feature.rst
 
@@ -20,7 +20,7 @@ An anomaly detection package for streaming data.
 
 .. include:: model.rst
 
-------
+------------------------------------
 
 .. toctree::
    :hidden:

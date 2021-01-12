@@ -9,10 +9,8 @@
    
       ~KNNDetector.__init__
       ~KNNDetector.fit
-      ~KNNDetector.fit_partial
-      ~KNNDetector.predict
+      ~KNNDetector.fit_score
       ~KNNDetector.score
-      ~KNNDetector.score_partial
    
    
    

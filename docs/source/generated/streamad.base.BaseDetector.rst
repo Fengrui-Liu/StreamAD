@@ -9,7 +9,7 @@
    
       ~BaseDetector.__init__
       ~BaseDetector.fit
-      ~BaseDetector.predict
+      ~BaseDetector.fit_score
       ~BaseDetector.score
    
    

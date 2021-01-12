@@ -41,7 +41,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="streamad.model.RandomDetector" href="generated/streamad.model.RandomDetector.html" />
+    <link rel="next" title="streamad.model.xStreamDetector" href="generated/streamad.model.xStreamDetector.html" />
     <link rel="prev" title="Example usage" href="quickstart.html" /> 
 </head>
 
@@ -102,17 +102,28 @@
 <p class="caption"><span class="caption-text">API Document</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#module-streamad.model">Individual Anomaly Models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-streamad.model">Multivariate Anomaly Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/streamad.model.xStreamDetector.html">streamad.model.xStreamDetector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/streamad.model.LSTMDetector.html">streamad.model.LSTMDetector</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/streamad.model.RandomDetector.html">streamad.model.RandomDetector</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#univariate-anomaly-models">Univariate Anomaly Models</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="generated/streamad.model.KNNDetector.html">streamad.model.KNNDetector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/streamad.model.SpotDetector.html">streamad.model.SpotDetector</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-streamad.base">Core</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="generated/streamad.base.BaseDetector.html">streamad.base.BaseDetector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/streamad.base.BaseMetrics.html">streamad.base.BaseMetrics</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-streamad.util">Util</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="generated/streamad.util.StreamGenerator.html">streamad.util.StreamGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/streamad.util.MultivariateDS.html">streamad.util.MultivariateDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/streamad.util.UnivariateDS.html">streamad.util.UnivariateDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/streamad.util.StreamStatistic.html">streamad.util.StreamStatistic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/streamad.util.AUCMetric.html">streamad.util.AUCMetric</a></li>
 </ul>
 </li>
 </ul>
@@ -215,18 +226,38 @@
 <h1>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h1>
 <p>This is the API documentation for <code class="docutils literal notranslate"><span class="pre">StreamAD</span></code>.</p>
 <div class="section" id="module-streamad.model">
-<span id="individual-anomaly-models"></span><h2>Individual Anomaly Models<a class="headerlink" href="#module-streamad.model" title="Permalink to this headline">¶</a></h2>
+<span id="multivariate-anomaly-models"></span><h2>Multivariate Anomaly Models<a class="headerlink" href="#module-streamad.model" title="Permalink to this headline">¶</a></h2>
 <table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
 </colgroup>
 <tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/streamad.model.xStreamDetector.html#streamad.model.xStreamDetector" title="streamad.model.xStreamDetector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">model.xStreamDetector</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/streamad.model.LSTMDetector.html#streamad.model.LSTMDetector" title="streamad.model.LSTMDetector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">model.LSTMDetector</span></code></a></p></td>
+<td><p></p></td>
+</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/streamad.model.RandomDetector.html#streamad.model.RandomDetector" title="streamad.model.RandomDetector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">model.RandomDetector</span></code></a></p></td>
 <td><p>Return random anomaly score.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/streamad.model.KNNDetector.html#streamad.model.KNNDetector" title="streamad.model.KNNDetector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">model.KNNDetector</span></code></a></p></td>
-<td><p>KNN-CAD model with mahalanobis distance.</p></td>
+</tbody>
+</table>
+</div>
+<div class="section" id="univariate-anomaly-models">
+<h2>Univariate Anomaly Models<a class="headerlink" href="#univariate-anomaly-models" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/streamad.model.KNNDetector.html#streamad.model.KNNDetector" title="streamad.model.KNNDetector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">model.KNNDetector</span></code></a></p></td>
+<td><p>Univariate KNN-CAD model with mahalanobis distance.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/streamad.model.SpotDetector.html#streamad.model.SpotDetector" title="streamad.model.SpotDetector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">model.SpotDetector</span></code></a></p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>
@@ -240,7 +271,10 @@
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/streamad.base.BaseDetector.html#streamad.base.BaseDetector" title="streamad.base.BaseDetector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">base.BaseDetector</span></code></a></p></td>
-<td><p>Abstract class for BaseDetector, supporting for customize detector.</p></td>
+<td><p>Abstract class for Detector, supporting for customize detector.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/streamad.base.BaseMetrics.html#streamad.base.BaseMetrics" title="streamad.base.BaseMetrics"><code class="xref py py-obj docutils literal notranslate"><span class="pre">base.BaseMetrics</span></code></a></p></td>
+<td><p>Abstract class for evaluation metrics, supporting for customize evaluation.</p></td>
 </tr>
 </tbody>
 </table>
@@ -256,6 +290,18 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/streamad.util.StreamGenerator.html#streamad.util.StreamGenerator" title="streamad.util.StreamGenerator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">util.StreamGenerator</span></code></a></p></td>
 <td><p>Load static dataset and generate observation once a time.</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/streamad.util.MultivariateDS.html#streamad.util.MultivariateDS" title="streamad.util.MultivariateDS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">util.MultivariateDS</span></code></a></p></td>
+<td><p>Load multivariate dataset.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/streamad.util.UnivariateDS.html#streamad.util.UnivariateDS" title="streamad.util.UnivariateDS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">util.UnivariateDS</span></code></a></p></td>
+<td><p>Load univariate dataset.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/streamad.util.StreamStatistic.html#streamad.util.StreamStatistic" title="streamad.util.StreamStatistic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">util.StreamStatistic</span></code></a></p></td>
+<td><p>Data statistics for the streaming data.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/streamad.util.AUCMetric.html#streamad.util.AUCMetric" title="streamad.util.AUCMetric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">util.AUCMetric</span></code></a></p></td>
+<td><p></p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -269,7 +315,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="generated/streamad.model.RandomDetector.html" class="btn btn-neutral float-right" title="streamad.model.RandomDetector" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="generated/streamad.model.xStreamDetector.html" class="btn btn-neutral float-right" title="streamad.model.xStreamDetector" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="quickstart.html" class="btn btn-neutral float-left" title="Example usage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

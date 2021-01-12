@@ -169,18 +169,7 @@
            <div itemprop="articleBody">
             
   <h1>Source code for streamad.base.base_detector</h1><div class="highlight"><pre>
-<span></span>#!/usr/bin/env python
-# coding=utf-8
-#
-# Author: liufr
-# Github: https://github.com/Fengrui-Liu
-# LastEditTime: 2021-01-10 19:10:32
-# Copyright 2021 liufr
-# Description:
-#
-
-
-from abc import ABC, abstractmethod
+<span></span>from abc import ABC, abstractmethod
 from typing import Union
 
 import numpy as np
@@ -188,7 +177,7 @@ import pandas as pd
 
 
 <div class="viewcode-block" id="BaseDetector"><a class="viewcode-back" href="../../../generated/streamad.base.BaseDetector.html#streamad.base.BaseDetector">[docs]</a>class BaseDetector(ABC):
-    &quot;&quot;&quot;Abstract class for BaseDetector, supporting for customize detector.&quot;&quot;&quot;
+    &quot;&quot;&quot;Abstract class for Detector, supporting for customize detector.&quot;&quot;&quot;
 
     def __init__(self):
         &quot;&quot;&quot;Initialization BaseDetector&quot;&quot;&quot;
@@ -204,7 +193,7 @@ import pandas as pd
         Args:
             X (Union[np.ndarray, pd.DataFrame]): The data value of current observation from StreamGenerator.
         &quot;&quot;&quot;
-        pass</div>
+        return self</div>
 
 <div class="viewcode-block" id="BaseDetector.score"><a class="viewcode-back" href="../../../generated/streamad.base.BaseDetector.html#streamad.base.BaseDetector.score">[docs]</a>    @abstractmethod
     def score(self, X: Union[np.ndarray, pd.DataFrame]) -&gt; float:
@@ -219,26 +208,17 @@ import pandas as pd
 
         return 0.0</div>
 
-<div class="viewcode-block" id="BaseDetector.predict"><a class="viewcode-back" href="../../../generated/streamad.base.BaseDetector.html#streamad.base.BaseDetector.predict">[docs]</a>    def predict(
-        self, X: Union[np.ndarray, pd.DataFrame], threshold: float = 0.5
-    ) -&gt; int:
-        &quot;&quot;&quot;Detector predict the label of current observation form StreamGenerator.
+<div class="viewcode-block" id="BaseDetector.fit_score"><a class="viewcode-back" href="../../../generated/streamad.base.BaseDetector.html#streamad.base.BaseDetector.fit_score">[docs]</a>    def fit_score(self, X: Union[np.ndarray, pd.DataFrame]) -&gt; float:
+        &quot;&quot;&quot;Detector fit and score the probability of anomaly current observation from StreamGenerator.
 
         Args:
-            X (Union[np.ndarray, pd.DataFrame]): The data value of current observation from StreamGenerator.
-            threshold (float, optional): Threshold for labeling from data&#39;s score. Defaults to 0.5.
+            X (Union[np.ndarray, pd.DataFrame]): [description]
 
         Returns:
-            int: Data Label. 1 for anomaly and 0 for normal.
+            float: [description]
         &quot;&quot;&quot;
-        if threshold &gt;= 1 or threshold &lt;= 0:
-            raise ValueError(
-                &quot;Invalid threshold %f, please select a threshold between (0,1)&quot;
-            )
-        probability = self.score(X)
-        if probability &gt;= threshold:
-            return 1
-        return 0</div></div>
+
+        return self.fit(X).score(X)</div></div>
 </pre></div>
 
            </div>

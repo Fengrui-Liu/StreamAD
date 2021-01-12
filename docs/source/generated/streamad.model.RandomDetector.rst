@@ -9,7 +9,7 @@
    
       ~RandomDetector.__init__
       ~RandomDetector.fit
-      ~RandomDetector.predict
+      ~RandomDetector.fit_score
       ~RandomDetector.score
    
    
