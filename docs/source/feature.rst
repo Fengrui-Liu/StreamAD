@@ -29,4 +29,4 @@ StreamAD concerns about the running time, resources usage and usability of diffe
 Free & Open Source Software (FOSS)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-`StreamAD` is distributed under `BSD License 3.0 <https://github.com/Fengrui-Liu/StreamAD/master/LICENSE>`_ and favors FOSS principles.
+`StreamAD` is distributed under `BSD License 3.0 <https://github.com/Fengrui-Liu/StreamAD/blob/main/LICENSE>`_ and favors FOSS principles.

@@ -1,14 +1,3 @@
-#!/usr/bin/env python
-# coding=utf-8
-#
-# Author: liufr
-# Github: https://github.com/Fengrui-Liu
-# LastEditTime: 2021-01-10 19:10:32
-# Copyright 2021 liufr
-# Description:
-#
-
-
 from abc import ABC, abstractmethod
 from typing import Union
 
@@ -17,7 +6,7 @@ import pandas as pd
 
 
 class BaseDetector(ABC):
-    """Abstract class for BaseDetector, supporting for customize detector."""
+    """Abstract class for Detector, supporting for customize detector."""
 
     def __init__(self):
         """Initialization BaseDetector"""
@@ -33,7 +22,7 @@ class BaseDetector(ABC):
         Args:
             X (Union[np.ndarray, pd.DataFrame]): The data value of current observation from StreamGenerator.
         """
-        pass
+        return self
 
     @abstractmethod
     def score(self, X: Union[np.ndarray, pd.DataFrame]) -> float:
@@ -48,23 +37,14 @@ class BaseDetector(ABC):
 
         return 0.0
 
-    def predict(
-        self, X: Union[np.ndarray, pd.DataFrame], threshold: float = 0.5
-    ) -> int:
-        """Detector predict the label of current observation form StreamGenerator.
+    def fit_score(self, X: Union[np.ndarray, pd.DataFrame]) -> float:
+        """Detector fit and score the probability of anomaly current observation from StreamGenerator.
 
         Args:
-            X (Union[np.ndarray, pd.DataFrame]): The data value of current observation from StreamGenerator.
-            threshold (float, optional): Threshold for labeling from data's score. Defaults to 0.5.
+            X (Union[np.ndarray, pd.DataFrame]): [description]
 
         Returns:
-            int: Data Label. 1 for anomaly and 0 for normal.
+            float: [description]
         """
-        if threshold >= 1 or threshold <= 0:
-            raise ValueError(
-                "Invalid threshold %f, please select a threshold between (0,1)"
-            )
-        probability = self.score(X)
-        if probability >= threshold:
-            return 1
-        return 0
+
+        return self.fit(X).score(X)
