@@ -1,10 +1,12 @@
-from streamad.model.xStream_StreamHash import StreamhashProjector
 from streamad.base import BaseDetector
 import pandas as pd
 import numpy as np
+import mmh3
 
 
 class xStreamDetector(BaseDetector):
+    """Multivariate xStreamDetector :cite:`DBLP:conf/kdd/ManzoorLA18`. See `xStream <https://cmuxstream.github.io/>`_"""
+
     def __init__(
         self,
         n_components: int = 50,
@@ -12,50 +14,72 @@ class xStreamDetector(BaseDetector):
         depth: int = 25,
         window_size: int = 25,
     ):
-        self.nchains = n_chains
-        self.depth = depth
-        self.chains = []
+        """xStream detector for multivariate data.
+
+        Args:
+            n_components (int, optional): Number of streamhash projection, similar to feature numbers. Defaults to 50.
+            n_chains (int, optional): Number of half-space chains. Defaults to 100.
+            depth (int, optional): Maximum depth for each chain. Defaults to 25.
+            window_size (int, optional): Size of reference window. Defaults to 25.
+        """
+
         self.projector = StreamhashProjector(
             num_components=n_components, density=1 / 3.0
         )
         self.window_size = window_size
-        self.record_count = 0
+        self.count = 0
         self.cur_window = []
         self.ref_window = []
         delta = np.ones(n_components) * 0.5
         self.hs_chains = _hsChains(deltamax=delta, n_chains=n_chains, depth=depth)
+        self.scores = []
 
-    def fit_partial(self, X: pd.Series, Y: pd.Series = None):
-        self.record_count += 1
+    def fit(self, X: np.ndarray):
+        """xStreamDetector collects data with a window length, projects them via streamhash projector, and then scores the observed data.
 
-        projected_X = self.projector.fit_transform_partial(X)
+        Args:
+            X (np.ndarray): Current observation.
+        """
+        self.count += 1
+
+        projected_X = self.projector.transform(X)
         self.cur_window.append(projected_X)
         self.hs_chains.fit(projected_X)
 
-        if self.record_count % self.window_size == 0:
+        if self.count % self.window_size == 0:
             self.ref_window = self.cur_window
             self.cur_window = []
-            deltamax = self._compute_deltamax()
+
+            deltamax = np.ptp(self.ref_window, axis=0) / 2.0
+            deltamax[np.abs(deltamax) <= 0.0001] = 1.0
+
             self.hs_chains.set_deltamax(deltamax=deltamax)
             self.hs_chains.next_window()
 
         return self
 
-    def score_partial(self, X):
+    def score(self, X: np.ndarray) -> float:
+        """Score the current observation. None for init period and float for the probability of anomalousness.
 
-        X = self.projector.fit_transform_partial(X)
+        Args:
+            X (np.ndarray): Current observation.
 
-        score = self.hs_chains.score_chains(X).flatten()
+        Returns:
+            float: Anomaly probability.
+        """
+        projected_X = self.projector.transform(X)
 
-        return score
+        score = -1.0 * self.hs_chains.score_chains(projected_X)
+        self.scores.append(score)
 
-    def _compute_deltamax(self):
+        if self.count < self.window_size:
+            return None
 
-        deltamax = np.ptp(self.ref_window, axis=0) / 2.0
+        score = self.scores[-1]
 
-        deltamax[deltamax == 0] = 1.0
+        prob = 1.0 * len(np.where(np.array(self.scores) < score)[0]) / len(self.scores)
 
-        return deltamax
+        return prob
 
 
 class _Chain:
@@ -72,8 +96,8 @@ class _Chain:
 
     def bincount(self, X):
 
-        scores = np.zeros((X.shape[0], self.depth))
-        prebins = np.zeros(X.shape, dtype=np.float)
+        scores = np.zeros(self.depth)
+        prebins = np.zeros(X.shape[0], dtype=np.float)
         depthcount = np.zeros(len(self.deltamax), dtype=np.int)
         for depth in range(self.depth):
             f = self.fs[depth]
@@ -85,19 +109,20 @@ class _Chain:
 
             cmsketch = self.cmsketch_ref[depth]
 
-            for i, prebin in enumerate(prebins):
+            for prebin in prebins:
 
                 l = int(prebin)
                 if l in cmsketch:
-                    scores[i, depth] = cmsketch[l]
+                    scores[depth] = cmsketch[l]
                 else:
-                    scores[i, depth] = 0.0
+                    scores[depth] = 0.0
 
         return scores
 
     def score(self, X):
 
         scores = self.bincount(X)
+
         depths = np.arange(1, self.depth + 1)
 
         scores = np.log2(1.0 + scores) + depths
@@ -159,7 +184,7 @@ class _hsChains:
         for chain in self.chains:
             scores += chain.score(X)
 
-        scores = scores / float(self.nchains)
+        scores = float(scores) / float(self.nchains)
 
         return scores
 
@@ -175,3 +200,44 @@ class _hsChains:
         for chain in self.chains:
             chain.deltamax = deltamax
             chain.rand_shift = chain.rand * deltamax
+
+
+class StreamhashProjector:
+    def __init__(self, num_components, density=1 / 3.0):
+
+        self.keys = np.arange(0, num_components, 1)
+        self.constant = np.sqrt(1.0 / density) / np.sqrt(num_components)
+        self.density = density
+        self.n_components = num_components
+
+    def transform(self, X):
+        """Projects particular (next) timestep's vector to (possibly) lower dimensional space.
+
+        Args:
+            X (np.float array of shape (num_features,)): Input feature vector.
+
+        Returns:
+            projected_X (np.float array of shape (num_components,)): Projected feature vector.
+        """
+        ndim = X.shape[0]
+
+        feature_names = [str(i) for i in range(ndim)]
+
+        R = np.array(
+            [[self._hash_string(k, f) for f in feature_names] for k in self.keys]
+        )
+
+        Y = np.dot(X, R.T).squeeze()
+
+        return Y
+
+    def _hash_string(self, k, s):
+
+        hash_value = int(mmh3.hash(s, signed=False, seed=k)) / (2.0 ** 32 - 1)
+        s = self.density
+        if hash_value <= s / 2.0:
+            return -1 * self.constant
+        elif hash_value <= s:
+            return self.constant
+        else:
+            return 0

@@ -106,7 +106,10 @@ class KNNDetector(BaseDetector):
         return self
 
     def score(self, X) -> float:
-        """Score the current observation. None for init data and float for the probability of anomalousness.
+        """Score the current observation. None for init period and float for the probability of anomalousness.
+
+        Args:
+            X (np.ndarray): Current observation.
 
         Returns:
             float: Anomaly probability.
@@ -115,9 +118,7 @@ class KNNDetector(BaseDetector):
         if self.count < 2 * self.window_length:
             return None
 
-        new_score = self.scores[-1]
+        score = self.scores[-1]
 
-        result = (
-            1.0 * len(np.where(np.array(self.scores) < new_score)[0]) / len(self.scores)
-        )
-        return result
+        prob = 1.0 * len(np.where(np.array(self.scores) < score)[0]) / len(self.scores)
+        return prob

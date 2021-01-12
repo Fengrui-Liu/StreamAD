@@ -44,7 +44,6 @@ class UnivariateDS(object):
         super().__init__()
         module_path = dirname(__file__)
         data_path = join(module_path, "../", "data", "uniDS.csv")
-        print(data_path)
         data = pd.read_csv(data_path)
         self.data = data["value"].to_numpy()
         self.label = data["is_anomaly"].to_numpy()

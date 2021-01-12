@@ -1,5 +1,4 @@
-from sklearn.metrics import roc_auc_score, f1_score
-from abc import ABC, ABCMeta
+from sklearn.metrics import roc_auc_score
 from streamad.base import BaseMetrics
 
 
