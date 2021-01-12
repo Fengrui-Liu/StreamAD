@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Overview: module code &mdash; StreamAD 0.1.0 documentation</title>
+  <title>streamad.base.BaseMetrics &mdash; StreamAD 0.1.0 documentation</title>
   
 
   
@@ -40,7 +40,9 @@
 
     
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="streamad.util.StreamGenerator" href="streamad.util.StreamGenerator.html" />
+    <link rel="prev" title="streamad.base.BaseDetector" href="streamad.base.BaseDetector.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -98,8 +100,18 @@
 <li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Example usage</a></li>
 </ul>
 <p class="caption"><span class="caption-text">API Document</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../api.html#module-streamad.model">Multivariate Anomaly Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#univariate-anomaly-models">Univariate Anomaly Models</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../api.html#module-streamad.base">Core</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="streamad.base.BaseDetector.html">streamad.base.BaseDetector</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">streamad.base.BaseMetrics</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#module-streamad.util">Util</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption"><span class="caption-text">Models</span></p>
 <ul>
@@ -151,10 +163,16 @@
     
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Overview: module code</li>
+          <li><a href="../api.html">API Reference</a> &raquo;</li>
+        
+      <li>streamad.base.BaseMetrics</li>
     
     
       <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/generated/streamad.base.BaseMetrics.rst.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
     
@@ -166,24 +184,75 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>All modules for which code is available</h1>
-<ul><li><a href="streamad/base/base_detector.html">streamad.base.base_detector</a></li>
-<li><a href="streamad/base/base_metrics.html">streamad.base.base_metrics</a></li>
-<li><a href="streamad/model/KNN_Detector.html">streamad.model.KNN_Detector</a></li>
-<li><a href="streamad/model/lstm_Detector.html">streamad.model.lstm_Detector</a></li>
-<li><a href="streamad/model/random_detector.html">streamad.model.random_detector</a></li>
-<li><a href="streamad/model/spot_Detector.html">streamad.model.spot_Detector</a></li>
-<li><a href="streamad/model/xStream_Detector.html">streamad.model.xStream_Detector</a></li>
-<li><a href="streamad/util/dataset.html">streamad.util.dataset</a></li>
-<li><a href="streamad/util/eval.html">streamad.util.eval</a></li>
-<li><a href="streamad/util/math_toolkit.html">streamad.util.math_toolkit</a></li>
-<li><a href="streamad/util/stream_generator.html">streamad.util.stream_generator</a></li>
-</ul>
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="streamad-base-basemetrics">
+<h1>streamad.base.BaseMetrics<a class="headerlink" href="#streamad-base-basemetrics" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="streamad.base.BaseMetrics">
+<em class="property">class </em><code class="sig-prename descclassname">streamad.base.</code><code class="sig-name descname">BaseMetrics</code><a class="reference internal" href="../_modules/streamad/base/base_metrics.html#BaseMetrics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamad.base.BaseMetrics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract class for evaluation metrics, supporting for customize evaluation.</p>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>()</p></td>
+<td><p>Initialize self.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">evaluate</span></code>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset</span></code>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">update</span></code>(y_true, y_pred)</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
 
            </div>
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="streamad.util.StreamGenerator.html" class="btn btn-neutral float-right" title="streamad.util.StreamGenerator" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="streamad.base.BaseDetector.html" class="btn btn-neutral float-left" title="streamad.base.BaseDetector" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

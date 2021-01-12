@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>streamad.base.BaseDetector &mdash; StreamAD 0.1.0 documentation</title>
+  <title>streamad.model.xStreamDetector &mdash; StreamAD 0.1.0 documentation</title>
   
 
   
@@ -41,8 +41,8 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="streamad.base.BaseMetrics" href="streamad.base.BaseMetrics.html" />
-    <link rel="prev" title="streamad.model.SpotDetector" href="streamad.model.SpotDetector.html" /> 
+    <link rel="next" title="streamad.model.LSTMDetector" href="streamad.model.LSTMDetector.html" />
+    <link rel="prev" title="API Reference" href="../api.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -102,13 +102,14 @@
 <p class="caption"><span class="caption-text">API Document</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Reference</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="../api.html#module-streamad.model">Multivariate Anomaly Models</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api.html#univariate-anomaly-models">Univariate Anomaly Models</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../api.html#module-streamad.base">Core</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#">streamad.base.BaseDetector</a></li>
-<li class="toctree-l3"><a class="reference internal" href="streamad.base.BaseMetrics.html">streamad.base.BaseMetrics</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../api.html#module-streamad.model">Multivariate Anomaly Models</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">streamad.model.xStreamDetector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="streamad.model.LSTMDetector.html">streamad.model.LSTMDetector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="streamad.model.RandomDetector.html">streamad.model.RandomDetector</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#univariate-anomaly-models">Univariate Anomaly Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#module-streamad.base">Core</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api.html#module-streamad.util">Util</a></li>
 </ul>
 </li>
@@ -165,13 +166,13 @@
         
           <li><a href="../api.html">API Reference</a> &raquo;</li>
         
-      <li>streamad.base.BaseDetector</li>
+      <li>streamad.model.xStreamDetector</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/generated/streamad.base.BaseDetector.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/generated/streamad.model.xStreamDetector.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -208,36 +209,41 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="streamad-base-basedetector">
-<h1>streamad.base.BaseDetector<a class="headerlink" href="#streamad-base-basedetector" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="streamad-model-xstreamdetector">
+<h1>streamad.model.xStreamDetector<a class="headerlink" href="#streamad-model-xstreamdetector" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
-<dt id="streamad.base.BaseDetector">
-<em class="property">class </em><code class="sig-prename descclassname">streamad.base.</code><code class="sig-name descname">BaseDetector</code><a class="reference internal" href="../_modules/streamad/base/base_detector.html#BaseDetector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamad.base.BaseDetector" title="Permalink to this definition">¶</a></dt>
-<dd><p>Abstract class for Detector, supporting for customize detector.</p>
-<p class="rubric">Methods</p>
+<dt id="streamad.model.xStreamDetector">
+<em class="property">class </em><code class="sig-prename descclassname">streamad.model.</code><code class="sig-name descname">xStreamDetector</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n_components</span><span class="o">=</span><span class="default_value">50</span></em>, <em class="sig-param"><span class="n">n_chains</span><span class="o">=</span><span class="default_value">100</span></em>, <em class="sig-param"><span class="n">depth</span><span class="o">=</span><span class="default_value">25</span></em>, <em class="sig-param"><span class="n">window_size</span><span class="o">=</span><span class="default_value">25</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/model/xStream_Detector.html#xStreamDetector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamad.model.xStreamDetector" title="Permalink to this definition">¶</a></dt>
+<dd><p class="rubric">Methods</p>
 <table class="longtable docutils align-default">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>()</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>([n_components, n_chains, depth, …])</p></td>
 <td><p>Initialization BaseDetector</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#streamad.base.BaseDetector.fit" title="streamad.base.BaseDetector.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(X)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#streamad.model.xStreamDetector.fit" title="streamad.model.xStreamDetector.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(X)</p></td>
 <td><p>Detector fit current observation from StreamGenerator.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#streamad.base.BaseDetector.fit_score" title="streamad.base.BaseDetector.fit_score"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_score</span></code></a>(X)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_partial</span></code>(X[, Y])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#streamad.model.xStreamDetector.fit_score" title="streamad.model.xStreamDetector.fit_score"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_score</span></code></a>(X)</p></td>
 <td><p>Detector fit and score the probability of anomaly current observation from StreamGenerator.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#streamad.base.BaseDetector.score" title="streamad.base.BaseDetector.score"><code class="xref py py-obj docutils literal notranslate"><span class="pre">score</span></code></a>(X)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#streamad.model.xStreamDetector.score" title="streamad.model.xStreamDetector.score"><code class="xref py py-obj docutils literal notranslate"><span class="pre">score</span></code></a>(X)</p></td>
 <td><p>Detector score the probability of anomaly for current observation form StreamGenerator.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">score_partial</span></code>(X)</p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py method">
-<dt id="streamad.base.BaseDetector.fit">
-<em class="property">abstract </em><code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/base/base_detector.html#BaseDetector.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamad.base.BaseDetector.fit" title="Permalink to this definition">¶</a></dt>
+<dt id="streamad.model.xStreamDetector.fit">
+<em class="property">abstract </em><code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em><span class="sig-paren">)</span><a class="headerlink" href="#streamad.model.xStreamDetector.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Detector fit current observation from StreamGenerator.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -252,8 +258,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt id="streamad.base.BaseDetector.fit_score">
-<code class="sig-name descname">fit_score</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/base/base_detector.html#BaseDetector.fit_score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamad.base.BaseDetector.fit_score" title="Permalink to this definition">¶</a></dt>
+<dt id="streamad.model.xStreamDetector.fit_score">
+<code class="sig-name descname">fit_score</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em><span class="sig-paren">)</span><a class="headerlink" href="#streamad.model.xStreamDetector.fit_score" title="Permalink to this definition">¶</a></dt>
 <dd><p>Detector fit and score the probability of anomaly current observation from StreamGenerator.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -269,8 +275,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt id="streamad.base.BaseDetector.score">
-<em class="property">abstract </em><code class="sig-name descname">score</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/base/base_detector.html#BaseDetector.score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamad.base.BaseDetector.score" title="Permalink to this definition">¶</a></dt>
+<dt id="streamad.model.xStreamDetector.score">
+<em class="property">abstract </em><code class="sig-name descname">score</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em><span class="sig-paren">)</span><a class="headerlink" href="#streamad.model.xStreamDetector.score" title="Permalink to this definition">¶</a></dt>
 <dd><p>Detector score the probability of anomaly for current observation form StreamGenerator.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -297,10 +303,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="streamad.base.BaseMetrics.html" class="btn btn-neutral float-right" title="streamad.base.BaseMetrics" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="streamad.model.LSTMDetector.html" class="btn btn-neutral float-right" title="streamad.model.LSTMDetector" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="streamad.model.SpotDetector.html" class="btn btn-neutral float-left" title="streamad.model.SpotDetector" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../api.html" class="btn btn-neutral float-left" title="API Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>streamad.base.base_detector &mdash; StreamAD 0.1.0 documentation</title>
+  <title>streamad.util.math_toolkit &mdash; StreamAD 0.1.0 documentation</title>
   
 
   
@@ -153,7 +153,7 @@
         
           <li><a href="../../index.html">Module code</a> &raquo;</li>
         
-      <li>streamad.base.base_detector</li>
+      <li>streamad.util.math_toolkit</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -168,57 +168,64 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for streamad.base.base_detector</h1><div class="highlight"><pre>
-<span></span>from abc import ABC, abstractmethod
+  <h1>Source code for streamad.util.math_toolkit</h1><div class="highlight"><pre>
+<span></span>#!/usr/bin/env python
+# coding=utf-8
+#
+# Author: liufr
+# Github: https://github.com/Fengrui-Liu
+# LastEditTime: 2021-01-09 19:24:46
+# Copyright 2021 liufr
+# Description:
+#
+import collections
+import math
 from typing import Union
 
 import numpy as np
-import pandas as pd
 
 
-<div class="viewcode-block" id="BaseDetector"><a class="viewcode-back" href="../../../generated/streamad.base.BaseDetector.html#streamad.base.BaseDetector">[docs]</a>class BaseDetector(ABC):
-    &quot;&quot;&quot;Abstract class for Detector, supporting for customize detector.&quot;&quot;&quot;
+<div class="viewcode-block" id="StreamStatistic"><a class="viewcode-back" href="../../../generated/streamad.util.StreamStatistic.html#streamad.util.StreamStatistic">[docs]</a>class StreamStatistic:
+    &quot;&quot;&quot;Data statistics for the streaming data.&quot;&quot;&quot;
 
     def __init__(self):
-        &quot;&quot;&quot;Initialization BaseDetector&quot;&quot;&quot;
-        pass
+        &quot;&quot;&quot;Statistic for stream data
+        We support max, min, sum, mean, sum of squares, var, std and standard scaler for streaming data.
+        &quot;&quot;&quot;
+        self.num_items = 0
 
-<div class="viewcode-block" id="BaseDetector.fit"><a class="viewcode-back" href="../../../generated/streamad.base.BaseDetector.html#streamad.base.BaseDetector.fit">[docs]</a>    @abstractmethod
-    def fit(
-        self,
-        X: Union[np.ndarray, pd.DataFrame],
-    ) -&gt; None:
-        &quot;&quot;&quot;Detector fit current observation from StreamGenerator.
+        self.max = collections.defaultdict(lambda: -math.inf)
+        self.min = collections.defaultdict(lambda: math.inf)
+        self.sum = collections.defaultdict(float)
+        self.mean = collections.defaultdict(float)
+        self.sum_squares = collections.defaultdict(float)
+        self.var = collections.defaultdict(float)
+        self.std = collections.defaultdict(float)
+
+<div class="viewcode-block" id="StreamStatistic.update"><a class="viewcode-back" href="../../../generated/streamad.util.StreamStatistic.html#streamad.util.StreamStatistic.update">[docs]</a>    def update(self, X: np.ndarray):
+        &quot;&quot;&quot;Update a pd.Series to stream
 
         Args:
-            X (Union[np.ndarray, pd.DataFrame]): The data value of current observation from StreamGenerator.
-        &quot;&quot;&quot;
-        return self</div>
+            X (np.ndarray): An item from StreamGenerator
 
-<div class="viewcode-block" id="BaseDetector.score"><a class="viewcode-back" href="../../../generated/streamad.base.BaseDetector.html#streamad.base.BaseDetector.score">[docs]</a>    @abstractmethod
-    def score(self, X: Union[np.ndarray, pd.DataFrame]) -&gt; float:
-        &quot;&quot;&quot;Detector score the probability of anomaly for current observation form StreamGenerator.
-
-        Args:
-            X (Union[np.ndarray, pd.DataFrame]): The data value of current observation from StreamGenerator.
-
-        Returns:
-            float: Anomaly probability. 1.0 for anomaly and 0.0 for normal.
         &quot;&quot;&quot;
 
-        return 0.0</div>
+        self.num_items += 1
 
-<div class="viewcode-block" id="BaseDetector.fit_score"><a class="viewcode-back" href="../../../generated/streamad.base.BaseDetector.html#streamad.base.BaseDetector.fit_score">[docs]</a>    def fit_score(self, X: Union[np.ndarray, pd.DataFrame]) -&gt; float:
-        &quot;&quot;&quot;Detector fit and score the probability of anomaly current observation from StreamGenerator.
+        tmp = collections.defaultdict(float)
 
-        Args:
-            X (Union[np.ndarray, pd.DataFrame]): [description]
-
-        Returns:
-            float: [description]
-        &quot;&quot;&quot;
-
-        return self.fit(X).score(X)</div></div>
+        for index, item in enumerate(X):
+            self.max[index] = self.max[index] if self.max[index] &gt; item else item
+            self.min[index] = self.min[index] if self.min[index] &lt; item else item
+            self.sum[index] += X[index]
+            old_mean = self.mean[index]
+            tmp[index] = item - self.mean[index]
+            self.mean[index] = self.sum[index] / self.num_items
+            self.sum_squares[index] += (X[index] - old_mean) * (
+                X[index] - self.mean[index]
+            )
+            self.var[index] = self.sum_squares[index] / self.num_items
+            self.std[index] = math.sqrt(self.var[index])</div></div>
 </pre></div>
 
            </div>

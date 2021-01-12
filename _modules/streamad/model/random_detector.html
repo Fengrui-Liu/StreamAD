@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>streamad.base.base_detector &mdash; StreamAD 0.1.0 documentation</title>
+  <title>streamad.model.random_detector &mdash; StreamAD 0.1.0 documentation</title>
   
 
   
@@ -153,7 +153,7 @@
         
           <li><a href="../../index.html">Module code</a> &raquo;</li>
         
-      <li>streamad.base.base_detector</li>
+      <li>streamad.model.random_detector</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -168,57 +168,40 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for streamad.base.base_detector</h1><div class="highlight"><pre>
-<span></span>from abc import ABC, abstractmethod
+  <h1>Source code for streamad.model.random_detector</h1><div class="highlight"><pre>
+<span></span>import random
 from typing import Union
 
 import numpy as np
 import pandas as pd
+from streamad.base import BaseDetector
 
 
-<div class="viewcode-block" id="BaseDetector"><a class="viewcode-back" href="../../../generated/streamad.base.BaseDetector.html#streamad.base.BaseDetector">[docs]</a>class BaseDetector(ABC):
-    &quot;&quot;&quot;Abstract class for Detector, supporting for customize detector.&quot;&quot;&quot;
+<div class="viewcode-block" id="RandomDetector"><a class="viewcode-back" href="../../../generated/streamad.model.RandomDetector.html#streamad.model.RandomDetector">[docs]</a>class RandomDetector(BaseDetector):
+    &quot;&quot;&quot;Return random anomaly score. A minimum score for benchmark.&quot;&quot;&quot;
 
     def __init__(self):
-        &quot;&quot;&quot;Initialization BaseDetector&quot;&quot;&quot;
-        pass
+        super().__init__()
 
-<div class="viewcode-block" id="BaseDetector.fit"><a class="viewcode-back" href="../../../generated/streamad.base.BaseDetector.html#streamad.base.BaseDetector.fit">[docs]</a>    @abstractmethod
-    def fit(
-        self,
-        X: Union[np.ndarray, pd.DataFrame],
-    ) -&gt; None:
+<div class="viewcode-block" id="RandomDetector.fit"><a class="viewcode-back" href="../../../generated/streamad.model.RandomDetector.html#streamad.model.RandomDetector.fit">[docs]</a>    def fit(self, X: np.ndarray) -&gt; None:
         &quot;&quot;&quot;Detector fit current observation from StreamGenerator.
 
         Args:
-            X (Union[np.ndarray, pd.DataFrame]): The data value of current observation from StreamGenerator.
+            X (np.ndarray): The data value of current observation from StreamGenerator.
         &quot;&quot;&quot;
         return self</div>
 
-<div class="viewcode-block" id="BaseDetector.score"><a class="viewcode-back" href="../../../generated/streamad.base.BaseDetector.html#streamad.base.BaseDetector.score">[docs]</a>    @abstractmethod
-    def score(self, X: Union[np.ndarray, pd.DataFrame]) -&gt; float:
-        &quot;&quot;&quot;Detector score the probability of anomaly for current observation form StreamGenerator.
+<div class="viewcode-block" id="RandomDetector.score"><a class="viewcode-back" href="../../../generated/streamad.model.RandomDetector.html#streamad.model.RandomDetector.score">[docs]</a>    def score(self, X: np.ndarray) -&gt; float:
+        &quot;&quot;&quot;Abstract method: Detector predict the probability of anomaly for current observation form StreamGenerator.
 
         Args:
-            X (Union[np.ndarray, pd.DataFrame]): The data value of current observation from StreamGenerator.
+            X (np.ndarray): The data value of current observation from StreamGenerator.
 
         Returns:
-            float: Anomaly probability. 1.0 for anomaly and 0.0 for normal.
+            float: Anomaly probability.
         &quot;&quot;&quot;
 
-        return 0.0</div>
-
-<div class="viewcode-block" id="BaseDetector.fit_score"><a class="viewcode-back" href="../../../generated/streamad.base.BaseDetector.html#streamad.base.BaseDetector.fit_score">[docs]</a>    def fit_score(self, X: Union[np.ndarray, pd.DataFrame]) -&gt; float:
-        &quot;&quot;&quot;Detector fit and score the probability of anomaly current observation from StreamGenerator.
-
-        Args:
-            X (Union[np.ndarray, pd.DataFrame]): [description]
-
-        Returns:
-            float: [description]
-        &quot;&quot;&quot;
-
-        return self.fit(X).score(X)</div></div>
+        return random.random()</div></div>
 </pre></div>
 
            </div>

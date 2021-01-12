@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>streamad.base.base_detector &mdash; StreamAD 0.1.0 documentation</title>
+  <title>streamad.util.dataset &mdash; StreamAD 0.1.0 documentation</title>
   
 
   
@@ -153,7 +153,7 @@
         
           <li><a href="../../index.html">Module code</a> &raquo;</li>
         
-      <li>streamad.base.base_detector</li>
+      <li>streamad.util.dataset</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -168,57 +168,57 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for streamad.base.base_detector</h1><div class="highlight"><pre>
-<span></span>from abc import ABC, abstractmethod
-from typing import Union
+  <h1>Source code for streamad.util.dataset</h1><div class="highlight"><pre>
+<span></span>#!/usr/bin/env python
+# coding=utf-8
+#
+# Author: liufr
+# Github: https://github.com/Fengrui-Liu
+# LastEditTime: 2021-01-11 14:38:40
+# Copyright 2021 liufr
+# Description:
+#
 
+from os.path import dirname, join
 import numpy as np
 import pandas as pd
 
 
-<div class="viewcode-block" id="BaseDetector"><a class="viewcode-back" href="../../../generated/streamad.base.BaseDetector.html#streamad.base.BaseDetector">[docs]</a>class BaseDetector(ABC):
-    &quot;&quot;&quot;Abstract class for Detector, supporting for customize detector.&quot;&quot;&quot;
+<div class="viewcode-block" id="MultivariateDS"><a class="viewcode-back" href="../../../generated/streamad.util.MultivariateDS.html#streamad.util.MultivariateDS">[docs]</a>class MultivariateDS(object):
+    &quot;&quot;&quot;
+    Load multivariate dataset.
+    synthetic data point classes
+    CLASSES = [
+    range(0, 1000),  # sparse benign cluster
+    range(1000, 3000),  # dense benign cluster
+    range(3000, 3050),  # clustered anomalies
+    range(3050, 3075),  # sparse anomalies
+    range(3076, 3082),  # local anomalies
+    range(3075, 3076),# single anomaly
+    ]
+    &quot;&quot;&quot;
 
-    def __init__(self):
-        &quot;&quot;&quot;Initialization BaseDetector&quot;&quot;&quot;
-        pass
+    def __init__(self) -&gt; None:
+        super().__init__()
+        module_path = dirname(__file__)
+        data_path = join(module_path, &quot;../&quot;, &quot;data&quot;, &quot;multiDS.csv&quot;)
+        self.data = np.loadtxt(data_path)
+        self.label = np.array([0] * 3000 + [1] * 82)</div>
 
-<div class="viewcode-block" id="BaseDetector.fit"><a class="viewcode-back" href="../../../generated/streamad.base.BaseDetector.html#streamad.base.BaseDetector.fit">[docs]</a>    @abstractmethod
-    def fit(
-        self,
-        X: Union[np.ndarray, pd.DataFrame],
-    ) -&gt; None:
-        &quot;&quot;&quot;Detector fit current observation from StreamGenerator.
 
-        Args:
-            X (Union[np.ndarray, pd.DataFrame]): The data value of current observation from StreamGenerator.
-        &quot;&quot;&quot;
-        return self</div>
+<div class="viewcode-block" id="UnivariateDS"><a class="viewcode-back" href="../../../generated/streamad.util.UnivariateDS.html#streamad.util.UnivariateDS">[docs]</a>class UnivariateDS(object):
+    &quot;&quot;&quot;
+    Load univariate dataset.
+    &quot;&quot;&quot;
 
-<div class="viewcode-block" id="BaseDetector.score"><a class="viewcode-back" href="../../../generated/streamad.base.BaseDetector.html#streamad.base.BaseDetector.score">[docs]</a>    @abstractmethod
-    def score(self, X: Union[np.ndarray, pd.DataFrame]) -&gt; float:
-        &quot;&quot;&quot;Detector score the probability of anomaly for current observation form StreamGenerator.
-
-        Args:
-            X (Union[np.ndarray, pd.DataFrame]): The data value of current observation from StreamGenerator.
-
-        Returns:
-            float: Anomaly probability. 1.0 for anomaly and 0.0 for normal.
-        &quot;&quot;&quot;
-
-        return 0.0</div>
-
-<div class="viewcode-block" id="BaseDetector.fit_score"><a class="viewcode-back" href="../../../generated/streamad.base.BaseDetector.html#streamad.base.BaseDetector.fit_score">[docs]</a>    def fit_score(self, X: Union[np.ndarray, pd.DataFrame]) -&gt; float:
-        &quot;&quot;&quot;Detector fit and score the probability of anomaly current observation from StreamGenerator.
-
-        Args:
-            X (Union[np.ndarray, pd.DataFrame]): [description]
-
-        Returns:
-            float: [description]
-        &quot;&quot;&quot;
-
-        return self.fit(X).score(X)</div></div>
+    def __init__(self) -&gt; None:
+        super().__init__()
+        module_path = dirname(__file__)
+        data_path = join(module_path, &quot;../&quot;, &quot;data&quot;, &quot;uniDS.csv&quot;)
+        print(data_path)
+        data = pd.read_csv(data_path)
+        self.data = data[&quot;value&quot;].to_numpy()
+        self.label = data[&quot;is_anomaly&quot;].to_numpy()</div>
 </pre></div>
 
            </div>

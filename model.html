@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Why StreamAD &mdash; StreamAD 0.1.0 documentation</title>
+  <title>Models &mdash; StreamAD 0.1.0 documentation</title>
   
 
   
@@ -40,7 +40,9 @@
 
     
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="References" href="references.html" />
+    <link rel="prev" title="streamad.util.AUCMetric" href="generated/streamad.util.AUCMetric.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -102,8 +104,8 @@
 <li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Models</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="model.html">Models</a></li>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
 </ul>
 
@@ -151,13 +153,13 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Why StreamAD</li>
+      <li>Models</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/feature.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/model.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -194,28 +196,14 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="why-streamad">
-<h1>Why StreamAD<a class="headerlink" href="#why-streamad" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="purpose-advantages">
-<h2>Purpose &amp; Advantages<a class="headerlink" href="#purpose-advantages" title="Permalink to this headline">¶</a></h2>
-<p>StreamAD focuses on streaming settings, where data features evolve and distributions change over time. To prevent the failure of static models, StreamAD can correct its model as needed.</p>
-</div>
-<div class="section" id="incremental-continual">
-<h2>Incremental &amp; Continual<a class="headerlink" href="#incremental-continual" title="Permalink to this headline">¶</a></h2>
-<p>StreamAD loads static datasets to a stream generator and feed a single observation at a time to any model in StreamAD. Therefore it can be used to simulate real-time applications and process streaming data.</p>
-</div>
-<div class="section" id="models-algorithms">
-<h2>Models &amp; Algorithms<a class="headerlink" href="#models-algorithms" title="Permalink to this headline">¶</a></h2>
-<p>StreamAD collects open source implementations and reproduce state-of-the-art papers. Thus, it can also be used as an benchmark for academic.</p>
-</div>
-<div class="section" id="efficient-scalability">
-<h2>Efficient &amp; Scalability:<a class="headerlink" href="#efficient-scalability" title="Permalink to this headline">¶</a></h2>
-<p>StreamAD concerns about the running time, resources usage and usability of different models. It is implemented by python and you can design your own algorithms and run with StreamAD.</p>
-</div>
-<div class="section" id="free-open-source-software-foss">
-<h2>Free &amp; Open Source Software (FOSS)<a class="headerlink" href="#free-open-source-software-foss" title="Permalink to this headline">¶</a></h2>
-<p><cite>StreamAD</cite> is distributed under <a class="reference external" href="https://github.com/Fengrui-Liu/StreamAD/blob/main/LICENSE">BSD License 3.0</a> and favors FOSS principles.</p>
-</div>
+<div class="section" id="models">
+<h1>Models<a class="headerlink" href="#models" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference external" href="https://arxiv.org/abs/1608.04585">KNN CAD</a></p></li>
+<li><p><a class="reference external" href="https://cmuxstream.github.io/">xStream</a></p></li>
+<li><p><a class="reference external" href="https://dl.acm.org/doi/10.1145/3097983.3098144">SPOT</a></p></li>
+<li><p>LSTMAutoencoder</p></li>
+</ul>
 </div>
 
 
@@ -223,6 +211,15 @@
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="references.html" class="btn btn-neutral float-right" title="References" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="generated/streamad.util.AUCMetric.html" class="btn btn-neutral float-left" title="streamad.util.AUCMetric" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

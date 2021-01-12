@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Overview: module code &mdash; StreamAD 0.1.0 documentation</title>
+  <title>streamad.util.MultivariateDS &mdash; StreamAD 0.1.0 documentation</title>
   
 
   
@@ -40,7 +40,9 @@
 
     
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="streamad.util.UnivariateDS" href="streamad.util.UnivariateDS.html" />
+    <link rel="prev" title="streamad.util.StreamGenerator" href="streamad.util.StreamGenerator.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -98,8 +100,21 @@
 <li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Example usage</a></li>
 </ul>
 <p class="caption"><span class="caption-text">API Document</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../api.html#module-streamad.model">Multivariate Anomaly Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#univariate-anomaly-models">Univariate Anomaly Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#module-streamad.base">Core</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../api.html#module-streamad.util">Util</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="streamad.util.StreamGenerator.html">streamad.util.StreamGenerator</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">streamad.util.MultivariateDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="streamad.util.UnivariateDS.html">streamad.util.UnivariateDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="streamad.util.StreamStatistic.html">streamad.util.StreamStatistic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="streamad.util.AUCMetric.html">streamad.util.AUCMetric</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 <p class="caption"><span class="caption-text">Models</span></p>
 <ul>
@@ -151,10 +166,16 @@
     
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Overview: module code</li>
+          <li><a href="../api.html">API Reference</a> &raquo;</li>
+        
+      <li>streamad.util.MultivariateDS</li>
     
     
       <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/generated/streamad.util.MultivariateDS.rst.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
     
@@ -166,24 +187,75 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>All modules for which code is available</h1>
-<ul><li><a href="streamad/base/base_detector.html">streamad.base.base_detector</a></li>
-<li><a href="streamad/base/base_metrics.html">streamad.base.base_metrics</a></li>
-<li><a href="streamad/model/KNN_Detector.html">streamad.model.KNN_Detector</a></li>
-<li><a href="streamad/model/lstm_Detector.html">streamad.model.lstm_Detector</a></li>
-<li><a href="streamad/model/random_detector.html">streamad.model.random_detector</a></li>
-<li><a href="streamad/model/spot_Detector.html">streamad.model.spot_Detector</a></li>
-<li><a href="streamad/model/xStream_Detector.html">streamad.model.xStream_Detector</a></li>
-<li><a href="streamad/util/dataset.html">streamad.util.dataset</a></li>
-<li><a href="streamad/util/eval.html">streamad.util.eval</a></li>
-<li><a href="streamad/util/math_toolkit.html">streamad.util.math_toolkit</a></li>
-<li><a href="streamad/util/stream_generator.html">streamad.util.stream_generator</a></li>
-</ul>
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="streamad-util-multivariateds">
+<h1>streamad.util.MultivariateDS<a class="headerlink" href="#streamad-util-multivariateds" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="streamad.util.MultivariateDS">
+<em class="property">class </em><code class="sig-prename descclassname">streamad.util.</code><code class="sig-name descname">MultivariateDS</code><a class="reference internal" href="../_modules/streamad/util/dataset.html#MultivariateDS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamad.util.MultivariateDS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load multivariate dataset.
+synthetic data point classes
+CLASSES = [
+range(0, 1000),  # sparse benign cluster
+range(1000, 3000),  # dense benign cluster
+range(3000, 3050),  # clustered anomalies
+range(3050, 3075),  # sparse anomalies
+range(3076, 3082),  # local anomalies
+range(3075, 3076),# single anomaly
+]</p>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>()</p></td>
+<td><p>Initialize self.</p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
 
            </div>
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="streamad.util.UnivariateDS.html" class="btn btn-neutral float-right" title="streamad.util.UnivariateDS" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="streamad.util.StreamGenerator.html" class="btn btn-neutral float-left" title="streamad.util.StreamGenerator" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

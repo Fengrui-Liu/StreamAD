@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="147px" height="78px" viewBox="0 0 147 78" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>切片</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <line x1="32" y1="15.1619692" x2="19" y2="60" id="路径-3" stroke="#454474" stroke-width="4"></line>
+        <line x1="39.5" y1="15.1428571" x2="26" y2="61" id="路径-3" stroke="#454474" stroke-width="4"></line>
+        <line x1="46" y1="15" x2="33" y2="61" id="路径-3" stroke="#454474" stroke-width="4"></line>
+        <line x1="52.53125" y1="15.1428571" x2="40" y2="61" id="路径-3" stroke="#FCA84C" stroke-width="4"></line>
+        <line x1="59.5294118" y1="14.1363636" x2="46" y2="62" id="路径-3" stroke="#FCA84C" stroke-width="4"></line>
+        <line x1="65" y1="17" x2="53" y2="61" id="路径-3" stroke="#454474" stroke-width="4"></line>
+        <rect id="矩形" stroke="#454474" stroke-width="4" fill-opacity="0" fill="#FFFFFF" x="19" y="15" width="46" height="46"></rect>
+        <text id="AD" font-family="Arial-Black, Arial Black" font-size="14" font-weight="700" line-spacing="13" fill="#454474">
+            <tspan x="70" y="65">AD</tspan>
+            <tspan x="94.4931641" y="67.1689453" font-size="19"></tspan>
+        </text>
+        <text id="STREAM" font-family="Arial-Black, Arial Black" font-size="14" font-weight="700" line-spacing="13" fill="#454474">
+            <tspan x="67.1240234" y="48.8310547">STREAM</tspan>
+        </text>
+    </g>
+</svg>

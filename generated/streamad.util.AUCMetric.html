@@ -1,13 +1,13 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en,zh-cn" >
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>streamad.model.univariate.SpotDetector &mdash; StreamAD 0.1.0 documentation</title>
+  <title>streamad.util.AUCMetric &mdash; StreamAD 0.1.0 documentation</title>
   
 
   
@@ -16,6 +16,8 @@
   <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
 
   
+  
+    <link rel="shortcut icon" href="../_static/logo_html.svg"/>
   
   
   
@@ -39,7 +41,8 @@
     
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="streamad.model.multivariate.KNNDetector" href="streamad.model.multivariate.KNNDetector.html" /> 
+    <link rel="next" title="Models" href="../model.html" />
+    <link rel="prev" title="streamad.util.StreamStatistic" href="streamad.util.StreamStatistic.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -53,9 +56,12 @@
           
 
           
-            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> StreamAD
+            <a href="../index.html">
           
 
+          
+            
+            <img src="../_static/logo_htmlwithname.svg" class="logo" alt="Logo"/>
           
           </a>
 
@@ -91,19 +97,29 @@
               <p class="caption"><span class="caption-text">Getting Started</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">Example usage</a></li>
 </ul>
-<p class="caption"><span class="caption-text">API Documentation:</span></p>
+<p class="caption"><span class="caption-text">API Document</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../api.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../api.html#module-streamad.model">Multivariate Anomaly Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api.html#univariate-anomaly-models">Univariate Anomaly Models</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api.html#module-streamad.base">Core</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../api.html#module-streamad.model">Individual Anomaly Models</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="streamad.model.multivariate.KNNDetector.html">streamad.model.multivariate.KNNDetector</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">streamad.model.univariate.SpotDetector</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../api.html#module-streamad.util">Util</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="streamad.util.StreamGenerator.html">streamad.util.StreamGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="streamad.util.MultivariateDS.html">streamad.util.MultivariateDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="streamad.util.UnivariateDS.html">streamad.util.UnivariateDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="streamad.util.StreamStatistic.html">streamad.util.StreamStatistic</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">streamad.util.AUCMetric</a></li>
 </ul>
 </li>
 </ul>
 </li>
+</ul>
+<p class="caption"><span class="caption-text">Models</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../model.html">Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references.html">References</a></li>
 </ul>
 
             
@@ -152,13 +168,13 @@
         
           <li><a href="../api.html">API Reference</a> &raquo;</li>
         
-      <li>streamad.model.univariate.SpotDetector</li>
+      <li>streamad.util.AUCMetric</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../_sources/generated/streamad.model.univariate.SpotDetector.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/generated/streamad.util.AUCMetric.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -195,11 +211,11 @@
     text-align: unset;
 }
 </style>
-<div class="section" id="streamad-model-univariate-spotdetector">
-<h1>streamad.model.univariate.SpotDetector<a class="headerlink" href="#streamad-model-univariate-spotdetector" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="streamad-util-aucmetric">
+<h1>streamad.util.AUCMetric<a class="headerlink" href="#streamad-util-aucmetric" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
-<dt id="streamad.model.univariate.SpotDetector">
-<em class="property">class </em><code class="sig-prename descclassname">streamad.model.univariate.</code><code class="sig-name descname">SpotDetector</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">proba</span><span class="o">=</span><span class="default_value">0.0001</span></em>, <em class="sig-param"><span class="n">window_size</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">init_length</span><span class="o">=</span><span class="default_value">1000</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/model/univariate/spot_Detector.html#SpotDetector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamad.model.univariate.SpotDetector" title="Permalink to this definition">¶</a></dt>
+<dt id="streamad.util.AUCMetric">
+<em class="property">class </em><code class="sig-prename descclassname">streamad.util.</code><code class="sig-name descname">AUCMetric</code><a class="reference internal" href="../_modules/streamad/util/eval.html#AUCMetric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#streamad.util.AUCMetric" title="Permalink to this definition">¶</a></dt>
 <dd><p class="rubric">Methods</p>
 <table class="longtable docutils align-default">
 <colgroup>
@@ -207,25 +223,16 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>([proba, window_size, init_length])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code>()</p></td>
 <td><p>Initialize self.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code>(X[, Y])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">evaluate</span></code>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_partial</span></code>(X[, Y])</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">reset</span></code>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_score</span></code>(X[, Y])</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_score_partial</span></code>(X[, Y])</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">score</span></code>(X)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">score_partial</span></code>(X)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">update</span></code>(y_true, y_pred)</p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -242,8 +249,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
+        <a href="../model.html" class="btn btn-neutral float-right" title="Models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
-        <a href="streamad.model.multivariate.KNNDetector.html" class="btn btn-neutral float-left" title="streamad.model.multivariate.KNNDetector" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+        <a href="streamad.util.StreamStatistic.html" class="btn btn-neutral float-left" title="streamad.util.StreamStatistic" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

@@ -1,6 +1,6 @@
-﻿streamad.model.univariate.SpotDetector
-======================================
-.. currentmodule:: streamad.model.univariate
+﻿streamad.model.SpotDetector
+===========================
+.. currentmodule:: streamad.model
 .. autoclass:: SpotDetector
    
    
@@ -11,7 +11,6 @@
       ~SpotDetector.fit
       ~SpotDetector.fit_partial
       ~SpotDetector.fit_score
-      ~SpotDetector.fit_score_partial
       ~SpotDetector.score
       ~SpotDetector.score_partial
    
