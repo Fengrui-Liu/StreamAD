@@ -2,3 +2,5 @@ sphinx_copybutton
 nbsphinx
 numpydoc
 sphinxcontrib.bibtex
+sphinx_autodoc_typehints
+sphinx_rtd_theme
