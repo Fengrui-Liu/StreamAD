@@ -1,4 +1,4 @@
 {
-    "python.pythonPath": "/bin/python",
+    "python.pythonPath": "/home/liufr/anaconda3/bin/python",
     "restructuredtext.confPath": "${workspaceFolder}/docs/source",
 }

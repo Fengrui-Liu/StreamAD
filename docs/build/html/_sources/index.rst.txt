@@ -10,6 +10,10 @@ An anomaly detection package for streaming data.
 
 -------------------------------------------------
 
+.. include:: badges.rst
+
+===============================
+
 .. include:: feature.rst
 
 ====================================
@@ -20,7 +24,14 @@ An anomaly detection package for streaming data.
 
 .. include:: model.rst
 
+===============================
+
+.. include:: versioning.rst
+
+
 ------------------------------------
+
+
 
 .. toctree::
    :hidden:
