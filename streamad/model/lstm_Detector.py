@@ -82,9 +82,9 @@ class LSTMDetector(BaseDetector):
             if train_loss < best_loss:
                 best_loss = train_loss
                 best_model_wts = copy.deepcopy(self.model.state_dict())
-                print(f"Epoch {epoch}: train loss {train_loss}, val loss {val_loss}")
+                print("Epoch %d : train loss %.5f, val loss %.5f" % (epoch, train_loss, val_loss) )
             else:
-                print(f"Epoch {epoch}: train loss {train_loss}, val loss {val_loss}")
+                print("Epoch %d : train loss %.5f, val loss %.5f" % (epoch, train_loss, val_loss) )
 
         self.model.load_state_dict(best_model_wts)
         if save_model:
