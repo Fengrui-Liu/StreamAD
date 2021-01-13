@@ -19,7 +19,6 @@ Multivariate Anomaly Models
     :toctree: generated
 
     model.xStreamDetector
-    model.LSTMDetector
     model.RandomDetector
 
 
