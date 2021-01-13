@@ -15,6 +15,7 @@ import sys
 from os.path import dirname, abspath
 
 sys.path.insert(0, os.path.abspath("./"))
+sys.path.insert(0, os.path.abspath("../"))
 sys.path.insert(0, os.path.abspath("../../"))
 sys.path.insert(0, os.path.abspath("../../streamad/"))
 StreamAD_dir = dirname(dirname(dirname(abspath(__file__))))
