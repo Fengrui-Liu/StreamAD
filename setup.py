@@ -17,15 +17,15 @@ this_directory = path.abspath(path.dirname(__file__))
 with open(path.join(this_directory, "requirements.txt"), encoding="utf-8") as f:
     requirements = f.read().splitlines()
 
-with open(path.join(this_directory, "StreamAD/version.py")) as f:
+with open(path.join(this_directory, "streamad/version.py")) as f:
     exec(f.read())
 
 
 setup(
-    name="StreamAD",
+    name="streamad",
     version=__version__,
-    description=("Python toolbox for stream anomaly (outlier) detection."),
-    long_description=open("./README.md").read(),
+    description=("An anomaly detection package for streaming data."),
+    long_description=open("./README.rst").read(),
     author="liufr",
     author_email="liufengrui18z@ict.ac.cn",
     packages=find_packages(exclude=["test"]),
@@ -44,5 +44,6 @@ setup(
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
+        "License :: OSI Approved :: BSD License",
     ],
 )

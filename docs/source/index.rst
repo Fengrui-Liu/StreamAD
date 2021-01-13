@@ -10,6 +10,10 @@ An anomaly detection package for streaming data.
 
 -------------------------------------------------
 
+.. include:: badges.rst
+
+===============================
+
 .. include:: feature.rst
 
 ====================================

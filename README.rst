@@ -1,10 +1,13 @@
 .. image:: ./docs/source/images/logo_htmlwithname.svg
     :align: center
 
-An anomaly detection package for streaming data.
+Online anomaly detection for streaming data.
 
-`Documentation <https://www.liufr.com/StreamAD/>`_
+`Documentation <https://streamad.readthedocs.io/en/latest/>`_
 
+.. image:: https://readthedocs.org/projects/streamad/badge/?version=latest
+    :target: https://streamad.readthedocs.io/en/latest/?badge=latest
+    :alt: Documentation Status
 
 ------------------------------------------------------
 
