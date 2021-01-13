@@ -15,7 +15,7 @@ import sys
 from os.path import dirname, abspath
 
 
-sys.path.insert(0, os.path.abspath("../../"))
+sys.path.insert(0, os.path.abspath("../.."))
 StreamAD_dir = dirname(dirname(dirname(abspath(__file__))))
 version_path = os.path.join(StreamAD_dir, "streamad", "version.py")
 exec(open(version_path).read())
@@ -84,7 +84,7 @@ language = "en"
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = ["build"]
+exclude_patterns = ["../build"]
 
 
 # -- Options for HTML output -------------------------------------------------
