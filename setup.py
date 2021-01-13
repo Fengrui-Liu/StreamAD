@@ -41,9 +41,9 @@ setup(
         "Intended Audience :: Science/Research",
         "Intended Audience :: Developers",
         "Intended Audience :: Information Technology",
-        "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
         "License :: OSI Approved :: BSD License",
     ],
 )
