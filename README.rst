@@ -1,15 +1,24 @@
-.. image:: ./docs/source/images/logo_htmlwithname.svg
+.. image:: docs/source/images/logo_htmlwithname.svg
     :align: center
 
-Online anomaly detection for streaming data.
+
+**StreamAD** Online anomaly detection for streaming data.
+===========================================================
 
 `Documentation <https://streamad.readthedocs.io/en/latest/>`_
+
 
 .. image:: https://readthedocs.org/projects/streamad/badge/?version=latest
     :target: https://streamad.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
 
-------------------------------------------------------
+.. image:: https://img.shields.io/pypi/v/streamad
+    :target: https://pypi.org/project/streamad/
+    :alt: PyPI
+
+.. image:: https://travis-ci.org/Fengrui-Liu/StreamAD.svg?branch=main
+    :target: https://travis-ci.org/Fengrui-Liu/StreamAD
+
 
 Why StreamAD
 =============
@@ -42,10 +51,8 @@ StreamAD concerns about the running time, resources usage and usability of diffe
 Free & Open Source Software (FOSS)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-`StreamAD` is distributed under `BSD License 3.0 <https://github.com/Fengrui-Liu/StreamAD/master/LICENSE>`_ and favors FOSS principles.
+`StreamAD` is distributed under `BSD License 3.0 <https://github.com/Fengrui-Liu/StreamAD/blob/main/LICENSE>`_ and favors FOSS principles.
 
-
-------------------------------------------------------
 
 Installation
 ============
@@ -68,7 +75,12 @@ Alternatively, you can install the library directly using the source code in Git
     cd StreamAD
     pip install .
 
-------------------------------------------------------
+
+Versioning
+==========
+
+`Semantic versioning <http://semver.org/>`_ is used for this project.
+
 
 Models
 ===================
@@ -78,3 +90,4 @@ Models
 * `xStream <https://cmuxstream.github.io/>`_
 * `SPOT <https://dl.acm.org/doi/10.1145/3097983.3098144>`_
 * LSTMAutoencoder
+

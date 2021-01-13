@@ -1,0 +1,366 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>API Reference &mdash; StreamAD 0.1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="_static/logo_html.svg"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="streamad.model.xStreamDetector" href="generated/streamad.model.xStreamDetector.html" />
+    <link rel="prev" title="Example usage" href="quickstart.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html">
+          
+
+          
+            
+            <img src="_static/logo_htmlwithname.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Example usage</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Document</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-streamad.model">Multivariate Anomaly Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/streamad.model.xStreamDetector.html">streamad.model.xStreamDetector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/streamad.model.LSTMDetector.html">streamad.model.LSTMDetector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/streamad.model.RandomDetector.html">streamad.model.RandomDetector</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#univariate-anomaly-models">Univariate Anomaly Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/streamad.model.KNNDetector.html">streamad.model.KNNDetector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/streamad.model.SpotDetector.html">streamad.model.SpotDetector</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-streamad.base">Core</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/streamad.base.BaseDetector.html">streamad.base.BaseDetector</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/streamad.base.BaseMetrics.html">streamad.base.BaseMetrics</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-streamad.util">Util</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/streamad.util.StreamGenerator.html">streamad.util.StreamGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/streamad.util.MultivariateDS.html">streamad.util.MultivariateDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/streamad.util.UnivariateDS.html">streamad.util.UnivariateDS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/streamad.util.StreamStatistic.html">streamad.util.StreamStatistic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/streamad.util.AUCMetric.html">streamad.util.AUCMetric</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Models</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="model.html">Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references.html">References</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">StreamAD</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>API Reference</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/api.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="api-reference">
+<h1>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h1>
+<p>This is the API documentation for <code class="docutils literal notranslate"><span class="pre">StreamAD</span></code>.</p>
+<div class="section" id="module-streamad.model">
+<span id="multivariate-anomaly-models"></span><h2>Multivariate Anomaly Models<a class="headerlink" href="#module-streamad.model" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/streamad.model.xStreamDetector.html#streamad.model.xStreamDetector" title="streamad.model.xStreamDetector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">model.xStreamDetector</span></code></a></p></td>
+<td><p>Multivariate xStreamDetector <span id="id1">[<a class="reference internal" href="references.html#id3"><span>BMLA18</span></a>]</span>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/streamad.model.LSTMDetector.html#streamad.model.LSTMDetector" title="streamad.model.LSTMDetector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">model.LSTMDetector</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/streamad.model.RandomDetector.html#streamad.model.RandomDetector" title="streamad.model.RandomDetector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">model.RandomDetector</span></code></a></p></td>
+<td><p>Return random anomaly score.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="univariate-anomaly-models">
+<h2>Univariate Anomaly Models<a class="headerlink" href="#univariate-anomaly-models" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/streamad.model.KNNDetector.html#streamad.model.KNNDetector" title="streamad.model.KNNDetector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">model.KNNDetector</span></code></a></p></td>
+<td><p>Univariate KNN-CAD model with mahalanobis distance.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/streamad.model.SpotDetector.html#streamad.model.SpotDetector" title="streamad.model.SpotDetector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">model.SpotDetector</span></code></a></p></td>
+<td><p>Univariate Spot model.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="module-streamad.base">
+<span id="core"></span><h2>Core<a class="headerlink" href="#module-streamad.base" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/streamad.base.BaseDetector.html#streamad.base.BaseDetector" title="streamad.base.BaseDetector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">base.BaseDetector</span></code></a></p></td>
+<td><p>Abstract class for Detector, supporting for customize detector.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/streamad.base.BaseMetrics.html#streamad.base.BaseMetrics" title="streamad.base.BaseMetrics"><code class="xref py py-obj docutils literal notranslate"><span class="pre">base.BaseMetrics</span></code></a></p></td>
+<td><p>Abstract class for evaluation metrics, supporting for customize evaluation.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="module-streamad.util">
+<span id="util"></span><h2>Util<a class="headerlink" href="#module-streamad.util" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/streamad.util.StreamGenerator.html#streamad.util.StreamGenerator" title="streamad.util.StreamGenerator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">util.StreamGenerator</span></code></a></p></td>
+<td><p>Load static dataset and generate observation once a time.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/streamad.util.MultivariateDS.html#streamad.util.MultivariateDS" title="streamad.util.MultivariateDS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">util.MultivariateDS</span></code></a></p></td>
+<td><p>Load multivariate dataset.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/streamad.util.UnivariateDS.html#streamad.util.UnivariateDS" title="streamad.util.UnivariateDS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">util.UnivariateDS</span></code></a></p></td>
+<td><p>Load univariate dataset.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/streamad.util.StreamStatistic.html#streamad.util.StreamStatistic" title="streamad.util.StreamStatistic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">util.StreamStatistic</span></code></a></p></td>
+<td><p>Data statistics for the streaming data.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/streamad.util.AUCMetric.html#streamad.util.AUCMetric" title="streamad.util.AUCMetric"><code class="xref py py-obj docutils literal notranslate"><span class="pre">util.AUCMetric</span></code></a></p></td>
+<td><p>ROC_AUC score for evaluation.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="generated/streamad.model.xStreamDetector.html" class="btn btn-neutral float-right" title="streamad.model.xStreamDetector" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="quickstart.html" class="btn btn-neutral float-left" title="Example usage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2021, liufr
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

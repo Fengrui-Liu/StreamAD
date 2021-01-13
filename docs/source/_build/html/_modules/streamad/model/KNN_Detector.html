@@ -1,0 +1,344 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>streamad.model.KNN_Detector &mdash; StreamAD 0.1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/logo_html.svg"/>
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/clipboard.min.js"></script>
+        <script src="../../../_static/copybutton.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html">
+          
+
+          
+            
+            <img src="../../../_static/logo_htmlwithname.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Example usage</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Document</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Models</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../model.html">Models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../references.html">References</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">StreamAD</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>streamad.model.KNN_Detector</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for streamad.model.KNN_Detector</h1><div class="highlight"><pre>
+<span></span>import pdb
+from warnings import WarningMessage
+import warnings
+import numpy as np
+from numpy.core.defchararray import array
+import pandas as pd
+from scipy.spatial import distance
+from streamad.base import BaseDetector
+
+
+<div class="viewcode-block" id="KNNDetector"><a class="viewcode-back" href="../../../generated/streamad.model.KNNDetector.html#streamad.model.KNNDetector">[docs]</a>class KNNDetector(BaseDetector):
+    &quot;&quot;&quot;Univariate KNN-CAD model with mahalanobis distance. :cite:`DBLP:journals/corr/BurnaevI16`. See `KNN-CAD &lt;https://arxiv.org/abs/1608.04585&gt;`_&quot;&quot;&quot;
+
+    def __init__(self, init_len: int = -1, k_neighbor: int = 25, all_his: bool = True):
+        &quot;&quot;&quot;KNN anomaly detector with mahalanobis distance.
+
+        Args:
+            init_len (int, optional): The length of initialization data. This can be adjusted by the number of referenced neighbors. Defaults to -1.
+            k_neighbor (int, optional): The number of neighbors to cumulate distances. Defaults to 25.
+            all_his (bool, optional): The history records used for the reference. True for all records. Defaults to True.
+        &quot;&quot;&quot;
+
+        self.init = []
+        self.scores = []
+        self.count = 0
+        self.k = k_neighbor
+        self.buf = []
+        self.l = 2 * k_neighbor
+        self.use_all = all_his
+        if init_len == -1:
+            warnings.warn(&quot;Set init length to 5 times of k.&quot;)
+        elif init_len / 2 &lt; k_neighbor:
+            warnings.warn(&quot;Short init length short, reset it to 4 times of k.&quot;)
+        self.init_len = max(init_len, 4 * k_neighbor)
+        self.window_length = int(self.init_len / 2)
+        self.sigma = np.diag(np.ones(self.window_length))
+
+    def _mah_distance(self, x: np.ndarray, item: np.ndarray) -&gt; np.ndarray:
+        &quot;&quot;&quot;Mahalanobis distance
+
+        Args:
+            x (np.ndarray): One observation.
+            item (np.ndarray): The other observation.
+
+        Returns:
+            np.ndarray: Mahalanobis distance
+        &quot;&quot;&quot;
+        diff = np.array(x) - np.array(item)
+        return np.dot(np.dot(diff, self.sigma), diff.T)
+
+    def _ncm(self, item: np.ndarray, item_in_array: bool = False) -&gt; float:
+        &quot;&quot;&quot;Cumulated Mahalanobis distance among the current observation with all init data.
+
+        Args:
+            item (np.ndarray): Current observation.
+            item_in_array (bool, optional): Whether the observation in list. Defaults to False.
+
+        Returns:
+            float: Cumulated Mahalanobis distance.
+        &quot;&quot;&quot;
+        arr = [self._mah_distance(x, item) for x in self.init]
+        result = np.sum(
+            np.partition(arr, self.k + item_in_array)[: self.k + item_in_array]
+        )
+        return result
+
+<div class="viewcode-block" id="KNNDetector.fit"><a class="viewcode-back" href="../../../generated/streamad.model.KNNDetector.html#streamad.model.KNNDetector.fit">[docs]</a>    def fit(self, X: np.ndarray):
+        &quot;&quot;&quot;Record and analyse the current observation from the stream. Detector collect the init data firstly, and further score observation base on the observed data.
+
+        Args:
+            X (np.ndarray): Current observation.
+        &quot;&quot;&quot;
+
+        self.count += 1
+        self.buf.append(X)
+
+        if self.count &lt; self.window_length:
+            pass
+        elif self.count &lt; 2 * self.window_length:
+            self.init.append(self.buf)
+            self.buf = self.buf[1:]
+        else:
+
+            ost = self.count % self.init_len
+            if ost == 0 or ost == self.window_length:
+                try:
+                    self.sigma = np.linalg.inv(
+                        np.dot(np.array(self.init).T, np.array(self.init))
+                    )
+                except np.linalg.linalg.LinAlgError:
+                    print(&quot;\nSingular Matrix at record&quot;, self.count)
+
+            if len(self.scores) == 0:
+                self.scores = [self._ncm(v, True) for v in self.init]
+
+            new_score = self._ncm(self.buf)
+
+            self.init.pop(0)
+
+            self.init.append(self.buf)
+
+            self.scores.append(new_score)
+            self.buf = self.buf[1:]
+            if not self.use_all:
+                self.scores.pop(0)
+        return self</div>
+
+<div class="viewcode-block" id="KNNDetector.score"><a class="viewcode-back" href="../../../generated/streamad.model.KNNDetector.html#streamad.model.KNNDetector.score">[docs]</a>    def score(self, X) -&gt; float:
+        &quot;&quot;&quot;Score the current observation. None for init period and float for the probability of anomalousness.
+
+        Args:
+            X (np.ndarray): Current observation.
+
+        Returns:
+            float: Anomaly probability.
+        &quot;&quot;&quot;
+
+        if self.count &lt; 2 * self.window_length:
+            return None
+
+        score = self.scores[-1]
+
+        prob = 1.0 * len(np.where(np.array(self.scores) &lt; score)[0]) / len(self.scores)
+        return prob</div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2021, liufr
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
