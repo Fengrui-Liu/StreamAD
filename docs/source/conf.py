@@ -14,10 +14,8 @@ import os
 import sys
 from os.path import dirname, abspath
 
-sys.path.insert(0, os.path.abspath("./"))
-sys.path.insert(0, os.path.abspath("../"))
-sys.path.insert(0, os.path.abspath("../../"))
-sys.path.insert(0, os.path.abspath("../../streamad/"))
+
+sys.path.insert(0, os.path.abspath("../.."))
 StreamAD_dir = dirname(dirname(dirname(abspath(__file__))))
 version_path = os.path.join(StreamAD_dir, "streamad", "version.py")
 exec(open(version_path).read())
