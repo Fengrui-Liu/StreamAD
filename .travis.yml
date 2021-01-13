@@ -16,7 +16,7 @@ install:
 
 # command to run tests
 script:
-   pytest
+   pytest --cov=streamad/
 
 after_success:
   - coveralls
