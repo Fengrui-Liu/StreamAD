@@ -7,7 +7,7 @@ The StreamAD framework can be installed via:
 
 .. code-block:: bash
 
-    pip install -U StreamAD
+    pip install -U streamad
 
 
 Alternatively, you can install the library directly using the source code in Github repository by:

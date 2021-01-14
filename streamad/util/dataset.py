@@ -30,7 +30,7 @@ class MultivariateDS(object):
     def __init__(self) -> None:
         super().__init__()
         module_path = dirname(__file__)
-        data_path = join(module_path, "../", "data", "multiDS.csv")
+        data_path = join(module_path, "data", "multiDS.csv")
         self.data = np.loadtxt(data_path)
         self.label = np.array([0] * 3000 + [1] * 82)
 
@@ -43,7 +43,7 @@ class UnivariateDS(object):
     def __init__(self) -> None:
         super().__init__()
         module_path = dirname(__file__)
-        data_path = join(module_path, "../", "data", "uniDS.csv")
+        data_path = join(module_path, "data", "uniDS.csv")
         data = pd.read_csv(data_path)
         self.data = data["value"].to_numpy()
         self.label = data["is_anomaly"].to_numpy()

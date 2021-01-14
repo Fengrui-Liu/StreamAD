@@ -20,6 +20,11 @@
     :target: https://travis-ci.org/Fengrui-Liu/StreamAD
 
 
+.. image:: https://img.shields.io/github/license/Fengrui-Liu/StreamAD
+    :target: https://github.com/Fengrui-Liu/StreamAD/blob/main/LICENSE
+    :alt: GitHub
+
+
 Why StreamAD
 =============
 
@@ -63,7 +68,7 @@ The StreamAD framework can be installed via:
 
 .. code-block:: bash
 
-    pip install -U StreamAD
+    pip install -U streamad
 
 
 Alternatively, you can install the library directly using the source code in Github repository by:
@@ -90,3 +95,4 @@ Models
 * `xStream <https://cmuxstream.github.io/>`_
 * `SPOT <https://dl.acm.org/doi/10.1145/3097983.3098144>`_
 * LSTMAutoencoder
+

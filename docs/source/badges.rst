@@ -15,3 +15,8 @@
 
 .. image:: https://travis-ci.org/Fengrui-Liu/StreamAD.svg?branch=main
     :target: https://travis-ci.org/Fengrui-Liu/StreamAD
+
+
+.. image:: https://img.shields.io/github/license/Fengrui-Liu/StreamAD
+    :target: https://github.com/Fengrui-Liu/StreamAD/blob/main/LICENSE
+    :alt: GitHub
