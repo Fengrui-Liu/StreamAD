@@ -2,6 +2,7 @@
 .cache/
 .pytest_cache
 __pycache__
+.vscode
 
 # Byte-compiled / optimized / DLL files
 *.py[cod]
