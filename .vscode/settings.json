@@ -1,4 +1,8 @@
 {
     "python.pythonPath": "/home/liufr/anaconda3/bin/python",
     "restructuredtext.confPath": "${workspaceFolder}/docs/source",
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true,
+    "esbonio.server.enabled": true,
+    "esbonio.sphinx.confDir": "/home/liufr/myPh.D/StreamAD/docs/source",
 }
