@@ -1076,7 +1076,9 @@ def shingle(sequence, size):
 
 class RCForest(BaseDetector):
     def __init__(self, num_trees=40, shingle_size=4, tree_size=256):
-        """RCForest is a combination of RCTrees.
+        """|RCForest| is a combination of |RCTrees|. Original code only have class |RCTree|, but when
+            fit data, we must create a |RCForest| maunally, so i create a |RCForest| class and store
+            some necessary args in it.
 
         Args:
             num_trees (int, optional): the number of trees in forest. Defaults to 40.
@@ -1084,10 +1086,10 @@ class RCForest(BaseDetector):
                 number of data are treated as a whole. Defaults to 4.
             tree_size (int, optional): how many leaves one tree can have. Defaults to 256.
             avg_codisp: record the anomaly score of each stream data, avg means average score among
-                all trees in the forest.(RCTree have a function to calculate avg_codisp)
+                all trees in the forest.(|RCTree| have a function to calculate avg_codisp)
             index: the index of stream data.
             shingle_list: when stream data come one by one, combine them to meet the requirement
-                of shingle_size.
+                of |shingle_size|.
             anomaly: record the anomaly probability of data.
         """
         self.num_trees = num_trees
@@ -1104,10 +1106,11 @@ class RCForest(BaseDetector):
         self.anomaly = []
 
     def fit(self, X: np.ndarray) -> None:
-        """Detector fit current observation from StreamGenerator.
+        """Detector fit current observation from StreamGenerator. Original code are not specially
+        designed for stream data, so it can fit a set of data, but have difficult dealing with
+        single data like stream. i use |shingle_list| to store single data to create a set of
+        data. now it can receive both types.
 
-        Args:
-            X (np.ndarray): The data value of current observation from StreamGenerator.
         """
 
         # when stream data come one by one, it will be stored in shingle_list until meet the requirement
@@ -1143,10 +1146,9 @@ class RCForest(BaseDetector):
         return self
 
     def score(self, X: np.ndarray, all=False) -> float:
-        """Abstract method: Detector predict the probability of anomaly for current observation form StreamGenerator.
-
-        Args:
-            X (np.ndarray): The data value of current observation from StreamGenerator.
+        """Abstract method: Detector predict the probability of anomaly for current observation
+            form StreamGenerator. Original code have a function |codisp()| in class |RCTree| to
+            calculate anomaly score, i use |avg_codisp| to calculate anomaly probability of data.
 
         Returns:
             float: Anomaly probability.
