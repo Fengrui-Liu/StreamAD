@@ -10,4 +10,5 @@ __all__ = [
     "SpotDetector",
     "LSTMDetector",
     "RandomDetector",
+    "rrcf_Detector",
 ]
