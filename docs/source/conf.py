@@ -72,6 +72,7 @@ myst_enable_extensions = [
 myst_url_schemes = ("http", "https", "mailto")
 myst_footnote_transition = False
 nb_execution_mode = "off"
+suppress_warnings = ["mystnb.unknown_mime_type"]
 nb_execution_show_tb = "READTHEDOCS" in os.environ
 html_js_files = [
     "https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"
