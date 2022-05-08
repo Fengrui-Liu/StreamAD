@@ -1,7 +1,9 @@
+# StreamAD
+
 ![StreamAD Logo](docs/source/images/logo_htmlwithname.svg)
 
 
-# **StreamAD**
+
 
 
 Online anomaly detection for data stream. Detectors process the univariate or multivariate data one by one to simulte a real-time scene.
@@ -39,24 +41,6 @@ The development version can be installed from GitHub:
 pip install git+https://github.com/Fengrui-Liu/StreamAD
 ```
 
-
-## QuickStart
-
-```{button-ref} quickstart
-:ref-type: doc
-:color: primary
-:class: sd-rounded-pill
-
-Get Started
-```
-
-
-```{toctree}
-:hidden:
-:maxdepth: 2
-
-doc/source/quickstart
-```
 
 
 ## MODELS
