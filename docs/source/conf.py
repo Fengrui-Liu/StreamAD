@@ -23,8 +23,8 @@ exec(open(version_path).read())
 # -- Project information -----------------------------------------------------
 
 project = "StreamAD"
-copyright = "2021, liufr"
-author = "liufr"
+copyright = "2022, Fengrui-Liu"
+author = "Fengrui-Liu"
 
 # The full version, including alpha/beta/rc tags
 version = __version__
@@ -37,7 +37,6 @@ release = __version__
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    "nbsphinx",
     "sphinx.ext.mathjax",
     "sphinx_copybutton",
     "sphinx.ext.autosummary",
@@ -46,28 +45,109 @@ extensions = [
     "sphinx.ext.todo",
     "sphinx.ext.coverage",
     "sphinx.ext.doctest",
-    "numpydoc",
     "sphinx_autodoc_typehints",
     "sphinxcontrib.bibtex",
     "sphinx_rtd_theme",
     "sphinx.ext.autodoc",
     "sphinx.ext.autosectionlabel",
     "sphinx.ext.githubpages",
+    "sphinx.ext.intersphinx",
+    "sphinx.ext.ifconfig",
+    # "sphinxcontrib.apidoc",
+    # "myst_parser",
+    "myst_nb",
+    "sphinx_design",
 ]
 
-source_suffix = {
-    ".rst": "restructuredtext",
-    ".txt": "markdown",
-    ".md": "markdown",
-}
 
+source_suffix = [".rst", ".md", ".ipynb"]
+
+myst_enable_extensions = [
+    "amsmath",
+    "colon_fence",
+    "deflist",
+    "dollarmath",
+    "html_image",
+]
+myst_url_schemes = ("http", "https", "mailto")
+myst_footnote_transition = False
+nb_execution_mode = "off"
+nb_execution_show_tb = "READTHEDOCS" in os.environ
+html_js_files = [
+    "https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"
+]
+# -- nbsphinx settings -------------------------------------------------------
+# nbsphinx_execute = "auto"
+
+# Create symlinks for example notebooks
+import glob
+
+nb_files = [
+    os.path.basename(f)
+    for f in glob.glob(os.path.join("examples", "*.ipynb"))
+    if not os.path.basename(f).startswith("temp_")
+]
+for nb_file in nb_files:
+    target = os.path.join("../../examples", nb_file)
+    if os.path.exists(target):
+        os.remove(target)
+    os.symlink(os.path.join("../doc/source/examples", nb_file), target)
+
+
+# -- Bibliography ------------------------------------------------------------
 bibtex_bibfiles = ["refs.bib"]
-nbsphinx_execute_arguments = [
-    "--InlineBackend.figure_formats={'svg', 'pdf'}",
-    "--InlineBackend.rc={'figure.dpi': 96}",
+bibtex_default_style = "unsrtalpha"
+
+# apidoc settings
+apidoc_module_dir = "../../streamad"
+apidoc_output_dir = "api"
+apidoc_excluded_paths = ["**/*test*"]
+apidoc_module_first = True
+apidoc_separate_modules = True
+apidoc_extra_args = ["-d 6"]
+
+# mock imports
+autodoc_mock_imports = [
+    "pandas",
+    "sklearn",
+    "skimage",
+    "requests",
+    "cv2",
+    "bs4",
+    "keras",
+    "seaborn",
+    "PIL",
+    "spacy",
+    "numpy",
+    "scipy",
+    "matplotlib",
+    "fbprophet",
+    "torch",
+    "transformers",
+    "tqdm",
+    "dill",
+    "numba",
 ]
-nbsphinx_input_prompt = "In [%s]:"
-nbsphinx_output_prompt = "Out[%s]:"
+
+# Napoleon settings
+napoleon_google_docstring = True
+napoleon_numpy_docstring = False
+napoleon_include_init_with_doc = True
+napoleon_include_private_with_doc = False
+napoleon_include_special_with_doc = True
+napoleon_use_admonition_for_examples = False
+napoleon_use_admonition_for_notes = False
+napoleon_use_admonition_for_references = False
+napoleon_use_ivar = False
+napoleon_use_param = True
+napoleon_use_rtype = False
+
+# nbsphinx_execute_arguments = [
+#     "--InlineBackend.figure_formats={'svg', 'pdf'}",
+#     "--InlineBackend.rc={'figure.dpi': 96}",
+# ]
+# nbsphinx_input_prompt = "In [%s]:"
+# nbsphinx_output_prompt = "Out[%s]:"
 master_doc = "index"
 pygments_style = "sphinx"
 
@@ -92,24 +172,13 @@ exclude_patterns = ["../build"]
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = "sphinx_rtd_theme"
+html_theme = "sphinx_book_theme"
+
 
 html_theme_options = {
-    "canonical_url": "",
-    "logo_only": True,
-    "display_version": True,
-    "prev_next_buttons_location": "bottom",
-    "style_external_links": False,
-    #'vcs_pageview_mode': '',
-    #'style_nav_header_background': 'white',
-    # Toc options
-    "collapse_navigation": True,
-    "sticky_navigation": True,
-    "navigation_depth": 7,
-    "includehidden": True,
-    "titles_only": False,
+    "use_repository_button": True,
+    "repository_url": "https://github.com/Fengrui-Liu/StreamAD",
 }
-
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
@@ -135,6 +204,22 @@ autosummary_imported_members = True
 
 html_logo = "images/logo_htmlwithname.svg"
 html_favicon = "images/logo_html.svg"
+
+
+# -- myst-parser configuration -----------------------------------------------
+# See https://myst-parser.readthedocs.io/en/stable/syntax/optional.html for
+# details of available extensions.
+myst_enable_extensions = [
+    "dollarmath",
+    "amsmath",
+    "colon_fence",
+    "smartquotes",
+    "tasklist",
+    "html_image",
+]
+
+# Create heading anchors for h1 to h3 (useful for local toc's)
+myst_heading_anchors = 3
 
 
 def remove_module_docstring(app, what, name, obj, options, lines):

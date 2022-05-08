@@ -12,6 +12,7 @@ from .stream_generator import StreamGenerator
 from .math_toolkit import StreamStatistic
 from .dataset import MultivariateDS, UnivariateDS
 from .eval import AUCMetric
+from .plot import plot
 
 
 __all__ = [
@@ -20,4 +21,5 @@ __all__ = [
     "MultivariateDS",
     "UnivariateDS",
     "AUCMetric",
+    "plot",
 ]

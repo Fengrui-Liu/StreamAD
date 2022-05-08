@@ -1,5 +1,5 @@
-from .base_detector import BaseDetector
-from .base_metrics import BaseMetrics
+from .detector import BaseDetector
+from .metrics import BaseMetrics
 
 
 __all__ = ["BaseDetector", "BaseMetrics"]

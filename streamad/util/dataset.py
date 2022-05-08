@@ -1,41 +1,59 @@
-#!/usr/bin/env python
-# coding=utf-8
-#
-# Author: liufr
-# Github: https://github.com/Fengrui-Liu
-# LastEditTime: 2021-01-11 14:38:40
-# Copyright 2021 liufr
-# Description:
-#
-
 from os.path import dirname, join
 import numpy as np
 import pandas as pd
 
 
-class MultivariateDS(object):
+class DS:
+    def __init__(self) -> None:
+
+        self.data = None
+        self.date = None
+        self.label = None
+        self.features = None
+        self.names = None
+
+    def preprocess(self) -> None:
+        self.preprocess_data()
+        self.preprocess_timestamp()
+        self.preprocess_label()
+        self.preprocess_feature()
+
+    def preprocess_data(self) -> None:
+        self.data = pd.read_csv(self.path)
+        self.names = self.data.columns.values
+
+    def preprocess_timestamp(self) -> None:
+        if "timestamp" in self.names:
+            self.date = self.data["timestamp"].values
+        else:
+            self.date = self.data.index.values
+
+    def preprocess_label(self) -> None:
+        if "label" in self.names:
+            self.label = np.array(self.data["label"].values)
+        else:
+            self.label = None
+
+    def preprocess_feature(self) -> None:
+        self.features = np.setdiff1d(
+            self.names, np.array(["label", "timestamp"])
+        )
+        self.data = np.array(self.data[self.features])
+
+
+class MultivariateDS(DS):
     """
     Load multivariate dataset.
-    synthetic data point classes
-    CLASSES = [
-    range(0, 1000),  # sparse benign cluster
-    range(1000, 3000),  # dense benign cluster
-    range(3000, 3050),  # clustered anomalies
-    range(3050, 3075),  # sparse anomalies
-    range(3076, 3082),  # local anomalies
-    range(3075, 3076),# single anomaly
-    ]
     """
 
-    def __init__(self) -> None:
+    def __init__(self, has_names=False) -> None:
         super().__init__()
         module_path = dirname(__file__)
-        data_path = join(module_path, "data", "multiDS.csv")
-        self.data = np.loadtxt(data_path)
-        self.label = np.array([0] * 3000 + [1] * 82)
+        self.path = join(module_path, "data", "multiDS.csv")
+        self.preprocess()
 
 
-class UnivariateDS(object):
+class UnivariateDS(DS):
     """
     Load univariate dataset.
     """
@@ -43,7 +61,16 @@ class UnivariateDS(object):
     def __init__(self) -> None:
         super().__init__()
         module_path = dirname(__file__)
-        data_path = join(module_path, "data", "uniDS.csv")
-        data = pd.read_csv(data_path)
-        self.data = data["value"].to_numpy()
-        self.label = data["is_anomaly"].to_numpy()
+        self.path = join(module_path, "data", "uniDS.csv")
+        self.preprocess()
+
+
+class CustomDS(DS):
+    """
+    Load custom dataset.
+    """
+
+    def __init__(self, f_path) -> None:
+        super().__init__()
+        self.path = f_path
+        self.preprocess()
