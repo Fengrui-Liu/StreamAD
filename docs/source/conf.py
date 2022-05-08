@@ -56,6 +56,7 @@ extensions = [
     # "sphinxcontrib.apidoc",
     # "myst_parser",
     "myst_nb",
+    "sphinx_design",
 ]
 
 
@@ -69,7 +70,9 @@ myst_enable_extensions = [
     "html_image",
 ]
 myst_url_schemes = ("http", "https", "mailto")
+myst_footnote_transition = False
 nb_execution_mode = "off"
+nb_execution_show_tb = "READTHEDOCS" in os.environ
 html_js_files = [
     "https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"
 ]

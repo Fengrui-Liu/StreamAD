@@ -6,5 +6,6 @@ sphinxcontrib.apidoc
 sphinx_rtd_theme
 sphinx-book-theme
 sphinx_design
+sphinx-togglebutton
 recommonmark
 myst_nb

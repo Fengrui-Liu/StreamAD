@@ -3,11 +3,14 @@
 
 ```
 
-## QuickStart
+
 
 ```{toctree}
----
-maxdepth: 1
----
-quickstart
+:caption: Reference
+:hidden:
+:titlesonly:
+:maxdepth: 1
+
+api/streamad
+references
 ```
