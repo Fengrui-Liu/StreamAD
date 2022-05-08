@@ -1,12 +1,10 @@
 sphinx_copybutton
-nbsphinx
-numpydoc
+jupytext
 sphinxcontrib.bibtex
 sphinx_autodoc_typehints
+sphinxcontrib.apidoc
 sphinx_rtd_theme
-numpy
-pandas
-scipy >= 0.19.1.
-scikit_learn>=0.19.1
-mmh3>=2.5.1
-torch
+sphinx-book-theme
+sphinx_design
+recommonmark
+myst_nb

@@ -31,7 +31,9 @@ class xStreamDetector(BaseDetector):
         self.cur_window = []
         self.ref_window = []
         delta = np.ones(n_components) * 0.5
-        self.hs_chains = _hsChains(deltamax=delta, n_chains=n_chains, depth=depth)
+        self.hs_chains = _hsChains(
+            deltamax=delta, n_chains=n_chains, depth=depth
+        )
         self.scores = []
 
     def fit(self, X: np.ndarray):
@@ -73,13 +75,17 @@ class xStreamDetector(BaseDetector):
         self.scores.append(score)
 
         if self.count < self.window_size:
-            return None
+            return 0.0
 
         score = self.scores[-1]
 
-        prob = 1.0 * len(np.where(np.array(self.scores) < score)[0]) / len(self.scores)
+        prob = (
+            1.0
+            * len(np.where(np.array(self.scores) < score)[0])
+            / len(self.scores)
+        )
 
-        return prob
+        return abs(prob)
 
 
 class _Chain:
@@ -105,7 +111,9 @@ class _Chain:
             if depthcount[f] == 1:
                 prebins[f] = X[f] + self.rand_shift[f] / self.deltamax[f]
             else:
-                prebins[f] = 2.0 * prebins[f] - self.rand_shift[f] / self.deltamax[f]
+                prebins[f] = (
+                    2.0 * prebins[f] - self.rand_shift[f] / self.deltamax[f]
+                )
 
             cmsketch = self.cmsketch_ref[depth]
 
@@ -139,7 +147,9 @@ class _Chain:
             if depthcount[f] == 1:
                 prebins[f] = (X[f] + self.rand_shift[f]) / self.deltamax[f]
             else:
-                prebins[f] = 2.0 * prebins[f] - self.rand_shift[f] / self.deltamax[f]
+                prebins[f] = (
+                    2.0 * prebins[f] - self.rand_shift[f] / self.deltamax[f]
+                )
 
             if self.is_first_window:
 
@@ -224,7 +234,10 @@ class StreamhashProjector:
         feature_names = [str(i) for i in range(ndim)]
 
         R = np.array(
-            [[self._hash_string(k, f) for f in feature_names] for k in self.keys]
+            [
+                [self._hash_string(k, f) for f in feature_names]
+                for k in self.keys
+            ]
         )
 
         Y = np.dot(X, R.T).squeeze()
@@ -233,7 +246,7 @@ class StreamhashProjector:
 
     def _hash_string(self, k, s):
 
-        hash_value = int(mmh3.hash(s, signed=False, seed=k)) / (2.0 ** 32 - 1)
+        hash_value = int(mmh3.hash(s, signed=False, seed=k)) / (2.0**32 - 1)
         s = self.density
         if hash_value <= s / 2.0:
             return -1 * self.constant

@@ -1,4 +1,4 @@
-from abc import ABC, ABCMeta, abstractmethod
+from abc import ABC, abstractmethod
 
 
 class BaseMetrics(ABC):
@@ -14,7 +14,7 @@ class BaseMetrics(ABC):
         self.y_pred = []
 
     def update(self, y_true, y_pred):
-        if y_pred == None:
+        if y_pred is None:
             pass
         else:
             self.y_true.append(y_true)

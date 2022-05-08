@@ -8,7 +8,6 @@
    .. autosummary::
    
       ~StreamGenerator.__init__
-      ~StreamGenerator.get_features
       ~StreamGenerator.iter_item
    
    

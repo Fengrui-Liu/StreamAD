@@ -8,6 +8,6 @@ class AUCMetric(BaseMetrics):
     def __init__(self) -> None:
         super().__init__()
 
-    def evaluate(self):
+    def evaluate(self, y_true, y_pred):
 
-        return roc_auc_score(self.y_true, self.y_pred)
+        return roc_auc_score(y_true, y_pred)

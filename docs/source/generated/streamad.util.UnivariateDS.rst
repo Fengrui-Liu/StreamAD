@@ -8,6 +8,11 @@
    .. autosummary::
    
       ~UnivariateDS.__init__
+      ~UnivariateDS.preprocess
+      ~UnivariateDS.preprocess_data
+      ~UnivariateDS.preprocess_feature
+      ~UnivariateDS.preprocess_label
+      ~UnivariateDS.preprocess_timestamp
    
    
    
