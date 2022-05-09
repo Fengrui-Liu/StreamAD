@@ -4,6 +4,7 @@ from .spot_Detector import SpotDetector
 from .random_detector import RandomDetector
 from .rrcf_Detector import RCForest
 from .Spectral_Residual import SpectralResidual
+from .rshash_Detector import RShashDetector
 
 __all__ = [
     "KNNDetector",
@@ -12,4 +13,5 @@ __all__ = [
     "RandomDetector",
     "RCForest",
     "SpectralResidual",
+    "RShashDetector",
 ]
