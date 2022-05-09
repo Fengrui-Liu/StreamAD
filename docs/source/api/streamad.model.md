@@ -1,0 +1,48 @@
+
+# StreamAD Detector
+
+
+## Univariate Anomaly Detector
+### KNNDetector
+
+```{eval-rst}
+.. autoclass:: streamad.model.KNNDetector
+    :show-inheritance:
+    :members: parse
+```
+
+----
+
+### SpotDetector
+
+```{eval-rst}
+.. autoclass:: streamad.model.SpotDetector
+    :show-inheritance:
+    :members: parse
+```
+
+
+----
+
+
+## Multivariate Anomaly Detector
+
+Note that these methods are compatible with univariate time series.
+
+### xStreamDetector
+
+```{eval-rst}
+.. autoclass:: streamad.model.xStreamDetector
+    :show-inheritance:
+    :members: parse
+```
+
+----
+
+### RandomDetector
+
+```{eval-rst}
+.. autoclass:: streamad.model.RandomDetector
+    :show-inheritance:
+    :members: parse
+```

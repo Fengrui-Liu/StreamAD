@@ -1,6 +1,14 @@
-build:
-  image: latest
+version: 2
 
 python:
-  version: 3.6
-  setup_py_install: true
+  version: "3.8"
+  install:
+      - method: pip
+        path: .
+        extra_requirements:
+          - rtd
+      - requirements: docs/requirements-docs.txt
+
+sphinx:
+  builder: html
+  fail_on_warning: true

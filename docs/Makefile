@@ -24,7 +24,7 @@ api:
 
 doc:
 	make clean
-	sphinx-autogen -o generated -t source/_templates/class.rst source/index.rst
+	sphinx-autogen -o generated -t source/_templates/class.rst source/index.md
 	make html
 
 

@@ -11,7 +11,9 @@ from scipy.optimize import minimize
 class SpotDetector(BaseDetector):
     """Univariate Spot model. :cite:`DBLP:conf/kdd/SifferFTL17`. See `SPOT <https://dl.acm.org/doi/10.1145/3097983.3098144>`_"""
 
-    def __init__(self, prob: float = 1e-4, window_size: int = 10, init_len: int = 300):
+    def __init__(
+        self, prob: float = 1e-4, window_size: int = 10, init_len: int = 300
+    ):
         """Spot detector.
 
         Args:
@@ -56,7 +58,7 @@ class SpotDetector(BaseDetector):
             us = u(s)
             vs = v(s)
             jac_us = (1 / t) * (1 - vs)
-            jac_vs = (1 / t) * (-vs + np.mean(1 / s ** 2))
+            jac_vs = (1 / t) * (-vs + np.mean(1 / s**2))
             return us * jac_vs + vs * jac_us
 
         Ym = self.peaks[side].min()
@@ -69,7 +71,7 @@ class SpotDetector(BaseDetector):
 
         a = a + epsilon
         b = 2 * (Ymean - Ym) / (Ymean * Ym)
-        c = 2 * (Ymean - Ym) / (Ym ** 2)
+        c = 2 * (Ymean - Ym) / (Ym**2)
 
         left_zeros = self._rootsFinder(
             lambda t: w(self.peaks[side], t),
@@ -144,7 +146,7 @@ class SpotDetector(BaseDetector):
             i = 0
             for x in X:
                 fx = f(x)
-                g = g + fx ** 2
+                g = g + fx**2
                 j[i] = 2 * fx * jac(x)
                 i = i + 1
             return g, j
@@ -182,7 +184,10 @@ class SpotDetector(BaseDetector):
         n = Y.size
         if gamma != 0:
             tau = gamma / sigma
-            L = -n * log(sigma) - (1 + (1 / gamma)) * (np.log(1 + tau * Y)).sum()
+            L = (
+                -n * log(sigma)
+                - (1 + (1 / gamma)) * (np.log(1 + tau * Y)).sum()
+            )
         else:
             L = n * (1 + log(Y.mean()))
         return L
@@ -236,7 +241,9 @@ class SpotDetector(BaseDetector):
         S = np.sort(T.tolist())
         self.init_threshold["up"] = S[int(0.98 * n_init)]
         self.init_threshold["down"] = S[int(0.02 * n_init)]
-        self.peaks["up"] = T[T > self.init_threshold["up"]] - self.init_threshold["up"]
+        self.peaks["up"] = (
+            T[T > self.init_threshold["up"]] - self.init_threshold["up"]
+        )
         self.peaks["down"] = (
             self.init_threshold["down"] - T[T < self.init_threshold["down"]]
         )
@@ -277,7 +284,7 @@ class SpotDetector(BaseDetector):
             float: Anomaly probability.
         """
         if self.record_count <= self.init_length:
-            return None
+            return 0.0
 
         hist_mean = np.mean(self.init_data[-self.window_size :])
 
@@ -297,7 +304,9 @@ class SpotDetector(BaseDetector):
             )
             self.num_threshold["up"] += 1
             gamma, sigma, _ = self._grimshaw("up")
-            self.extreme_quantile["up"] = self._quantile("up", gamma=gamma, sigma=sigma)
+            self.extreme_quantile["up"] = self._quantile(
+                "up", gamma=gamma, sigma=sigma
+            )
 
         elif normal_X < self.extreme_quantile["down"]:
             prob = 1.0
@@ -325,4 +334,4 @@ class SpotDetector(BaseDetector):
         self.thup.append(self.extreme_quantile["up"] + hist_mean)
         self.thdown.append(self.extreme_quantile["down"] + hist_mean)
 
-        return prob
+        return abs(prob)

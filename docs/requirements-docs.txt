@@ -1,0 +1,12 @@
+sphinx_copybutton
+jupytext
+sphinxcontrib.bibtex
+sphinx_autodoc_typehints
+sphinxcontrib.apidoc
+sphinx_rtd_theme
+sphinx-book-theme
+sphinx_design
+sphinx-togglebutton
+recommonmark
+myst_nb
+plotly

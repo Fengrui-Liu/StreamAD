@@ -1,14 +1,10 @@
-import os
-import sys
-
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname("__file__"), "./")))
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname("__file__"), "../")))
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname("__file__"), "../..")))
-
-from streamad.util import StreamGenerator, StreamStatistic
-
-from streamad.util import UnivariateDS, MultivariateDS
 import numpy as np
+from streamad.util import (
+    MultivariateDS,
+    StreamGenerator,
+    StreamStatistic,
+    UnivariateDS,
+)
 
 
 def test_uni_stats():
@@ -40,26 +36,36 @@ def test_multi_stats():
         stats.update(X)
 
     assert (
-        sum([abs(i - j) for i, j in zip(stats.get_max(), np.max(data, axis=0))]) < 0.001
-    )
-
-    assert (
-        sum([abs(i - j) for i, j in zip(stats.get_min(), np.min(data, axis=0))]) < 0.001
-    )
-
-    assert (
-        sum([abs(i - j) for i, j in zip(stats.get_sum(), np.sum(data, axis=0))]) < 0.001
-    )
-
-    assert (
-        sum([abs(i - j) for i, j in zip(stats.get_mean(), np.mean(data, axis=0))])
+        sum([abs(i - j) for i, j in zip(stats.get_max(), np.max(data, axis=0))])
         < 0.001
     )
 
     assert (
-        sum([abs(i - j) for i, j in zip(stats.get_std(), np.std(data, axis=0))]) < 0.001
+        sum([abs(i - j) for i, j in zip(stats.get_min(), np.min(data, axis=0))])
+        < 0.001
     )
 
     assert (
-        sum([abs(i - j) for i, j in zip(stats.get_var(), np.var(data, axis=0))]) < 0.001
+        sum([abs(i - j) for i, j in zip(stats.get_sum(), np.sum(data, axis=0))])
+        < 0.001
+    )
+
+    assert (
+        sum(
+            [
+                abs(i - j)
+                for i, j in zip(stats.get_mean(), np.mean(data, axis=0))
+            ]
+        )
+        < 0.001
+    )
+
+    assert (
+        sum([abs(i - j) for i, j in zip(stats.get_std(), np.std(data, axis=0))])
+        < 0.001
+    )
+
+    assert (
+        sum([abs(i - j) for i, j in zip(stats.get_var(), np.var(data, axis=0))])
+        < 0.001
     )

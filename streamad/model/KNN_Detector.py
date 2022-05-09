@@ -1,17 +1,14 @@
-import pdb
-from warnings import WarningMessage
 import warnings
 import numpy as np
-from numpy.core.defchararray import array
-import pandas as pd
-from scipy.spatial import distance
 from streamad.base import BaseDetector
 
 
 class KNNDetector(BaseDetector):
     """Univariate KNN-CAD model with mahalanobis distance. :cite:`DBLP:journals/corr/BurnaevI16`. See `KNN-CAD <https://arxiv.org/abs/1608.04585>`_"""
 
-    def __init__(self, init_len: int = -1, k_neighbor: int = 25, all_his: bool = True):
+    def __init__(
+        self, init_len: int = 100, k_neighbor: int = 20, all_his: bool = True
+    ):
         """KNN anomaly detector with mahalanobis distance.
 
         Args:
@@ -120,5 +117,9 @@ class KNNDetector(BaseDetector):
 
         score = self.scores[-1]
 
-        prob = 1.0 * len(np.where(np.array(self.scores) < score)[0]) / len(self.scores)
+        prob = (
+            1.0
+            * len(np.where(np.array(self.scores) < score)[0])
+            / len(self.scores)
+        )
         return prob
