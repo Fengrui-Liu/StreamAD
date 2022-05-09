@@ -32,7 +32,7 @@ def test_multi_stats():
     stream = StreamGenerator(data, label, shuffle=False)
     stats = StreamStatistic()
 
-    for X, y in stream.iter_item():
+    for (X,) in stream.iter_item():
         stats.update(X)
 
     assert (

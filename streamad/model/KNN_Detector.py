@@ -1,5 +1,8 @@
-import warnings
+from collections import deque
+from copy import deepcopy
+
 import numpy as np
+from scipy.spatial.distance import cdist
 from streamad.base import BaseDetector
 
 
@@ -7,59 +10,26 @@ class KNNDetector(BaseDetector):
     """Univariate KNN-CAD model with mahalanobis distance. :cite:`DBLP:journals/corr/BurnaevI16`. See `KNN-CAD <https://arxiv.org/abs/1608.04585>`_"""
 
     def __init__(
-        self, init_len: int = 100, k_neighbor: int = 20, all_his: bool = True
+        self, window_len: int = 100, buffer_len=200, k_neighbor: int = 3
     ):
         """KNN anomaly detector with mahalanobis distance.
 
         Args:
-            init_len (int, optional): The length of initialization data. This can be adjusted by the number of referenced neighbors. Defaults to -1.
-            k_neighbor (int, optional): The number of neighbors to cumulate distances. Defaults to 25.
-            all_his (bool, optional): The history records used for the reference. True for all records. Defaults to True.
+            window_len (int, optional): The length of window. Defaults to 100.
+            buffer_len (int, optional): The length of references. Defaults to 200.
+            k_neighbor (int, optional): The number of neighbors to cumulate distances. Defaults to 3.
         """
 
-        self.init = []
-        self.scores = []
-        self.count = 0
+        assert (
+            k_neighbor < buffer_len
+        ), "k_neighbor must be less than buffer_len"
+
+        self.data_type = "univariate"
+        self.buffer = deque(maxlen=buffer_len)
+        self.window = deque(maxlen=window_len)
+        self.scores = deque(maxlen=window_len)
+
         self.k = k_neighbor
-        self.buf = []
-        self.l = 2 * k_neighbor
-        self.use_all = all_his
-        if init_len == -1:
-            warnings.warn("Set init length to 5 times of k.")
-        elif init_len / 2 < k_neighbor:
-            warnings.warn("Short init length short, reset it to 4 times of k.")
-        self.init_len = max(init_len, 4 * k_neighbor)
-        self.window_length = int(self.init_len / 2)
-        self.sigma = np.diag(np.ones(self.window_length))
-
-    def _mah_distance(self, x: np.ndarray, item: np.ndarray) -> np.ndarray:
-        """Mahalanobis distance
-
-        Args:
-            x (np.ndarray): One observation.
-            item (np.ndarray): The other observation.
-
-        Returns:
-            np.ndarray: Mahalanobis distance
-        """
-        diff = np.array(x) - np.array(item)
-        return np.dot(np.dot(diff, self.sigma), diff.T)
-
-    def _ncm(self, item: np.ndarray, item_in_array: bool = False) -> float:
-        """Cumulated Mahalanobis distance among the current observation with all init data.
-
-        Args:
-            item (np.ndarray): Current observation.
-            item_in_array (bool, optional): Whether the observation in list. Defaults to False.
-
-        Returns:
-            float: Cumulated Mahalanobis distance.
-        """
-        arr = [self._mah_distance(x, item) for x in self.init]
-        result = np.sum(
-            np.partition(arr, self.k + item_in_array)[: self.k + item_in_array]
-        )
-        return result
 
     def fit(self, X: np.ndarray):
         """Record and analyse the current observation from the stream. Detector collect the init data firstly, and further score observation base on the observed data.
@@ -68,42 +38,33 @@ class KNNDetector(BaseDetector):
             X (np.ndarray): Current observation.
         """
 
-        self.count += 1
-        self.buf.append(X)
+        self.window.append(X[0])
 
-        if self.count < self.window_length:
-            pass
-        elif self.count < 2 * self.window_length:
-            self.init.append(self.buf)
-            self.buf = self.buf[1:]
-        else:
+        if len(self.window) == self.window.maxlen:
+            self.buffer.append(deepcopy(self.window))
 
-            ost = self.count % self.init_len
-            if ost == 0 or ost == self.window_length:
-                try:
-                    self.sigma = np.linalg.inv(
-                        np.dot(np.array(self.init).T, np.array(self.init))
-                    )
-                except np.linalg.linalg.LinAlgError:
-                    print("\nSingular Matrix at record", self.count)
-
+        if len(self.buffer) == self.buffer.maxlen:
             if len(self.scores) == 0:
-                self.scores = [self._ncm(v, True) for v in self.init]
+                all_dist = cdist(self.buffer, self.buffer, metric="mahalanobis")
 
-            new_score = self._ncm(self.buf)
+                for dist in all_dist:
+                    d = np.sum(
+                        np.partition(np.array(dist), self.k + 1)[1 : self.k + 1]
+                    )
+                    self.scores.append(d)
+            else:
+                dist = cdist(
+                    np.array([self.window]), self.buffer, metric="mahalanobis"
+                )[0]
+                d = np.sum(
+                    np.partition(np.array(dist), self.k + 1)[1 : self.k + 1]
+                )
+                self.scores.append(d)
 
-            self.init.pop(0)
-
-            self.init.append(self.buf)
-
-            self.scores.append(new_score)
-            self.buf = self.buf[1:]
-            if not self.use_all:
-                self.scores.pop(0)
         return self
 
     def score(self, X) -> float:
-        """Score the current observation. None for init period and float for the probability of anomalousness.
+        """Score the current observation. None for init period and float for the score of anomalies.
 
         Args:
             X (np.ndarray): Current observation.
@@ -112,14 +73,21 @@ class KNNDetector(BaseDetector):
             float: Anomaly probability.
         """
 
-        if self.count < 2 * self.window_length:
+        if (
+            len(self.window) + len(self.buffer)
+            < self.window.maxlen + self.buffer.maxlen
+        ):
             return None
 
         score = self.scores[-1]
 
-        prob = (
-            1.0
-            * len(np.where(np.array(self.scores) < score)[0])
-            / len(self.scores)
-        )
-        return prob
+        scores = np.array(self.scores)
+        score_mean = np.mean(scores[:-1])
+        score_std = np.std(scores[:-1])
+        prob = (score - score_mean) / score_std
+        if prob > 3:
+            max_score = max(scores[:-1])
+            prob = (score - score_mean) / (max_score - score_mean)
+        else:
+            return 0
+        return abs(prob)

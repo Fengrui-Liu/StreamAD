@@ -21,6 +21,8 @@ class SpotDetector(BaseDetector):
             window_size (int, optional): A window for reference. Defaults to 10.
             init_len (int, optional): Data length for initialization. Recommended > 100. Defaults to 300.
         """
+
+        self.data_type = "univariate"
         self.prob = prob
         self.data = []
         self.init_data = []
@@ -284,7 +286,7 @@ class SpotDetector(BaseDetector):
             float: Anomaly probability.
         """
         if self.record_count <= self.init_length:
-            return 0.0
+            return None
 
         hist_mean = np.mean(self.init_data[-self.window_size :])
 

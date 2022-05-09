@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from termios import XCASE
 from typing import Union
 
 import numpy as np
@@ -10,41 +11,52 @@ class BaseDetector(ABC):
 
     def __init__(self):
         """Initialization BaseDetector"""
+        self.data_type = "multivariate"
         pass
+
+    def check(self, X) -> bool:
+        """Check whether the detector can handle the data."""
+        x_shape = X.shape[0]
+
+        if self.data_type == "univariate":
+            assert x_shape == 1, "The data is not univariate."
+        elif self.data_type == "multivariate":
+            assert x_shape >= 1, "The data is not univariate or multivariate."
 
     @abstractmethod
     def fit(
         self,
-        X: Union[np.ndarray, pd.DataFrame],
+        X: np.ndarray,
     ) -> None:
         """Detector fit current observation from StreamGenerator.
 
         Args:
-            X (Union[np.ndarray, pd.DataFrame]): The data value of current observation from StreamGenerator.
+            X (np.ndarray): Data of current observation.
         """
-        return self
+        return NotImplementedError
 
     @abstractmethod
-    def score(self, X: Union[np.ndarray, pd.DataFrame]) -> float:
+    def score(self, X: np.ndarray) -> float:
         """Detector score the probability of anomaly for current observation form StreamGenerator.
 
         Args:
-            X (Union[np.ndarray, pd.DataFrame]): The data value of current observation from StreamGenerator.
+            X (np.ndarray): Data of current observation.
 
         Returns:
-            float: Anomaly probability. 1.0 for anomaly and 0.0 for normal.
+            float: Anomaly score. 1.0 for anomaly and 0.0 for normal.
         """
 
-        return 0.0
+        return NotImplementedError
 
-    def fit_score(self, X: Union[np.ndarray, pd.DataFrame]) -> float:
-        """Detector fit and score the probability of anomaly current observation from StreamGenerator.
+    def fit_score(self, X: np.ndarray) -> float:
+        """Detector fit and score the anomaly of current observation from StreamGenerator.
 
         Args:
-            X (Union[np.ndarray, pd.DataFrame]): [description]
+            X (np.ndarray): Data of current observation
 
         Returns:
-            float: [description]
+            float: Anomaly score. 1.0 for anomaly and 0.0 for normal.
         """
+        self.check(X)
 
         return self.fit(X).score(X)
