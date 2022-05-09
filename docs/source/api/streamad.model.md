@@ -46,5 +46,3 @@ Note that these methods are compatible with univariate time series.
     :show-inheritance:
     :members: parse
 ```
-
-----

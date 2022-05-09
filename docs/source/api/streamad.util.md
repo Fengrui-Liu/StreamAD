@@ -65,5 +65,3 @@
     :show-inheritance:
     :members: parse
 ```
-
-----

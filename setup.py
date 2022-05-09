@@ -1,13 +1,3 @@
-#!/usr/bin/env python
-# coding=utf-8
-"""
-Author: liufr
-Github: https://github.com/Fengrui-Liu
-LastEditTime: 2020-11-21 11:35:35
-Copyright 2020 liufr
-Description:
-"""
-
 from os import path
 from setuptools import setup, find_packages
 from io import open
@@ -25,7 +15,7 @@ setup(
     name="streamad",
     version=__version__,
     description=("An anomaly detection package for streaming data."),
-    long_description=open("./README.rst").read(),
+    long_description=open("./README.md").read(),
     author="liufr",
     author_email="liufengrui18z@ict.ac.cn",
     packages=find_packages(exclude=["test"]),
