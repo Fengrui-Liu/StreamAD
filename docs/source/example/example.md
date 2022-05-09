@@ -1,14 +1,17 @@
 # Examples
 
+## Univariate detector
 
 ```{toctree}
 
-spot_example
+univariate
 ```
 
 ----
 
 
+## Multivariate detector
+
 ```{toctree}
-xstream_example
+multivariate
 ```
