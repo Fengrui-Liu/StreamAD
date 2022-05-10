@@ -8,7 +8,7 @@ jobs:
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/tags')
     steps:
       - name: Build Test
-        uses: ./.github/workflows/CI
+        uses: ./.github/workflows/testing.yml
         with:
           token: ${{ secrets.access-token }}
       - uses: actions/checkout@v2
