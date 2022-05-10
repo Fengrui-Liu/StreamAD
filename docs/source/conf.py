@@ -47,7 +47,6 @@ extensions = [
     "sphinx.ext.doctest",
     "sphinx_autodoc_typehints",
     "sphinxcontrib.bibtex",
-    "sphinx_rtd_theme",
     "sphinx.ext.autodoc",
     "sphinx.ext.autosectionlabel",
     "sphinx.ext.githubpages",
