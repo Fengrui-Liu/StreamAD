@@ -23,7 +23,7 @@ Online anomaly detection for data stream. Detectors process the univariate or mu
 ![CircleCI](https://img.shields.io/circleci/build/github/Fengrui-Liu/StreamAD)
 ![Travis (.com)](https://img.shields.io/travis/com/Fengrui-Liu/StreamAD)
 ![Codecov](https://img.shields.io/codecov/c/github/Fengrui-Liu/StreamAD)
-
+[![Downloads](https://static.pepy.tech/personalized-badge/streamad?period=total&units=international_system&left_color=grey&right_color=orange&left_text=Downloads)](https://pepy.tech/project/streamad)
 
 ---
 

@@ -103,8 +103,8 @@ class _Chain:
     def bincount(self, X):
 
         scores = np.zeros(self.depth)
-        prebins = np.zeros(X.shape[0], dtype=np.float)
-        depthcount = np.zeros(len(self.deltamax), dtype=np.int)
+        prebins = np.zeros(X.shape[0], dtype=float)
+        depthcount = np.zeros(len(self.deltamax), dtype=int)
         for depth in range(self.depth):
             f = self.fs[depth]
             depthcount[f] += 1
@@ -138,8 +138,8 @@ class _Chain:
 
     def fit(self, X):
 
-        prebins = np.zeros(X.shape, dtype=np.float)
-        depthcount = np.zeros(len(self.deltamax), dtype=np.int)
+        prebins = np.zeros(X.shape, dtype=float)
+        depthcount = np.zeros(len(self.deltamax), dtype=int)
         for depth in range(self.depth):
             f = self.fs[depth]
             depthcount[f] += 1
@@ -224,10 +224,10 @@ class StreamhashProjector:
         """Projects particular (next) timestep's vector to (possibly) lower dimensional space.
 
         Args:
-            X (np.float array of shape (num_features,)): Input feature vector.
+            X (float array of shape (num_features,)): Input feature vector.
 
         Returns:
-            projected_X (np.float array of shape (num_components,)): Projected feature vector.
+            projected_X (float array of shape (num_components,)): Projected feature vector.
         """
         ndim = X.shape[0]
 

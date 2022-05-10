@@ -3,12 +3,7 @@ import enum
 import logging
 import numpy as np
 from streamad.base import BaseDetector
-
-
-if sys.version_info >= (3, 8):
-    from typing import Literal  # noqa
-else:
-    from typing_extensions import Literal  # noqa
+from typing import Literal
 
 
 logger = logging.getLogger(__name__)
