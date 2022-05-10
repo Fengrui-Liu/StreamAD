@@ -1,9 +1,6 @@
 from abc import ABC, abstractmethod
-from termios import XCASE
-from typing import Union
 
 import numpy as np
-import pandas as pd
 
 
 class BaseDetector(ABC):
