@@ -22,7 +22,7 @@ class xStreamDetector(BaseDetector):
             depth (int, optional): Maximum depth for each chain. Defaults to 25.
             window_size (int, optional): Size of reference window. Defaults to 25.
         """
-
+        super().__init__()
         self.projector = StreamhashProjector(
             num_components=n_components, density=1 / 3.0
         )
