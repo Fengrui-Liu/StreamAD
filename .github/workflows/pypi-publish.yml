@@ -11,12 +11,18 @@ jobs:
         uses: ./.github/workflows/CI
         with:
           token: ${{ secrets.access-token }}
-
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
-      - uses: casperdcl/deploy-pypi@v2
+      - name: publish-to-pypi
+        uses: casperdcl/deploy-pypi@v2
         with:
           password: ${{ secrets.PYPI_API_TOKEN }}
           pip: wheel -w dist/ --no-deps .
           # only upload if a tag is pushed (otherwise just build & check)
           upload: ${{ github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags') }}
+      - name: publish-to-conda
+        uses: fcakyon/conda-publish-action@v1.3
+        with:
+          subdir: 'conda'
+          anacondatoken: ${{ secrets.ANACONDA_TOKEN }}
+          platforms: 'win osx linux'
