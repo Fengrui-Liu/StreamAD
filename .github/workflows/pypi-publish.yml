@@ -1,23 +1,22 @@
 name: Publish
 
-on:
-  push:
+on: [push]
 
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
+    steps:
+      - name: Build Test
+        uses: ./.github/workflows/CI
+        with:
+          token: ${{ secrets.access-token }}
 
-  steps:
-    - name: Build Test
-      uses: ./.github/workflows/CI
-      with:
-        token: ${{ secrets.access-token }}
-
-    - uses: actions/checkout@v2
-    - uses: actions/setup-python@v2
-    - uses: casperdcl/deploy-pypi@v2
-      with:
-        password: ${{ secrets.PYPI_API_TOKEN }}
-        pip: wheel -w dist/ --no-deps .
-        # only upload if a tag is pushed (otherwise just build & check)
-        upload: ${{ github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags') }}
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+      - uses: casperdcl/deploy-pypi@v2
+        with:
+          password: ${{ secrets.PYPI_API_TOKEN }}
+          pip: wheel -w dist/ --no-deps .
+          # only upload if a tag is pushed (otherwise just build & check)
+          upload: ${{ github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags') }}
