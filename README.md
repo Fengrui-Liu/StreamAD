@@ -20,8 +20,9 @@ Online anomaly detection for data stream. Detectors process the univariate or mu
 ![Read the Docs](https://img.shields.io/readthedocs/streamad?style=flat)
 ![PyPI](https://img.shields.io/pypi/v/streamad)
 ![PyPI - Implementation](https://img.shields.io/pypi/implementation/streamad)
-![CircleCI](https://img.shields.io/circleci/build/github/Fengrui-Liu/StreamAD/main)
-![CircleCI](https://img.shields.io/circleci/build/github/Fengrui-Liu/StreamAD/dev)
+![CircleCI](https://img.shields.io/circleci/build/github/Fengrui-Liu/StreamAD)
+![Travis (.com)](https://img.shields.io/travis/com/Fengrui-Liu/StreamAD)
+![Codecov](https://img.shields.io/codecov/c/github/Fengrui-Liu/StreamAD)
 
 
 ---

@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   python: circleci/python@1.5.0
+  codecov: codecov/codecov@3.2.2
 
 jobs:
   build-main:
@@ -11,9 +12,13 @@ jobs:
       - python/install-packages:
           pkg-manager: pip
       - run:
-          command: pip install pytest && python -m pytest
+          command: pip install pytest coverage && coverage run -m pytest && coverage report coverage html
           name: Test-main
-    parallelism: 4
+      - store_artifacts:
+        path: htmlcov
+      - codecov/upload:
+          file: htmlcov/
+
 
   build-dev:
     executor: python/default
@@ -22,10 +27,12 @@ jobs:
       - python/install-packages:
           pkg-manager: pip
       - run:
-          command: pip install pytest && python -m pytest
+          command: pip install pytest coverage && coverage run -m pytest && coverage report coverage html
           name: Test-dev
-    parallelism: 4
-
+      - store_artifacts:
+        path: htmlcov
+      - codecov/upload:
+          file: htmlcov/
 
 workflows:
   build-dev:
