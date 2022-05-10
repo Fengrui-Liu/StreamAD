@@ -5,7 +5,7 @@ on: [push]
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/tags')
     steps:
       - name: Build Test
         uses: ./.github/workflows/CI
@@ -19,7 +19,7 @@ jobs:
           password: ${{ secrets.PYPI_API_TOKEN }}
           pip: wheel -w dist/ --no-deps .
           # only upload if a tag is pushed (otherwise just build & check)
-          upload: ${{ github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags') }}
+          upload: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/heads/tags') }}
       - name: publish-to-conda
         uses: fcakyon/conda-publish-action@v1.3
         with:
