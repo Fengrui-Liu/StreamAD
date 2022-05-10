@@ -5,6 +5,7 @@ orbs:
 
 jobs:
   build-main:
+    executor: python/default
     steps:
       - checkout
       - python/install-packages:
@@ -14,22 +15,25 @@ jobs:
           name: Test-main
 
   build-dev:
+    executor: python/default
     steps:
       - checkout
+      - python/install-packages:
+          pkg-manager: pip
       - run:
           command: python -m pytest
           name: Test-dev
 
 
 workflows:
-  build_dev:
+  build-dev:
     jobs:
       - build-dev:
           filters:
             branches:
               only:
                 - dev
-  build_main:
+  build-main:
     jobs:
       - build-main:
           filters:

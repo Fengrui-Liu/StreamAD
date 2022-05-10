@@ -29,3 +29,9 @@ notifications:
       - liufengrui18z@ict.ac.cn
   on_success: never # default: change
   on_failure: always # default: always
+
+
+branches:
+  only:
+    - dev
+    - master
