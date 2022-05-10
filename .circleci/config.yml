@@ -14,10 +14,7 @@ jobs:
       - run:
           command: pip install pytest coverage && coverage run -m pytest && coverage report coverage html
           name: Test-main
-      - store_artifacts:
-        path: htmlcov
       - codecov/upload:
-          file: htmlcov/
 
 
   build-dev:
@@ -29,10 +26,7 @@ jobs:
       - run:
           command: pip install pytest coverage && coverage run -m pytest && coverage report coverage html
           name: Test-dev
-      - store_artifacts:
-        path: htmlcov
       - codecov/upload:
-          file: htmlcov/
 
 workflows:
   build-dev:
