@@ -5,6 +5,13 @@ on:
     branches:
       - main
       - dev
+  workflow_call:
+    inputs:
+      username:
+        required: false
+    secrets:
+      access-token:
+        required: false
 
 
 jobs:
