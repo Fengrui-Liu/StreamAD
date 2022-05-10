@@ -13,6 +13,7 @@ jobs:
       - run:
           command: pip install pytest && python -m pytest
           name: Test-main
+    parallelism: 4
 
   build-dev:
     executor: python/default
@@ -23,6 +24,7 @@ jobs:
       - run:
           command: pip install pytest && python -m pytest
           name: Test-dev
+    parallelism: 4
 
 
 workflows:
