@@ -11,7 +11,7 @@ jobs:
       - python/install-packages:
           pkg-manager: pip
       - run:
-          command: python -m pytest
+          command: pip install pytest && python -m pytest
           name: Test-main
 
   build-dev:
@@ -21,7 +21,7 @@ jobs:
       - python/install-packages:
           pkg-manager: pip
       - run:
-          command: python -m pytest
+          command: pip install pytest && python -m pytest
           name: Test-dev
 
 
