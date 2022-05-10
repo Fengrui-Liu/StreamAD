@@ -4,6 +4,8 @@ dist: xenial
 env:
   global:
     PIP_PREFER_BINARY=true
+    PARALLELIZE=true
+
 
 python:
   - "3.7"
@@ -12,8 +14,10 @@ python:
 
 before_install:
   - python -m pip install --upgrade pip
+  - pip install pytest
+  - pip install codecov
 install:
-  - pip install pytest && pip install -r requirements.txt
+  -  pip install -r requirements.txt
 
 # command to run tests
 script:
@@ -21,6 +25,7 @@ script:
 
 after_success:
   - coveralls
+  - codecov
 
 notifications:
   email:
