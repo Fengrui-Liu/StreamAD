@@ -1,6 +1,7 @@
 # StreamAD
 
 ![StreamAD Logo](docs/source/images/logo_htmlwithname.svg)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FFengrui-Liu%2FStreamAD.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FFengrui-Liu%2FStreamAD?ref=badge_shield)
 
 
 
@@ -51,3 +52,6 @@ pip install git+https://github.com/Fengrui-Liu/StreamAD
 
 ### For multivariate time series, also compatible with univariate time series.
 - [x] xStream
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FFengrui-Liu%2FStreamAD.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FFengrui-Liu%2FStreamAD?ref=badge_large)
