@@ -15,6 +15,7 @@ jobs:
           command: pip install pytest coverage && coverage run -m pytest && coverage report coverage html
           name: Test-main
       - codecov/upload
+    parallelism: 4
 
 
   build-dev:
@@ -27,6 +28,7 @@ jobs:
           command: pip install pytest coverage && coverage run -m pytest && coverage report coverage html
           name: Test-dev
       - codecov/upload
+    parallelism: 4
 
 workflows:
   build-dev:

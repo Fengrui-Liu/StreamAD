@@ -3,7 +3,7 @@ import enum
 import logging
 import numpy as np
 from streamad.base import BaseDetector
-from typing import Literal
+
 
 if sys.version_info >= (3, 8):
     from typing import Literal  # noqa
@@ -35,8 +35,12 @@ class SpectralResidual(BaseDetector):
         threshold: float = None,
         window_amp: int = 20,
         window_local: int = 20,
-        padding_amp_method: Literal["constant", "replicate", "reflect"] = "reflect",
-        padding_local_method: Literal["constant", "replicate", "reflect"] = "reflect",
+        padding_amp_method: Literal[
+            "constant", "replicate", "reflect"
+        ] = "reflect",
+        padding_local_method: Literal[
+            "constant", "replicate", "reflect"
+        ] = "reflect",
         padding_amp_side: Literal["bilateral", "left", "right"] = "bilateral",
         n_est_points: int = 20,
         n_grad_points: int = 5,
@@ -111,7 +115,10 @@ class SpectralResidual(BaseDetector):
 
     @staticmethod
     def pad_same(
-        X: np.ndarray, W: np.ndarray, method: str = "replicate", side: str = "bilateral"
+        X: np.ndarray,
+        W: np.ndarray,
+        method: str = "replicate",
+        side: str = "bilateral",
     ) -> np.ndarray:
         """
         Adds padding to the time series `X` such that after applying a valid convolution with a kernel/filter
@@ -178,7 +185,11 @@ class SpectralResidual(BaseDetector):
         # replicate padding
         if method == Padding.REPLICATE:
             return np.concatenate(
-                [np.tile(X[0], pad_size_left), X, np.tile(X[-1], pad_size_right)]
+                [
+                    np.tile(X[0], pad_size_left),
+                    X,
+                    np.tile(X[-1], pad_size_right),
+                ]
             )
 
         # reflection padding
@@ -234,7 +245,11 @@ class SpectralResidual(BaseDetector):
         ma_freq = np.convolve(padded_freq, self.conv_amp, "valid")
         # construct moving average log amplitude spectrum
         ma_log_amp = np.concatenate(
-            [bias, ma_freq, (ma_freq[:-1] if len(sym_freq) % 2 == 1 else ma_freq)[::-1]]
+            [
+                bias,
+                ma_freq,
+                (ma_freq[:-1] if len(sym_freq) % 2 == 1 else ma_freq)[::-1],
+            ]
         )
         assert (
             ma_log_amp.shape[0] == log_amp.shape[0]
@@ -358,10 +373,15 @@ class SpectralResidual(BaseDetector):
         # remove some of the bias/outliers introduced at the beginning of the saliency map by a naive zero padding
         # performed by numpy. The reason for left padding is explained in a comment in the constructor.
         padded_sr = SpectralResidual.pad_same(
-            X=sr, W=self.conv_local, method=self.padding_local_method, side=Side.LEFT
+            X=sr,
+            W=self.conv_local,
+            method=self.padding_local_method,
+            side=Side.LEFT,
         )
         ma_sr = np.convolve(padded_sr, self.conv_local, "valid")
-        assert sr.shape[0] == ma_sr.shape[0], "`ma_sr` size does not match `sr` size."
+        assert (
+            sr.shape[0] == ma_sr.shape[0]
+        ), "`ma_sr` size does not match `sr` size."
 
         # compute the outlier score
         iscore = (sr - ma_sr) / (ma_sr + EPSILON)
