@@ -27,5 +27,6 @@ requirements:
 
 about:
   home: {{ data['url'] }}
-  license: {{ data['license'] }}
+  license_file:
+    - LICENSE
 summary: {{ data['description'] }}
