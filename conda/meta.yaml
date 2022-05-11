@@ -13,16 +13,14 @@ build:
 
 requirements:
   build:
-    run:
-      {% for req in data.get('install_requires', []) %}
-        - {{ req }}
-      {% endfor %}
+    {% for req in data.get('install_requires', []) %}
+      - {{ req }}
+    {% endfor %}
 
   run:
-    run:
-      {% for req in data.get('install_requires', []) %}
-        - {{ req }}
-      {% endfor %}
+    {% for req in data.get('install_requires', []) %}
+      - {{ req }}
+    {% endfor %}
 
 
 about:
