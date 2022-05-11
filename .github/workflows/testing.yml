@@ -9,6 +9,7 @@ on:
     inputs:
       username:
         required: false
+        type: string
     secrets:
       access-token:
         required: false
