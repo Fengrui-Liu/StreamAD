@@ -2,25 +2,28 @@ name: Publish
 
 on:
   push:
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/tags')
+    if: startsWith(github.ref, 'refs/heads/tags')
 
 jobs:
-  build:
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/tags')
-    uses: ./.github/workflows/testing.yml
   publish:
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/tags')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
-      - name: publish-to-pypi
-        uses: casperdcl/deploy-pypi@v2
+      - uses: ./.github/workflows/testing.yml
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+      - name: Install build tools
+        run: pip install pep517
+      - name: Build a wheel package
+        run: python -m pep517.build .
+      - name: Install twine to check the package
+        run: pip install twine
+      - name: Check the package
+        run: twine check dist/*
+      - name: Publish distribution 📦 to PyPI
+        uses: pypa/gh-action-pypi-publish@v1.5.0
         with:
           password: ${{ secrets.PYPI_API_TOKEN }}
-          pip: wheel -w dist/ --no-deps .
-          # only upload if a tag is pushed (otherwise just build & check)
-          upload: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/heads/tags') }}
+          verbose: true
       - name: publish-to-conda
         uses: fcakyon/conda-publish-action@v1.3
         with:
