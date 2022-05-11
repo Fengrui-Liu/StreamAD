@@ -9,8 +9,6 @@ jobs:
     steps:
       - name: Build Test
         uses: ./.github/workflows/testing.yml
-        with:
-          token: ${{ secrets.access-token }}
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
       - name: publish-to-pypi
