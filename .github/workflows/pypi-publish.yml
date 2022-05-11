@@ -1,14 +1,17 @@
 name: Publish
 
-on: [push]
+on:
+  push:
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/tags')
 
 jobs:
-  build-and-publish:
-    runs-on: ubuntu-latest
+  build:
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/tags')
+    uses: ./.github/workflows/testing.yml
+  publish:
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/tags')
+    runs-on: ubuntu-latest
     steps:
-      - name: Build Test
-        uses: ./.github/workflows/testing.yml
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
       - name: publish-to-pypi
