@@ -23,7 +23,7 @@ setup(
     install_requires=requirements,
     include_package_data=True,
     url="https://github.com/Fengrui-Liu/StreamAD",
-    setup_requires=["setuptools>=38.6.0"],
+    setup_requires=["setuptools>=62.0.0"],
     classifiers=[
         "Intended Audience :: Developers",
         "Intended Audience :: Education",
