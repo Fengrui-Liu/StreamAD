@@ -5,10 +5,11 @@ on:
     if: startsWith(github.ref, 'refs/heads/tags')
 
 jobs:
+  build:
+    uses: ./.github/workflows/testing.yml
   publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: ./.github/workflows/testing.yml
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v3
       - name: Install build tools
@@ -22,6 +23,7 @@ jobs:
       - name: Publish distribution 📦 to PyPI
         uses: pypa/gh-action-pypi-publish@v1.5.0
         with:
+          user: __token__
           password: ${{ secrets.PYPI_API_TOKEN }}
           verbose: true
       - name: publish-to-conda
