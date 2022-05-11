@@ -33,6 +33,9 @@ setup(
         "Intended Audience :: Information Technology",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.8",
-        "License :: OSI Approved :: Apache Software License :: 2.0",
+        "License :: OSI Approved :: Apache Software License",
+        "Operating System :: Microsoft",
+        "Operating System :: MacOS",
+        "Operating System :: POSIX :: Linux",
     ],
 )
