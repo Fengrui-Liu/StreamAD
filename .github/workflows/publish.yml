@@ -28,7 +28,7 @@ jobs:
       #     user: __token__
       #     password: ${{ secrets.PYPI_API_TOKEN }}
       #     verbose: true
-      - name: publish-to-conda
+      - name: Publish distribution 📦 to Conda
         uses: fcakyon/conda-publish-action@v1.3
         with:
           subdir: 'conda'
