@@ -18,10 +18,14 @@ jobs:
           pip install build
       - name: Build package
         run: python -m build
+      - name: Install twine to check the package
+        run: pip install twine
+      - name: Check the package
+        run: twine check dist/*
       - name: Publish distribution 📦 to PyPI
         uses: pypa/gh-action-pypi-publish@v1.5.0
         with:
-          user: liufr
+          user: __token__
           password: ${{ secrets.PYPI_API_TOKEN }}
           verbose: true
       - name: publish-to-conda
