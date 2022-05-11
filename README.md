@@ -23,6 +23,9 @@ Online anomaly detection for data stream. Detectors process the univariate or mu
 [![Downloads](https://static.pepy.tech/personalized-badge/streamad?period=total&units=international_system&left_color=grey&right_color=orange&left_text=Downloads)](https://pepy.tech/project/streamad)
 ![example workflow](https://github.com/Fengrui-Liu/StreamAD/actions/workflows/testing.yml//badge.svg)
 [![codecov](https://codecov.io/gh/Fengrui-Liu/StreamAD/branch/main/graph/badge.svg?token=AQG26L2RA7)](https://codecov.io/gh/Fengrui-Liu/StreamAD)
+![Conda](https://img.shields.io/conda/v/conda-forge/streamad)
+![Conda](https://img.shields.io/conda/pn/conda-forge/streamad)
+
 ---
 
 
