@@ -11,7 +11,7 @@ class BaseDetector(ABC):
         self.data_type = "multivariate"
         pass
 
-    def check(self, X) -> bool:
+    def _check(self, X) -> bool:
         """Check whether the detector can handle the data."""
         x_shape = X.shape[0]
 
@@ -21,10 +21,7 @@ class BaseDetector(ABC):
             assert x_shape >= 1, "The data is not univariate or multivariate."
 
     @abstractmethod
-    def fit(
-        self,
-        X: np.ndarray,
-    ) -> None:
+    def fit(self, X: np.ndarray,) -> None:
         """Detector fit current observation from StreamGenerator.
 
         Args:
@@ -54,6 +51,6 @@ class BaseDetector(ABC):
         Returns:
             float: Anomaly score. 1.0 for anomaly and 0.0 for normal.
         """
-        self.check(X)
+        self._check(X)
 
         return self.fit(X).score(X)
