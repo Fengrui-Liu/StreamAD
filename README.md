@@ -53,7 +53,7 @@ pip install git+https://github.com/Fengrui-Liu/StreamAD
 - [x] [KNN CAD](https://arxiv.org/abs/1608.04585)
 - [x] [SPOT](https://dl.acm.org/doi/10.1145/3097983.3098144)
 - [x] [Rrcf](http://proceedings.mlr.press/v48/guha16.pdf)
-- [ ] [SR](https://arxiv.org/abs/1906.03821)
+- [x] [SR](https://arxiv.org/abs/1906.03821)
 - [x] Random
 
 ### For multivariate time series, also compatible with univariate time series.
