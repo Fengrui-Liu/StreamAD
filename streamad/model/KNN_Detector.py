@@ -8,16 +8,14 @@ from streamad.util import StreamStatistic
 
 
 class KNNDetector(BaseDetector):
-    """Univariate KNN-CAD model with mahalanobis distance. :cite:`DBLP:journals/corr/BurnaevI16`. See `KNN-CAD <https://arxiv.org/abs/1608.04585>`_"""
+    """Univariate KNN-CAD model with mahalanobis distance :cite:`DBLP:journals/corr/BurnaevI16`. See `KNN-CAD <https://arxiv.org/abs/1608.04585>`_
+    Args:
+        window_len (int, optional): The length of window. Defaults to 10.
+        init_len (int, optional): The length of references. Defaults to 150.
+        k_neighbor (int, optional): The number of neighbors to cumulate distances. Defaults to 3.
+    """
 
     def __init__(self, window_len: int = 10, init_len=150, k_neighbor: int = 3):
-        """KNN anomaly detector with mahalanobis distance.
-
-        Args:
-            window_len (int, optional): The length of window. Defaults to 10.
-            init_len (int, optional): The length of references. Defaults to 150.
-            k_neighbor (int, optional): The number of neighbors to cumulate distances. Defaults to 3.
-        """
 
         assert k_neighbor < init_len, "k_neighbor must be less than init_len"
 
@@ -32,11 +30,6 @@ class KNNDetector(BaseDetector):
         self.stats = StreamStatistic()
 
     def fit(self, X: np.ndarray):
-        """Record and analyse the current observation from the stream. Detector collect the init data firstly, and further score observation base on the observed data.
-
-        Args:
-            X (np.ndarray): Current observation.
-        """
 
         self.window.append(X[0])
 
@@ -64,14 +57,6 @@ class KNNDetector(BaseDetector):
         return self
 
     def score(self, X) -> float:
-        """Score the current observation. None for init period and float for the score of anomalies.
-
-        Args:
-            X (np.ndarray): Current observation.
-
-        Returns:
-            float: Anomaly probability.
-        """
 
         if (
             len(self.window) + len(self.buffer)

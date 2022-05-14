@@ -11,18 +11,17 @@ np.seterr(divide="ignore", invalid="ignore")
 
 
 class SpotDetector(BaseDetector):
-    """Univariate Spot model. :cite:`DBLP:conf/kdd/SifferFTL17`. See `SPOT <https://dl.acm.org/doi/10.1145/3097983.3098144>`_"""
+    """Univariate Spot model :cite:`DBLP:conf/kdd/SifferFTL17`. See `SPOT <https://dl.acm.org/doi/10.1145/3097983.3098144>`_
+
+    Args:
+        prob (float, optional): Threshold for probability, a small float value. Defaults to 1e-4.
+        window_size (int, optional): A window for reference. Defaults to 10.
+        init_len (int, optional): Data length for initialization. Recommended > 150. Defaults to 150.
+    """
 
     def __init__(
         self, prob: float = 1e-4, window_size: int = 10, init_len: int = 150
     ):
-        """Spot detector.
-
-        Args:
-            prob (float, optional): Threshold for probability, a small float value. Defaults to 1e-4.
-            window_size (int, optional): A window for reference. Defaults to 10.
-            init_len (int, optional): Data length for initialization. Recommended > 150. Defaults to 150.
-        """
 
         self.data_type = "univariate"
         self.prob = prob
@@ -267,12 +266,6 @@ class SpotDetector(BaseDetector):
         return self
 
     def fit(self, X: np.ndarray):
-        """Record and analyse the current observation from the stream. Detector collect the init data firstly, and add random drift.
-
-        Args:
-            X (np.ndarray): [description]
-
-        """
 
         self.record_count += 1
         self.init_data.append(float(X))
@@ -283,14 +276,6 @@ class SpotDetector(BaseDetector):
         return self
 
     def score(self, X: np.ndarray) -> float:
-        """Score the current observation. None for init period and float for the probability of anomalousness between two thresholds. 1.0 for certain anomaly point.
-
-        Args:
-            X (np.ndarray): Current observation.
-
-        Returns:
-            float: Anomaly probability.
-        """
         if self.record_count <= self.init_length:
             return None
 

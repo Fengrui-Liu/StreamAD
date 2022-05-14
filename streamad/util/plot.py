@@ -1,6 +1,7 @@
 import numpy as np
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
+from typing import Union
 
 
 def plot(
@@ -49,7 +50,9 @@ def plot(
     # Plot data by features
     for i, feature in enumerate(features):
         fig.add_trace(
-            go.Scatter(x=date, y=data[:, i], name=feature), row=i + 1, col=1
+            go.Scatter(x=date, y=data[:, i], name=str(feature)),
+            row=i + 1,
+            col=1,
         )
 
     # Plot label by anomalies

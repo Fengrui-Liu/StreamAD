@@ -7,6 +7,14 @@ from streamad.util import StreamStatistic
 
 
 class RrcfDetector(BaseDetector):
+    """Rrcf detector :cite:`DBLP:conf/icml/GuhaMRS16`, see `KNN-CAD <http://proceedings.mlr.press/v48/guha16.pdf>`_
+
+    Args:
+        window_len (int, optional): Length of sliding window. Defaults to 10.
+        num_trees (int, optional): Number of trees. Defaults to 40.
+        tree_size (int, optional): Size of each tree. Defaults to 256.
+    """
+
     def __init__(self, window_len=10, num_trees=40, tree_size=256):
 
         super().__init__()

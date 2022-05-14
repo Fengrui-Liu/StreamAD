@@ -39,6 +39,16 @@ Note that these methods are compatible with univariate time series.
 
 ----
 
+### RrcfDetector
+
+```{eval-rst}
+.. autoclass:: streamad.model.RrcfDetector
+    :show-inheritance:
+    :members: parse
+```
+
+----
+
 ### RandomDetector
 
 ```{eval-rst}
