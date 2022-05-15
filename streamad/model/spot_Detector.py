@@ -11,17 +11,16 @@ np.seterr(divide="ignore", invalid="ignore")
 
 
 class SpotDetector(BaseDetector):
-    """Univariate Spot model :cite:`DBLP:conf/kdd/SifferFTL17`.
-
-    Args:
-        prob (float, optional): Threshold for probability, a small float value. Defaults to 1e-4.
-        window_size (int, optional): A window for reference. Defaults to 10.
-        init_len (int, optional): Data length for initialization. Recommended > 150. Defaults to 150.
-    """
-
     def __init__(
         self, prob: float = 1e-4, window_size: int = 10, init_len: int = 150
     ):
+        """Univariate Spot model :cite:`DBLP:conf/kdd/SifferFTL17`.
+
+        Args:
+            prob (float, optional): Threshold for probability, a small float value. Defaults to 1e-4.
+            window_size (int, optional): A window for reference. Defaults to 10.
+            init_len (int, optional): Data length for initialization. Recommended > 150. Defaults to 150.
+        """
 
         self.data_type = "univariate"
         self.prob = prob

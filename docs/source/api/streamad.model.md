@@ -61,6 +61,15 @@ Note that these methods are compatible with univariate time series.
 
 ----
 
+### RShashDetector
+
+```{eval-rst}
+.. autoclass:: streamad.model.RShashDetector
+    :show-inheritance:
+    :members: parse
+```
+
+----
 
 ### RandomDetector
 

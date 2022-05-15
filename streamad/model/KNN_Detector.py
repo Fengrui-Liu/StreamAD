@@ -8,15 +8,14 @@ from streamad.util import StreamStatistic
 
 
 class KNNDetector(BaseDetector):
-    """Univariate KNN-CAD model with mahalanobis distance :cite:`DBLP:journals/corr/BurnaevI16`.
-
-    Args:
-        window_len (int, optional): The length of window. Defaults to 10.
-        init_len (int, optional): The length of references. Defaults to 150.
-        k_neighbor (int, optional): The number of neighbors to cumulate distances. Defaults to 3.
-    """
-
     def __init__(self, window_len: int = 10, init_len=150, k_neighbor: int = 3):
+        """Univariate KNN-CAD model with mahalanobis distance :cite:`DBLP:journals/corr/BurnaevI16`.
+
+        Args:
+            window_len (int, optional): The length of window. Defaults to 10.
+            init_len (int, optional): The length of references. Defaults to 150.
+            k_neighbor (int, optional): The number of neighbors to cumulate distances. Defaults to 3.
+        """
 
         assert k_neighbor < init_len, "k_neighbor must be less than init_len"
 

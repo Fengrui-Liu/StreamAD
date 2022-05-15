@@ -7,15 +7,14 @@ from streamad.util import StreamStatistic
 
 
 class RrcfDetector(BaseDetector):
-    """Rrcf detector :cite:`DBLP:conf/icml/GuhaMRS16`.
-
-    Args:
-        window_len (int, optional): Length of sliding window. Defaults to 10.
-        num_trees (int, optional): Number of trees. Defaults to 40.
-        tree_size (int, optional): Size of each tree. Defaults to 256.
-    """
-
     def __init__(self, window_len=10, num_trees=40, tree_size=256):
+        """Rrcf detector :cite:`DBLP:conf/icml/GuhaMRS16`.
+
+        Args:
+            window_len (int, optional): Length of sliding window. Defaults to 10.
+            num_trees (int, optional): Number of trees. Defaults to 40.
+            tree_size (int, optional): Size of each tree. Defaults to 256.
+        """
 
         super().__init__()
         self.num_trees = num_trees

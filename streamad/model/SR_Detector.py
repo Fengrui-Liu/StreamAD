@@ -6,15 +6,6 @@ EPS = 1e-8
 
 
 class SRDetector(BaseDetector):
-    """Spectral Residual Detector :cite:`DBLP:conf/kdd/RenXWYHKXYTZ19`.
-
-    Args:
-        window_len (int, optional): Length of sliding window. Defaults to 100.
-        extend_len (int, optional): Length to be extended, for FFT transforme. Defaults to 5.
-        ahead_len (int, optional): Length to look ahead for references. Defaults to 10.
-        mag_num (int, optional): Number of FFT magnitude. Defaults to 5.
-    """
-
     def __init__(
         self,
         window_len: int = 100,
@@ -22,6 +13,14 @@ class SRDetector(BaseDetector):
         ahead_len: int = 10,
         mag_num: int = 5,
     ):
+        """Spectral Residual Detector :cite:`DBLP:conf/kdd/RenXWYHKXYTZ19`.
+
+        Args:
+            window_len (int, optional): Length of sliding window. Defaults to 100.
+            extend_len (int, optional): Length to be extended, for FFT transforme. Defaults to 5.
+            ahead_len (int, optional): Length to look ahead for references. Defaults to 10.
+            mag_num (int, optional): Number of FFT magnitude. Defaults to 5.
+        """
         super().__init__()
         self.window = deque(maxlen=window_len)
         self.extend_len = extend_len

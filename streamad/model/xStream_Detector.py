@@ -1,26 +1,25 @@
 from streamad.base import BaseDetector
-import pandas as pd
+from streamad.util import StreamStatistic
 import numpy as np
 import mmh3
 
 
 class xStreamDetector(BaseDetector):
-    """Multivariate xStreamDetector :cite:`DBLP:conf/kdd/ManzoorLA18`.
-
-    Args:
-        n_components (int, optional): Number of streamhash projection, similar to feature numbers. Defaults to 50.
-        n_chains (int, optional): Number of half-space chains. Defaults to 100.
-        depth (int, optional): Maximum depth for each chain. Defaults to 25.
-        window_size (int, optional): Size of reference window. Defaults to 25.
-    """
-
     def __init__(
         self,
         n_components: int = 50,
-        n_chains: int = 100,
+        n_chains: int = 50,
         depth: int = 25,
         window_size: int = 25,
     ):
+        """Multivariate xStreamDetector :cite:`DBLP:conf/kdd/ManzoorLA18`.
+
+        Args:
+            n_components (int, optional): Number of streamhash projection, similar to feature numbers. Defaults to 50.
+            n_chains (int, optional): Number of half-space chains. Defaults to 100.
+            depth (int, optional): Maximum depth for each chain. Defaults to 25.
+            window_size (int, optional): Size of reference window. Defaults to 25.
+        """
 
         super().__init__()
         self.projector = StreamhashProjector(
@@ -30,11 +29,11 @@ class xStreamDetector(BaseDetector):
         self.count = 0
         self.cur_window = []
         self.ref_window = []
+        self.score_stats = StreamStatistic()
         delta = np.ones(n_components) * 0.5
         self.hs_chains = _hsChains(
             deltamax=delta, n_chains=n_chains, depth=depth
         )
-        self.scores = []
 
     def fit(self, X: np.ndarray):
 
@@ -61,20 +60,26 @@ class xStreamDetector(BaseDetector):
         projected_X = self.projector.transform(X)
 
         score = -1.0 * self.hs_chains.score_chains(projected_X)
-        self.scores.append(score)
 
         if self.count < self.window_size:
-            return 0.0
+            return None
 
-        score = self.scores[-1]
+        self.score_stats.update(score)
 
-        prob = (
-            1.0
-            * len(np.where(np.array(self.scores) < score)[0])
-            / len(self.scores)
+        score_mean = self.score_stats.get_mean()
+        score_std = self.score_stats.get_std()
+        z_score = np.divide(
+            (score - score_mean),
+            score_std,
+            out=np.zeros_like(score),
+            where=score_std != 0,
         )
-
-        return abs(prob)
+        if z_score > 3:
+            max_score = self.score_stats.get_max()
+            score = (score - score_mean) / (max_score - score_mean)
+        else:
+            return 0
+        return score
 
 
 class _Chain:
