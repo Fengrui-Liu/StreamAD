@@ -11,7 +11,7 @@ np.seterr(divide="ignore", invalid="ignore")
 
 
 class SpotDetector(BaseDetector):
-    """Univariate Spot model :cite:`DBLP:conf/kdd/SifferFTL17`. See `SPOT <https://dl.acm.org/doi/10.1145/3097983.3098144>`_
+    """Univariate Spot model :cite:`DBLP:conf/kdd/SifferFTL17`.
 
     Args:
         prob (float, optional): Threshold for probability, a small float value. Defaults to 1e-4.

@@ -8,7 +8,8 @@ from streamad.util import StreamStatistic
 
 
 class KNNDetector(BaseDetector):
-    """Univariate KNN-CAD model with mahalanobis distance :cite:`DBLP:journals/corr/BurnaevI16`. See `KNN-CAD <https://arxiv.org/abs/1608.04585>`_
+    """Univariate KNN-CAD model with mahalanobis distance :cite:`DBLP:journals/corr/BurnaevI16`.
+
     Args:
         window_len (int, optional): The length of window. Defaults to 10.
         init_len (int, optional): The length of references. Defaults to 150.

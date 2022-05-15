@@ -96,7 +96,8 @@ for nb_file in nb_files:
 
 # -- Bibliography ------------------------------------------------------------
 bibtex_bibfiles = ["refs.bib"]
-bibtex_default_style = "unsrtalpha"
+bibtex_default_style = "unsrt"
+bibtex_reference_style = "author_year"
 
 # apidoc settings
 apidoc_module_dir = "../../streamad"

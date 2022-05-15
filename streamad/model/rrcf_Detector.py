@@ -7,7 +7,7 @@ from streamad.util import StreamStatistic
 
 
 class RrcfDetector(BaseDetector):
-    """Rrcf detector :cite:`DBLP:conf/icml/GuhaMRS16`, see `KNN-CAD <http://proceedings.mlr.press/v48/guha16.pdf>`_
+    """Rrcf detector :cite:`DBLP:conf/icml/GuhaMRS16`.
 
     Args:
         window_len (int, optional): Length of sliding window. Defaults to 10.

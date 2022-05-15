@@ -5,7 +5,7 @@ import mmh3
 
 
 class xStreamDetector(BaseDetector):
-    """Multivariate xStreamDetector :cite:`DBLP:conf/kdd/ManzoorLA18`. See `xStream <https://cmuxstream.github.io/>`_
+    """Multivariate xStreamDetector :cite:`DBLP:conf/kdd/ManzoorLA18`.
 
     Args:
         n_components (int, optional): Number of streamhash projection, similar to feature numbers. Defaults to 50.

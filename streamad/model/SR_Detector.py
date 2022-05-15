@@ -6,7 +6,7 @@ EPS = 1e-8
 
 
 class SRDetector(BaseDetector):
-    """Spectral Residual Detector :cite:`DBLP:conf/kdd/RenXWYHKXYTZ19`. SeeSee `Sepectral Residual <https://arxiv.org/pdf/1906.03821.pdf4>`_
+    """Spectral Residual Detector :cite:`DBLP:conf/kdd/RenXWYHKXYTZ19`.
 
     Args:
         window_len (int, optional): Length of sliding window. Defaults to 100.
