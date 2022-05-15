@@ -23,6 +23,14 @@
 
 ----
 
+### CustomDS
+```{eval-rst}
+.. autoclass:: streamad.util.CustomDS
+    :show-inheritance:
+    :members: parse
+```
+
+----
 
 ## Generator
 

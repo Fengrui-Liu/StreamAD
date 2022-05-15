@@ -1,20 +1,18 @@
 from streamad.base import BaseDetector
-import pandas as pd
+from streamad.util import StreamStatistic
 import numpy as np
 import mmh3
 
 
 class xStreamDetector(BaseDetector):
-    """Multivariate xStreamDetector :cite:`DBLP:conf/kdd/ManzoorLA18`. See `xStream <https://cmuxstream.github.io/>`_"""
-
     def __init__(
         self,
         n_components: int = 50,
-        n_chains: int = 100,
+        n_chains: int = 50,
         depth: int = 25,
         window_size: int = 25,
     ):
-        """xStream detector for multivariate data.
+        """Multivariate xStreamDetector :cite:`DBLP:conf/kdd/ManzoorLA18`.
 
         Args:
             n_components (int, optional): Number of streamhash projection, similar to feature numbers. Defaults to 50.
@@ -22,6 +20,7 @@ class xStreamDetector(BaseDetector):
             depth (int, optional): Maximum depth for each chain. Defaults to 25.
             window_size (int, optional): Size of reference window. Defaults to 25.
         """
+
         super().__init__()
         self.projector = StreamhashProjector(
             num_components=n_components, density=1 / 3.0
@@ -30,18 +29,14 @@ class xStreamDetector(BaseDetector):
         self.count = 0
         self.cur_window = []
         self.ref_window = []
+        self.score_stats = StreamStatistic()
         delta = np.ones(n_components) * 0.5
         self.hs_chains = _hsChains(
             deltamax=delta, n_chains=n_chains, depth=depth
         )
-        self.scores = []
 
     def fit(self, X: np.ndarray):
-        """xStreamDetector collects data with a window length, projects them via streamhash projector, and then scores the observed data.
 
-        Args:
-            X (np.ndarray): Current observation.
-        """
         self.count += 1
 
         projected_X = self.projector.transform(X)
@@ -61,31 +56,30 @@ class xStreamDetector(BaseDetector):
         return self
 
     def score(self, X: np.ndarray) -> float:
-        """Score the current observation. None for init period and float for the probability of anomalousness.
 
-        Args:
-            X (np.ndarray): Current observation.
-
-        Returns:
-            float: Anomaly probability.
-        """
         projected_X = self.projector.transform(X)
 
         score = -1.0 * self.hs_chains.score_chains(projected_X)
-        self.scores.append(score)
 
         if self.count < self.window_size:
-            return 0.0
+            return None
 
-        score = self.scores[-1]
+        self.score_stats.update(score)
 
-        prob = (
-            1.0
-            * len(np.where(np.array(self.scores) < score)[0])
-            / len(self.scores)
+        score_mean = self.score_stats.get_mean()
+        score_std = self.score_stats.get_std()
+        z_score = np.divide(
+            (score - score_mean),
+            score_std,
+            out=np.zeros_like(score),
+            where=score_std != 0,
         )
-
-        return abs(prob)
+        if z_score > 3:
+            max_score = self.score_stats.get_max()
+            score = (score - score_mean) / (max_score - score_mean)
+        else:
+            return 0
+        return score
 
 
 class _Chain:
@@ -246,7 +240,7 @@ class StreamhashProjector:
 
     def _hash_string(self, k, s):
 
-        hash_value = int(mmh3.hash(s, signed=False, seed=k)) / (2.0**32 - 1)
+        hash_value = int(mmh3.hash(s, signed=False, seed=k)) / (2.0 ** 32 - 1)
         s = self.density
         if hash_value <= s / 2.0:
             return -1 * self.constant

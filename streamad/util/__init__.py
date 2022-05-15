@@ -10,7 +10,7 @@
 
 from .stream_generator import StreamGenerator
 from .math_toolkit import StreamStatistic
-from .dataset import MultivariateDS, UnivariateDS
+from .dataset import MultivariateDS, UnivariateDS, CustomDS
 from .eval import AUCMetric
 from .plot import plot
 
@@ -20,6 +20,7 @@ __all__ = [
     "StreamStatistic",
     "MultivariateDS",
     "UnivariateDS",
+    "CustomDS",
     "AUCMetric",
     "plot",
 ]

@@ -7,19 +7,19 @@ import numpy as np
 from math import log
 from scipy.optimize import minimize
 
+np.seterr(divide="ignore", invalid="ignore")
+
 
 class SpotDetector(BaseDetector):
-    """Univariate Spot model. :cite:`DBLP:conf/kdd/SifferFTL17`. See `SPOT <https://dl.acm.org/doi/10.1145/3097983.3098144>`_"""
-
     def __init__(
-        self, prob: float = 1e-4, window_size: int = 10, init_len: int = 300
+        self, prob: float = 1e-4, window_size: int = 10, init_len: int = 150
     ):
-        """Spot detector.
+        """Univariate Spot model :cite:`DBLP:conf/kdd/SifferFTL17`.
 
         Args:
             prob (float, optional): Threshold for probability, a small float value. Defaults to 1e-4.
             window_size (int, optional): A window for reference. Defaults to 10.
-            init_len (int, optional): Data length for initialization. Recommended > 100. Defaults to 300.
+            init_len (int, optional): Data length for initialization. Recommended > 150. Defaults to 150.
         """
 
         self.data_type = "univariate"
@@ -42,7 +42,7 @@ class SpotDetector(BaseDetector):
         self.thup = []
         self.thdown = []
 
-    def _grimshaw(self, side, epsilon=1e-8, n_points=8):
+    def _grimshaw(self, side, epsilon=1e-8, n_points=10):
         def u(s):
             return 1 + np.log(s).mean()
 
@@ -59,8 +59,12 @@ class SpotDetector(BaseDetector):
             s = 1 + t * Y
             us = u(s)
             vs = v(s)
-            jac_us = (1 / t) * (1 - vs)
-            jac_vs = (1 / t) * (-vs + np.mean(1 / s**2))
+            jac_us = np.divide(1, t, out=np.zeros_like(a), where=t != 0) * (
+                1 - vs
+            )
+            jac_vs = np.divide(1, t, out=np.zeros_like(a), where=t != 0) * (
+                -vs + np.mean(1 / s ** 2)
+            )
             return us * jac_vs + vs * jac_us
 
         Ym = self.peaks[side].min()
@@ -73,7 +77,7 @@ class SpotDetector(BaseDetector):
 
         a = a + epsilon
         b = 2 * (Ymean - Ym) / (Ymean * Ym)
-        c = 2 * (Ymean - Ym) / (Ym**2)
+        c = 2 * (Ymean - Ym) / (Ym ** 2)
 
         left_zeros = self._rootsFinder(
             lambda t: w(self.peaks[side], t),
@@ -102,7 +106,7 @@ class SpotDetector(BaseDetector):
         # we look for better candidates
         for z in zeros:
             gamma = u(1 + z * self.peaks[side]) - 1
-            sigma = gamma / z
+            sigma = np.divide(gamma, z, out=np.zeros_like(gamma), where=z != 0)
             ll = self._log_likelihood(self.peaks[side], gamma, sigma)
             if ll > ll_best:
                 gamma_best = gamma
@@ -148,7 +152,7 @@ class SpotDetector(BaseDetector):
             i = 0
             for x in X:
                 fx = f(x)
-                g = g + fx**2
+                g = g + fx ** 2
                 j[i] = 2 * fx * jac(x)
                 i = i + 1
             return g, j
@@ -261,12 +265,6 @@ class SpotDetector(BaseDetector):
         return self
 
     def fit(self, X: np.ndarray):
-        """Record and analyse the current observation from the stream. Detector collect the init data firstly, and add random drift.
-
-        Args:
-            X (np.ndarray): [description]
-
-        """
 
         self.record_count += 1
         self.init_data.append(float(X))
@@ -277,14 +275,6 @@ class SpotDetector(BaseDetector):
         return self
 
     def score(self, X: np.ndarray) -> float:
-        """Score the current observation. None for init period and float for the probability of anomalousness between two thresholds. 1.0 for certain anomaly point.
-
-        Args:
-            X (np.ndarray): Current observation.
-
-        Returns:
-            float: Anomaly probability.
-        """
         if self.record_count <= self.init_length:
             return None
 

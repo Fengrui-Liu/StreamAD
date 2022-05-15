@@ -3,22 +3,19 @@ from typing import Generator
 import numpy as np
 
 
-
 class StreamGenerator:
-    """Load static dataset and generate observation once a time."""
+    """Load static dataset and generate observation once a time.
+
+    Args:
+        X (np.ndarray): Origin static dataset.
+
+    Raises:
+        TypeError: Unexpected input data type.
+    """
 
     def __init__(
-        self,
-        X: np.ndarray,
+        self, X: np.ndarray,
     ):
-        """Initialize a StreamGenerator.
-
-        Args:
-            X (np.ndarray): Origin static dataset.
-
-        Raises:
-            TypeError: Unexpected input data type.
-        """
 
         if isinstance(X, np.ndarray):
             self.X = X
