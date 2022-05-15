@@ -1,12 +1,3 @@
-#!/usr/bin/env python
-# coding=utf-8
-#
-# Author: liufr
-# Github: https://github.com/Fengrui-Liu
-# LastEditTime: 2021-01-09 19:24:46
-# Copyright 2021 liufr
-# Description:
-
 import collections
 import math
 
@@ -14,12 +5,9 @@ import numpy as np
 
 
 class StreamStatistic:
-    """Data statistics for the streaming data."""
+    """Data statistics for the streaming data, with supporting max, min, sum, mean, sum of squares, var, std and standard scaler."""
 
     def __init__(self):
-        """Statistic for stream data
-        We support max, min, sum, mean, sum of squares, var, std and standard scaler for streaming data.
-        """
         self._is_uni = False
         self._num_items = 0
 
@@ -47,8 +35,12 @@ class StreamStatistic:
         tmp = collections.defaultdict(float)
 
         for index, item in enumerate(X):
-            self._max[index] = self._max[index] if self._max[index] > item else item
-            self._min[index] = self._min[index] if self._min[index] < item else item
+            self._max[index] = (
+                self._max[index] if self._max[index] > item else item
+            )
+            self._min[index] = (
+                self._min[index] if self._min[index] < item else item
+            )
             self._sum[index] += X[index]
             old_mean = self._mean[index]
             tmp[index] = item - self._mean[index]

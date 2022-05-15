@@ -1,6 +1,11 @@
+import warnings
 from os.path import dirname, join
+from typing import Union
+
 import numpy as np
 import pandas as pd
+
+warnings.simplefilter(action="ignore", category=FutureWarning)
 
 
 class DS:
@@ -19,20 +24,26 @@ class DS:
         self.preprocess_feature()
 
     def preprocess_data(self) -> None:
-        self.data = pd.read_csv(self.path)
+        if type(self.path) == str:
+            try:
+                self.data = pd.read_csv(self.path)
+            except FileExistsError:
+                print("Cannot read this file:", self.path)
+        elif type(self.path) == np.ndarray:
+            self.data = pd.DataFrame(self.path)
+        elif type(self.path) == pd.DataFrame:
+            self.data = self.path
         self.names = self.data.columns.values
 
     def preprocess_timestamp(self) -> None:
-        if "timestamp" in self.names:
+        if "timestamp" in self.names.tolist():
             self.date = self.data["timestamp"].values
         else:
             self.date = self.data.index.values
 
     def preprocess_label(self) -> None:
-        if "label" in self.names:
+        if "label" in self.names.tolist():
             self.label = np.array(self.data["label"].values)
-        else:
-            self.label = None
 
     def preprocess_feature(self) -> None:
         self.features = np.setdiff1d(
@@ -68,9 +79,16 @@ class UnivariateDS(DS):
 class CustomDS(DS):
     """
     Load custom dataset.
+    Args:
+        f_path (Union[str, np.ndarray]): Dataset or its path.
+        label (np.ndarray, optional): Anomaly labels for dataset. Defaults to None.
     """
 
-    def __init__(self, f_path) -> None:
+    def __init__(
+        self, f_path: Union[str, np.ndarray], label: np.ndarray = None
+    ):
+
         super().__init__()
         self.path = f_path
+        self.label = label
         self.preprocess()

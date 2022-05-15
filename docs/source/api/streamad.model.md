@@ -25,6 +25,28 @@
 ----
 
 
+### RrcfDetector
+
+```{eval-rst}
+.. autoclass:: streamad.model.RrcfDetector
+    :show-inheritance:
+    :members: parse
+```
+
+----
+
+
+### SRDetector
+
+```{eval-rst}
+.. autoclass:: streamad.model.SRDetector
+    :show-inheritance:
+    :members: parse
+```
+
+----
+
+
 ## Multivariate Anomaly Detector
 
 Note that these methods are compatible with univariate time series.
@@ -38,6 +60,7 @@ Note that these methods are compatible with univariate time series.
 ```
 
 ----
+
 
 ### RandomDetector
 

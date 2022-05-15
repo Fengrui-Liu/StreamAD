@@ -1,14 +1,26 @@
 # Examples
 
+## Dataset Usage
 
 ```{toctree}
 
-spot_example
+dataset_usage
+```
+
+----
+
+## Univariate detector
+
+```{toctree}
+
+univariate
 ```
 
 ----
 
 
+## Multivariate detector
+
 ```{toctree}
-xstream_example
+multivariate
 ```

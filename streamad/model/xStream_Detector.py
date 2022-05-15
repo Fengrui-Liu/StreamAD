@@ -5,7 +5,14 @@ import mmh3
 
 
 class xStreamDetector(BaseDetector):
-    """Multivariate xStreamDetector :cite:`DBLP:conf/kdd/ManzoorLA18`. See `xStream <https://cmuxstream.github.io/>`_"""
+    """Multivariate xStreamDetector :cite:`DBLP:conf/kdd/ManzoorLA18`.
+
+    Args:
+        n_components (int, optional): Number of streamhash projection, similar to feature numbers. Defaults to 50.
+        n_chains (int, optional): Number of half-space chains. Defaults to 100.
+        depth (int, optional): Maximum depth for each chain. Defaults to 25.
+        window_size (int, optional): Size of reference window. Defaults to 25.
+    """
 
     def __init__(
         self,
@@ -14,15 +21,8 @@ class xStreamDetector(BaseDetector):
         depth: int = 25,
         window_size: int = 25,
     ):
-        """xStream detector for multivariate data.
 
-        Args:
-            n_components (int, optional): Number of streamhash projection, similar to feature numbers. Defaults to 50.
-            n_chains (int, optional): Number of half-space chains. Defaults to 100.
-            depth (int, optional): Maximum depth for each chain. Defaults to 25.
-            window_size (int, optional): Size of reference window. Defaults to 25.
-        """
-
+        super().__init__()
         self.projector = StreamhashProjector(
             num_components=n_components, density=1 / 3.0
         )
@@ -37,11 +37,7 @@ class xStreamDetector(BaseDetector):
         self.scores = []
 
     def fit(self, X: np.ndarray):
-        """xStreamDetector collects data with a window length, projects them via streamhash projector, and then scores the observed data.
 
-        Args:
-            X (np.ndarray): Current observation.
-        """
         self.count += 1
 
         projected_X = self.projector.transform(X)
@@ -61,14 +57,7 @@ class xStreamDetector(BaseDetector):
         return self
 
     def score(self, X: np.ndarray) -> float:
-        """Score the current observation. None for init period and float for the probability of anomalousness.
 
-        Args:
-            X (np.ndarray): Current observation.
-
-        Returns:
-            float: Anomaly probability.
-        """
         projected_X = self.projector.transform(X)
 
         score = -1.0 * self.hs_chains.score_chains(projected_X)
@@ -103,8 +92,8 @@ class _Chain:
     def bincount(self, X):
 
         scores = np.zeros(self.depth)
-        prebins = np.zeros(X.shape[0], dtype=np.float)
-        depthcount = np.zeros(len(self.deltamax), dtype=np.int)
+        prebins = np.zeros(X.shape[0], dtype=float)
+        depthcount = np.zeros(len(self.deltamax), dtype=int)
         for depth in range(self.depth):
             f = self.fs[depth]
             depthcount[f] += 1
@@ -138,8 +127,8 @@ class _Chain:
 
     def fit(self, X):
 
-        prebins = np.zeros(X.shape, dtype=np.float)
-        depthcount = np.zeros(len(self.deltamax), dtype=np.int)
+        prebins = np.zeros(X.shape, dtype=float)
+        depthcount = np.zeros(len(self.deltamax), dtype=int)
         for depth in range(self.depth):
             f = self.fs[depth]
             depthcount[f] += 1
@@ -224,10 +213,10 @@ class StreamhashProjector:
         """Projects particular (next) timestep's vector to (possibly) lower dimensional space.
 
         Args:
-            X (np.float array of shape (num_features,)): Input feature vector.
+            X (float array of shape (num_features,)): Input feature vector.
 
         Returns:
-            projected_X (np.float array of shape (num_components,)): Projected feature vector.
+            projected_X (float array of shape (num_components,)): Projected feature vector.
         """
         ndim = X.shape[0]
 
@@ -246,7 +235,7 @@ class StreamhashProjector:
 
     def _hash_string(self, k, s):
 
-        hash_value = int(mmh3.hash(s, signed=False, seed=k)) / (2.0**32 - 1)
+        hash_value = int(mmh3.hash(s, signed=False, seed=k)) / (2.0 ** 32 - 1)
         s = self.density
         if hash_value <= s / 2.0:
             return -1 * self.constant

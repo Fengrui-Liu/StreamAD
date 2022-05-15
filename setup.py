@@ -14,7 +14,7 @@ with open(path.join(this_directory, "streamad/version.py")) as f:
 setup(
     name="streamad",
     version=__version__,
-    description=("An anomaly detection package for streaming data."),
+    description=("An anomaly detection package for data streams."),
     long_description=open("./README.md").read(),
     author="liufr",
     author_email="liufengrui18z@ict.ac.cn",
@@ -23,7 +23,7 @@ setup(
     install_requires=requirements,
     include_package_data=True,
     url="https://github.com/Fengrui-Liu/StreamAD",
-    setup_requires=["setuptools>=38.6.0"],
+    setup_requires=["setuptools>=62.0.0"],
     classifiers=[
         "Intended Audience :: Developers",
         "Intended Audience :: Education",
@@ -31,9 +31,11 @@ setup(
         "Intended Audience :: Science/Research",
         "Intended Audience :: Developers",
         "Intended Audience :: Information Technology",
-        "Programming Language :: Python :: 3.6",
-        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.8",
-        "License :: OSI Approved :: BSD License",
+        "License :: OSI Approved :: Apache Software License",
+        "Operating System :: Microsoft",
+        "Operating System :: MacOS",
+        "Operating System :: POSIX :: Linux",
     ],
 )

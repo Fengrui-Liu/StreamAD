@@ -10,11 +10,10 @@ from streamad.util import (
 def test_uni_stats():
     ds = UnivariateDS()
     data = ds.data
-    label = ds.label
-    stream = StreamGenerator(data, label, shuffle=False)
+    stream = StreamGenerator(data)
     stats = StreamStatistic()
 
-    for X, y in stream.iter_item():
+    for X in stream.iter_item():
         stats.update(X)
 
     assert stats.get_max() == np.max(data)
@@ -28,11 +27,10 @@ def test_uni_stats():
 def test_multi_stats():
     ds = MultivariateDS()
     data = ds.data
-    label = ds.label
-    stream = StreamGenerator(data, label, shuffle=False)
+    stream = StreamGenerator(data)
     stats = StreamStatistic()
 
-    for X, y in stream.iter_item():
+    for X in stream.iter_item():
         stats.update(X)
 
     assert (
