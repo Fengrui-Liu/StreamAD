@@ -71,6 +71,16 @@ Note that these methods are compatible with univariate time series.
 
 ----
 
+### HSTreeDetector
+
+```{eval-rst}
+.. autoclass:: streamad.model.HSTreeDetector
+    :show-inheritance:
+    :members: parse
+```
+
+----
+
 ### RandomDetector
 
 ```{eval-rst}
