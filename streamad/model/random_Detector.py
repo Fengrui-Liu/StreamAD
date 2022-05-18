@@ -1,8 +1,6 @@
 import random
-from typing import Union
 
 import numpy as np
-import pandas as pd
 from streamad.base import BaseDetector
 
 

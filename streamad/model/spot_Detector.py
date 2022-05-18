@@ -21,6 +21,7 @@ class SpotDetector(BaseDetector):
             window_size (int, optional): A window for reference. Defaults to 10.
             init_len (int, optional): Data length for initialization. Recommended > 150. Defaults to 150.
         """
+        super().__init__()
 
         self.data_type = "univariate"
         self.prob = prob

@@ -30,19 +30,17 @@ class HSTreeDetector(BaseDetector):
         """Half space tree detectors. :cite:`DBLP:conf/ijcai/TanTL11`.
 
         Args:
-            window_len (int, optional): _description_. Defaults to 20.
-            tree_height (int, optional): _description_. Defaults to 15.
-            tree_num (int, optional): _description_. Defaults to 100.
+            window_len (int, optional): The length of reference window. Defaults to 20.
+            tree_height (int, optional): Height of a half space tree. Defaults to 15.
+            tree_num (int, optional): Totla number of the trees. Defaults to 100.
         """
         super().__init__()
-
-        self.index = -1
         self.window_len = window_len
         self.tree_height = tree_height
         self.tree_num = tree_num
         self.forest = []
         self.data_stats = StreamStatistic()
-        self.score_stats = StreamStatistic()
+
         self.dimensions = None
 
     def _generate_max_min(self):
@@ -95,7 +93,7 @@ class HSTreeDetector(BaseDetector):
             self._reset_tree(tree.right)
 
     def fit(self, X: np.ndarray) -> None:
-        self.index += 1
+
         self.data_stats.update(X)
 
         self.X_normalized = np.divide(
@@ -132,24 +130,8 @@ class HSTreeDetector(BaseDetector):
             score += self._score_tree(tree, self.X_normalized, 0)
             self._update_tree_mass(tree, self.X_normalized, False)
 
-        self.score_stats.update(score / len(self.forest))
+        score = score / len(self.forest)
 
-        score_mean = self.score_stats.get_mean()
-        score_std = self.score_stats.get_std()
-        z_score = np.divide(
-            (score - score_mean),
-            score_std,
-            out=np.zeros_like(score),
-            where=score_std != 0,
-        )
-        if z_score > 3:
-            max_score = self.score_stats.get_max()
-            score = (score - score_mean) / (max_score - score_mean)
-        elif z_score < -3:
-            min_score = self.score_stats.get_min()
-            score = (score - score_mean) / (min_score - score_mean)
-        else:
-            return 0
         return score
 
     def _score_tree(self, tree, X, k):

@@ -25,13 +25,13 @@ class RShashDetector(BaseDetector):
         self.buffer = deque(maxlen=init_len)
         self.decay = decay
         self.data_stats = StreamStatistic()
-        self.score_stats = StreamStatistic()
+
         self.hash_num = hash_num
         self.components_num = components_num
         self.cmsketches = [{} for _ in range(hash_num)]
 
         self.alpha = None
-        self.index = -1
+
         self.effective_s = max(1000, 1.0 / (1 - np.power(2, -self.decay)))
         self.f = np.random.uniform(
             low=1.0 / np.sqrt(self.effective_s),
@@ -72,13 +72,12 @@ class RShashDetector(BaseDetector):
 
     def fit(self, X):
 
-        if self.index == -1:
+        if self.index == 0:
             self.alpha = [
                 np.random.uniform(low=0, high=self.f[r], size=len(X))
                 for r in range(self.components_num)
             ]
 
-        self.index += 1
         self.data_stats.update(X)
 
         if len(self.buffer) < self.buffer.maxlen:
@@ -131,22 +130,4 @@ class RShashDetector(BaseDetector):
 
         score = score_instance / self.components_num
 
-        self.score_stats.update(score)
-
-        score_mean = self.score_stats.get_mean()
-        score_std = self.score_stats.get_std()
-        z_score = np.divide(
-            (score - score_mean),
-            score_std,
-            out=np.zeros_like(score),
-            where=score_std != 0,
-        )
-        if z_score > 3:
-            max_score = self.score_stats.get_max()
-            score = (score - score_mean) / (max_score - score_mean)
-        elif z_score < -3:
-            min_score = self.score_stats.get_min()
-            score = (score - score_mean) / (min_score - score_mean)
-        else:
-            return 0
         return score

@@ -3,7 +3,6 @@ from collections import deque
 import numpy as np
 import rrcf
 from streamad.base import BaseDetector
-from streamad.util import StreamStatistic
 
 
 class RrcfDetector(BaseDetector):
@@ -25,14 +24,12 @@ class RrcfDetector(BaseDetector):
             tree = rrcf.RCTree()
             self.forest.append(tree)
         self.avg_codisp = {}
-        self.index = -1
+
         self.shingle = deque(maxlen=window_len)
         self.score_list = []
-        self.score_stats = StreamStatistic()
-        self.prob = 0
 
     def fit(self, X: np.ndarray):
-        self.index += 1
+
         self.shingle.append(X[0])
 
         if self.index < self.window_len:
@@ -55,21 +52,6 @@ class RrcfDetector(BaseDetector):
         if self.index < self.window_len:
             return None
 
-        self.prob = sum(self.score_list) / len(self.score_list)
-        self.score_stats.update(self.prob)
+        score = sum(self.score_list) / len(self.score_list)
 
-        score_mean = self.score_stats.get_mean()
-        score_std = self.score_stats.get_std()
-        z_score = np.divide(
-            (self.prob - score_mean),
-            score_std,
-            out=np.zeros_like(self.prob),
-            where=score_std != 0,
-        )
-
-        if z_score > 3:
-            max_score = self.score_stats.get_max()
-            self.prob = (self.prob - score_mean) / (max_score - score_mean)
-        else:
-            return 0
-        return abs(self.prob)
+        return score

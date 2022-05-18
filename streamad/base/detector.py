@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 
 import numpy as np
+from streamad.util import StreamStatistic
 
 
 class BaseDetector(ABC):
@@ -9,6 +10,8 @@ class BaseDetector(ABC):
     def __init__(self):
         """Initialization BaseDetector"""
         self.data_type = "multivariate"
+        self.index = -1
+        self.score_stats = StreamStatistic()
         pass
 
     def _check(self, X) -> bool:
@@ -20,8 +23,10 @@ class BaseDetector(ABC):
         elif self.data_type == "multivariate":
             assert x_shape >= 1, "The data is not univariate or multivariate."
 
+        self.index += 1
+
     @abstractmethod
-    def fit(self, X: np.ndarray,) -> None:
+    def fit(self, X: np.ndarray) -> None:
 
         return NotImplementedError
 
@@ -30,15 +35,47 @@ class BaseDetector(ABC):
 
         return NotImplementedError
 
-    def fit_score(self, X: np.ndarray) -> float:
-        """Detector fit and score the anomaly of current observation from StreamGenerator.
+    def fit_score(
+        self, X: np.ndarray, normalized: bool = True, normalized_sigma: int = 3
+    ) -> float:
+        """Fit one observation and calculate its anomaly score.
 
         Args:
-            X (np.ndarray): Data of current observation
+            X (np.ndarray): Data of current observation.
+            normalized (bool, optional): Whether to normalize the score into a range of [0, 1]. Defaults to True.
+            normalized_sigma (int, optional): We use k-sigma/z-score to report the anomalies, A large sigma inicates few of anomalies. Defaults to 3.
 
         Returns:
-            float: Anomaly score. 1.0 for anomaly and 0.0 for normal.
+            float: Anomaly score. A high score indicates a high degree of anomaly.
         """
+
         self._check(X)
 
-        return self.fit(X).score(X)
+        score = self.fit(X).score(X)
+
+        if score is None:
+            return None
+
+        score = float(score)
+
+        if normalized:
+            self.score_stats.update(score)
+            score_mean = self.score_stats.get_mean()
+            score_std = self.score_stats.get_std()
+            sigma = np.divide(
+                (score - score_mean),
+                score_std,
+                out=np.zeros_like(score),
+                where=score_std != 0,
+            )
+
+            if sigma >= normalized_sigma:
+                score_max = self.score_stats.get_max()
+                score = (score - score_mean) / (score_max - score_mean)
+            elif sigma <= -normalized_sigma:
+                score_min = self.score_stats.get_min()
+                score = (score - score_mean) / (score_min - score_mean)
+            else:
+                return 0
+
+        return score

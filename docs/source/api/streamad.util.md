@@ -58,7 +58,7 @@
 
 ### AUCMetric
 ```{eval-rst}
-.. autoclass:: streamad.util.AUCMetric
+.. autoclass:: streamad.evaluate.AUCMetric
     :show-inheritance:
     :members: parse
 ```

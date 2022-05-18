@@ -1,5 +1,4 @@
 from streamad.base import BaseDetector
-from streamad.util import StreamStatistic
 import numpy as np
 import mmh3
 
@@ -29,7 +28,7 @@ class xStreamDetector(BaseDetector):
         self.count = 0
         self.cur_window = []
         self.ref_window = []
-        self.score_stats = StreamStatistic()
+
         delta = np.ones(n_components) * 0.5
         self.hs_chains = _hsChains(
             deltamax=delta, n_chains=n_chains, depth=depth
@@ -64,21 +63,6 @@ class xStreamDetector(BaseDetector):
         if self.count < self.window_size:
             return None
 
-        self.score_stats.update(score)
-
-        score_mean = self.score_stats.get_mean()
-        score_std = self.score_stats.get_std()
-        z_score = np.divide(
-            (score - score_mean),
-            score_std,
-            out=np.zeros_like(score),
-            where=score_std != 0,
-        )
-        if z_score > 3:
-            max_score = self.score_stats.get_max()
-            score = (score - score_mean) / (max_score - score_mean)
-        else:
-            return 0
         return score
 
 
