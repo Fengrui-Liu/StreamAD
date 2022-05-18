@@ -9,7 +9,7 @@ class xStreamDetector(BaseDetector):
         n_components: int = 50,
         n_chains: int = 50,
         depth: int = 25,
-        window_size: int = 25,
+        window_len: int = 25,
     ):
         """Multivariate xStreamDetector :cite:`DBLP:conf/kdd/ManzoorLA18`.
 
@@ -17,14 +17,14 @@ class xStreamDetector(BaseDetector):
             n_components (int, optional): Number of streamhash projection, similar to feature numbers. Defaults to 50.
             n_chains (int, optional): Number of half-space chains. Defaults to 100.
             depth (int, optional): Maximum depth for each chain. Defaults to 25.
-            window_size (int, optional): Size of reference window. Defaults to 25.
+            window_len (int, optional): Size of reference window. Defaults to 25.
         """
 
         super().__init__()
         self.projector = StreamhashProjector(
             num_components=n_components, density=1 / 3.0
         )
-        self.window_size = window_size
+        self.window_len = window_len
         self.count = 0
         self.cur_window = []
         self.ref_window = []
@@ -42,7 +42,7 @@ class xStreamDetector(BaseDetector):
         self.cur_window.append(projected_X)
         self.hs_chains.fit(projected_X)
 
-        if self.count % self.window_size == 0:
+        if self.count % self.window_len == 0:
             self.ref_window = self.cur_window
             self.cur_window = []
 
@@ -60,7 +60,7 @@ class xStreamDetector(BaseDetector):
 
         score = -1.0 * self.hs_chains.score_chains(projected_X)
 
-        if self.count < self.window_size:
+        if self.count < self.window_len:
             return None
 
         return score

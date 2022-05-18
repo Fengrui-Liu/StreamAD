@@ -12,13 +12,13 @@ np.seterr(divide="ignore", invalid="ignore")
 
 class SpotDetector(BaseDetector):
     def __init__(
-        self, prob: float = 1e-4, window_size: int = 10, init_len: int = 150
+        self, prob: float = 1e-4, window_len: int = 10, init_len: int = 150
     ):
         """Univariate Spot model :cite:`DBLP:conf/kdd/SifferFTL17`.
 
         Args:
             prob (float, optional): Threshold for probability, a small float value. Defaults to 1e-4.
-            window_size (int, optional): A window for reference. Defaults to 10.
+            window_len (int, optional): A window for reference. Defaults to 10.
             init_len (int, optional): Data length for initialization. Recommended > 150. Defaults to 150.
         """
         super().__init__()
@@ -30,7 +30,7 @@ class SpotDetector(BaseDetector):
         self.init_length = init_len
         self.record_count = 0
         self.num_threshold = {"up": 0, "down": 0}
-        self.window_size = window_size
+        self.window_len = window_len
 
         nonedict = {"up": None, "down": None}
 
@@ -203,7 +203,7 @@ class SpotDetector(BaseDetector):
 
         if side == "up":
             r = (
-                (self.init_length - self.window_size)
+                (self.init_length - self.window_len)
                 * self.prob
                 / self.num_threshold[side]
             )
@@ -215,7 +215,7 @@ class SpotDetector(BaseDetector):
                 return self.init_threshold["up"] - sigma * log(r)
         elif side == "down":
             r = (
-                (self.init_length - self.window_size)
+                (self.init_length - self.window_len)
                 * self.prob
                 / self.num_threshold[side]
             )
@@ -230,21 +230,21 @@ class SpotDetector(BaseDetector):
 
     def _back_mean(self):
         M = []
-        w = sum(self.init_data[: self.window_size])
-        M.append(w / self.window_size)
-        for i in range(self.window_size, self.record_count):
-            w = w - self.init_data[i - self.window_size] + self.init_data[i]
-            M.append(w / self.window_size)
+        w = sum(self.init_data[: self.window_len])
+        M.append(w / self.window_len)
+        for i in range(self.window_len, self.record_count):
+            w = w - self.init_data[i - self.window_len] + self.init_data[i]
+            M.append(w / self.window_len)
 
         return np.array(M)
 
     def _init_drift(self, X: pd.Series, verbose=False):
 
-        n_init = self.init_length - self.window_size
+        n_init = self.init_length - self.window_len
 
         M = self._back_mean()
 
-        T = self.init_data[self.window_size :] - M[:-1]
+        T = self.init_data[self.window_len :] - M[:-1]
         S = np.sort(T.tolist())
         self.init_threshold["up"] = S[int(0.98 * n_init)]
         self.init_threshold["down"] = S[int(0.02 * n_init)]
@@ -279,7 +279,7 @@ class SpotDetector(BaseDetector):
         if self.record_count <= self.init_length:
             return None
 
-        hist_mean = np.mean(self.init_data[-self.window_size :])
+        hist_mean = np.mean(self.init_data[-self.window_len :])
 
         normal_X = float(X) - hist_mean
 
@@ -322,7 +322,7 @@ class SpotDetector(BaseDetector):
         else:
             prob = 0.0
 
-        self.init_data = self.init_data[-self.window_size :]
+        self.init_data = self.init_data[-self.window_len :]
 
         self.thup.append(self.extreme_quantile["up"] + hist_mean)
         self.thdown.append(self.extreme_quantile["down"] + hist_mean)

@@ -47,6 +47,17 @@
 ----
 
 
+### ZScoreDetector
+
+```{eval-rst}
+.. autoclass:: streamad.model.ZScoreDetector
+    :show-inheritance:
+    :members: parse
+```
+
+----
+
+
 ## Multivariate Anomaly Detector
 
 Note that these methods are compatible with univariate time series.

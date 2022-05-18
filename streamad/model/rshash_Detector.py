@@ -80,12 +80,12 @@ class RShashDetector(BaseDetector):
 
         self.data_stats.update(X)
 
+        if self.index == self.buffer.maxlen - 1:
+            self._burn_in()
+
         if len(self.buffer) < self.buffer.maxlen:
             self.buffer.append(X)
             return self
-
-        if self.index == self.buffer.maxlen - 1:
-            self._burn_in()
 
         return self
 

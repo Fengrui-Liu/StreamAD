@@ -11,6 +11,7 @@ class BaseDetector(ABC):
         """Initialization BaseDetector"""
         self.data_type = "multivariate"
         self.index = -1
+        self.window_len = 10
         self.score_stats = StreamStatistic()
         pass
 
@@ -26,7 +27,7 @@ class BaseDetector(ABC):
         self.index += 1
 
     @abstractmethod
-    def fit(self, X: np.ndarray) -> None:
+    def fit(self, X: np.ndarray):
 
         return NotImplementedError
 
@@ -36,19 +37,31 @@ class BaseDetector(ABC):
         return NotImplementedError
 
     def fit_score(
-        self, X: np.ndarray, normalized: bool = True, normalized_sigma: int = 3
+        self,
+        X: np.ndarray,
+        normalized: bool = True,
+        normalized_sigma: int = 3,
+        normalized_global: bool = True,
     ) -> float:
         """Fit one observation and calculate its anomaly score.
 
         Args:
             X (np.ndarray): Data of current observation.
             normalized (bool, optional): Whether to normalize the score into a range of [0, 1]. Defaults to True.
-            normalized_sigma (int, optional): We use k-sigma/z-score to report the anomalies, A large sigma inicates few of anomalies. Defaults to 3.
+            normalized_sigma (int, optional): We use k-sigma/z-score to report the anomalies, A large sigma inicates few anomalies. Defaults to 3.
+            normalized_global (bool, optional): True for normalizing the score globally, with all history. Flase for normalizing the score within the window, with forgeting long histories. Defaults to True.
 
         Returns:
             float: Anomaly score. A high score indicates a high degree of anomaly.
         """
 
+        if self.index == -1:
+            if normalized_global:
+                self.score_stats = StreamStatistic(is_global=True)
+            else:
+                self.score_stats = StreamStatistic(
+                    is_global=False, window_len=self.window_len
+                )
         self._check(X)
 
         score = self.fit(X).score(X)

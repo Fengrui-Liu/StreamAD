@@ -6,6 +6,7 @@ from .random_Detector import RandomDetector
 from .SR_Detector import SRDetector
 from .rrcf_Detector import RrcfDetector
 from .hstree_Detector import HSTreeDetector
+from .zscore_Detector import ZScoreDetector
 
 
 __all__ = [
@@ -17,4 +18,5 @@ __all__ = [
     "SRDetector",
     "RrcfDetector",
     "HSTreeDetector",
+    "ZScoreDetector",
 ]

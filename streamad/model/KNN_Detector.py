@@ -4,7 +4,6 @@ from copy import deepcopy
 import numpy as np
 from scipy.spatial.distance import cdist
 from streamad.base import BaseDetector
-from streamad.util import StreamStatistic
 
 
 class KNNDetector(BaseDetector):
