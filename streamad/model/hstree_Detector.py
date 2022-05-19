@@ -5,33 +5,26 @@ from streamad.util import StreamStatistic
 
 class Leaf:
     def __init__(
-        self,
-        left=None,
-        right=None,
-        r=0,
-        l=0,
-        split_attrib=0,
-        split_value=0.0,
-        depth=0,
+        self, left=None, right=None, depth=0,
     ):
         self.left = left
         self.right = right
-        self.r = r
-        self.l = l
-        self.split_attrib = split_attrib
-        self.split_value = split_value
+        self.r = 0
+        self.l = 0
+        self.split_attrib = 0
+        self.split_value = 0.0
         self.k = depth
 
 
 class HSTreeDetector(BaseDetector):
     def __init__(
-        self, window_len: int = 20, tree_height: int = 15, tree_num: int = 100,
+        self, window_len: int = 100, tree_height: int = 10, tree_num: int = 100,
     ):
         """Half space tree detectors. :cite:`DBLP:conf/ijcai/TanTL11`.
 
         Args:
-            window_len (int, optional): The length of reference window. Defaults to 20.
-            tree_height (int, optional): Height of a half space tree. Defaults to 15.
+            window_len (int, optional): The length of reference window. Defaults to 100.
+            tree_height (int, optional): Height of a half space tree. Defaults to 10.
             tree_num (int, optional): Totla number of the trees. Defaults to 100.
         """
         super().__init__()
@@ -49,8 +42,8 @@ class HSTreeDetector(BaseDetector):
         for q in range(self.dimensions):
             s_q = np.random.random_sample()
             max_value = max(s_q, 1 - s_q)
-            max_arr[q] = s_q + 2 * max_value
-            min_arr[q] = s_q - 2 * max_value
+            max_arr[q] = s_q + max_value
+            min_arr[q] = s_q - max_value
 
         return max_arr, min_arr
 
@@ -77,8 +70,8 @@ class HSTreeDetector(BaseDetector):
             if tree.k != 0:
                 if is_ref_window:
                     tree.r += 1
-                else:
-                    tree.l += 1
+
+                tree.l += 1
             if X[tree.split_attrib] > tree.split_value:
                 tree_new = tree.right
             else:
@@ -106,14 +99,17 @@ class HSTreeDetector(BaseDetector):
 
         if self.dimensions is None:
             self.dimensions = len(X)
-            max_arr, min_arr = self._generate_max_min()
-            tree = self._init_a_tree(max_arr, min_arr, 0)
-            self.forest.append(tree)
+            for _ in range(self.tree_num):
+                max_arr, min_arr = self._generate_max_min()
+                tree = self._init_a_tree(max_arr, min_arr, 0)
+                self.forest.append(tree)
 
         if self.index < self.window_len:
             for tree in self.forest:
-                self._update_tree_mass(tree, X, True)
-        elif self.index > self.window_len and self.index % self.window_len == 0:
+                self._update_tree_mass(tree, self.X_normalized, True)
+        elif (
+            self.index >= self.window_len and self.index % self.window_len == 0
+        ):
             for tree in self.forest:
                 self._reset_tree(tree)
 

@@ -4,8 +4,6 @@
 
 
 
-
-
 Anomaly detection for data streams/time series. Detectors process the univariate or multivariate data one by one to simulte a real-time scene.
 
 
@@ -15,17 +13,24 @@ Anomaly detection for data streams/time series. Detectors process the univariate
 
 <!--- BADGES: START --->
 
-![GitHub](https://img.shields.io/github/license/Fengrui-Liu/StreamAD)
-![PyPI - Python Version](https://img.shields.io/pypi/pyversions/StreamAD?style=flat)
-![Read the Docs](https://img.shields.io/readthedocs/streamad?style=flat)
+
+
+![Conda](https://img.shields.io/conda/v/conda-forge/streamad)
 ![PyPI](https://img.shields.io/pypi/v/streamad)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/StreamAD?style=flat)
 ![PyPI - Implementation](https://img.shields.io/pypi/implementation/streamad)
+
+![Read the Docs](https://img.shields.io/readthedocs/streamad?style=flat)
+![GitHub](https://img.shields.io/github/license/Fengrui-Liu/StreamAD)
+![Conda](https://img.shields.io/conda/pn/conda-forge/streamad)
 [![Downloads](https://static.pepy.tech/personalized-badge/streamad?period=total&units=international_system&left_color=grey&right_color=orange&left_text=Downloads)](https://pepy.tech/project/streamad)
+
+
 ![example workflow](https://github.com/Fengrui-Liu/StreamAD/actions/workflows/testing.yml//badge.svg)
 [![codecov](https://codecov.io/gh/Fengrui-Liu/StreamAD/branch/main/graph/badge.svg?token=AQG26L2RA7)](https://codecov.io/gh/Fengrui-Liu/StreamAD)
-![Conda](https://img.shields.io/conda/v/conda-forge/streamad)
 [![Maintainability](https://api.codeclimate.com/v1/badges/525d7e3663ee4c5c0daa/maintainability)](https://codeclimate.com/github/Fengrui-Liu/StreamAD/maintainability)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FFengrui-Liu%2FStreamAD.svg?type=small)](https://app.fossa.com/projects/git%2Bgithub.com%2FFengrui-Liu%2FStreamAD?ref=badge_small)
+
 
 
 ---
@@ -38,6 +43,12 @@ The stable version can be installed from PyPI:
 
 ```bash
 pip install streamad
+```
+
+The stable version can be installed from conda-forge:
+
+```bash
+conda install --channel "conda-forge" streamad
 ```
 
 The development version can be installed from GitHub:
