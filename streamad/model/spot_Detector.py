@@ -1,5 +1,4 @@
 from streamad.base import BaseDetector
-import pandas as pd
 import numpy as np
 from math import log
 from scipy.optimize import minimize
@@ -228,13 +227,13 @@ class SpotDetector(BaseDetector):
         M = []
         w = sum(self.init_data[: self.window_len])
         M.append(w / self.window_len)
-        for i in range(self.window_len, self.index):
+        for i in range(self.window_len, self.index + 1):
             w = w - self.init_data[i - self.window_len] + self.init_data[i]
             M.append(w / self.window_len)
 
         return np.array(M)
 
-    def _init_drift(self, X: pd.Series, verbose=False):
+    def _init_drift(self, X: np.ndarray, verbose=False):
 
         n_init = self.init_length - self.window_len
 
@@ -265,7 +264,7 @@ class SpotDetector(BaseDetector):
 
         self.init_data.append(float(X))
 
-        if self.index == self.init_length:
+        if self.index == self.init_length - 1:
             self._init_drift(X)
 
         return self
@@ -276,7 +275,7 @@ class SpotDetector(BaseDetector):
             / (self.extreme_quantile[side] - self.init_threshold[side])
         )
         self.peaks[side] = np.append(
-            self.peaks[side], X - self.init_threshold[side]
+            self.peaks[side], abs(X - self.init_threshold[side])
         )
         self.num_threshold[side] += 1
         gamma, sigma, _ = self._grimshaw(side)
@@ -287,7 +286,7 @@ class SpotDetector(BaseDetector):
         return score
 
     def score(self, X: np.ndarray) -> float:
-        if self.index <= self.init_length:
+        if self.index < self.init_length:
             return None
 
         hist_mean = np.mean(self.init_data[-self.window_len :])
