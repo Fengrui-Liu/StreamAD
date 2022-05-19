@@ -82,4 +82,4 @@ def plot(
         ),
         height=height,
     )
-    fig.show()
+    return fig

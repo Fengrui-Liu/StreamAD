@@ -8,4 +8,5 @@
 
 streamad.model
 streamad.util
+streamad.evaluate
 ```

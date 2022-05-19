@@ -21,7 +21,6 @@ class SpotDetector(BaseDetector):
 
         self.data_type = "univariate"
         self.prob = prob
-        self.data = []
         self.init_data = []
         self.init_length = init_len
         self.num_threshold = {"up": 0, "down": 0}
@@ -35,8 +34,8 @@ class SpotDetector(BaseDetector):
         self.gamma = dict.copy(nonedict)
         self.sigma = dict.copy(nonedict)
 
-        self.thup = []
-        self.thdown = []
+        # self.thup = []
+        # self.thdown = []
 
     def _grimshaw(self, side, epsilon=1e-8, n_points=10):
         def u(s):
@@ -309,7 +308,7 @@ class SpotDetector(BaseDetector):
 
         self.init_data = self.init_data[-self.window_len :]
 
-        self.thup.append(self.extreme_quantile["up"] + hist_mean)
-        self.thdown.append(self.extreme_quantile["down"] + hist_mean)
+        # self.thup.append(self.extreme_quantile["up"] + hist_mean)
+        # self.thdown.append(self.extreme_quantile["down"] + hist_mean)
 
         return abs(score)

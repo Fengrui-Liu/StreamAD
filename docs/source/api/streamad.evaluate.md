@@ -1,7 +1,8 @@
 # StreamAD Evaluation
 
 
-### AUCMetric
+
+## AUCMetric
 ```{eval-rst}
 .. autoclass:: streamad.evaluate.AUCMetric
     :show-inheritance:
