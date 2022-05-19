@@ -25,6 +25,6 @@ class BaseMetrics(ABC):
         self.y_pred = []
 
     @abstractmethod
-    def evaluate(self):
+    def evaluate(self, y_true=None, y_pred=None):
 
         return 0.0

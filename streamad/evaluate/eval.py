@@ -11,5 +11,5 @@ class AUCMetric(BaseMetrics):
 
     def evaluate(self, y_true, y_pred):
         y_pred = np.array(y_pred)
-        y_pred[y_pred == None] = 0
+        y_pred[y_pred is None] = 0
         return roc_auc_score(y_true, y_pred)

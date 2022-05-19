@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-# coding=utf-8
-
 from streamad.base import BaseDetector
 import pandas as pd
 import numpy as np
@@ -28,7 +25,6 @@ class SpotDetector(BaseDetector):
         self.data = []
         self.init_data = []
         self.init_length = init_len
-        self.record_count = 0
         self.num_threshold = {"up": 0, "down": 0}
         self.window_len = window_len
 
@@ -232,7 +228,7 @@ class SpotDetector(BaseDetector):
         M = []
         w = sum(self.init_data[: self.window_len])
         M.append(w / self.window_len)
-        for i in range(self.window_len, self.record_count):
+        for i in range(self.window_len, self.index):
             w = w - self.init_data[i - self.window_len] + self.init_data[i]
             M.append(w / self.window_len)
 
@@ -267,64 +263,54 @@ class SpotDetector(BaseDetector):
 
     def fit(self, X: np.ndarray):
 
-        self.record_count += 1
         self.init_data.append(float(X))
 
-        if self.record_count == self.init_length:
+        if self.index == self.init_length:
             self._init_drift(X)
 
         return self
 
+    def _update_one_side(self, side: str, X: float):
+        score = abs(
+            float(self.init_threshold[side] - X)
+            / (self.extreme_quantile[side] - self.init_threshold[side])
+        )
+        self.peaks[side] = np.append(
+            self.peaks[side], X - self.init_threshold[side]
+        )
+        self.num_threshold[side] += 1
+        gamma, sigma, _ = self._grimshaw(side)
+        self.extreme_quantile[side] = self._quantile(
+            side, gamma=gamma, sigma=sigma
+        )
+
+        return score
+
     def score(self, X: np.ndarray) -> float:
-        if self.record_count <= self.init_length:
+        if self.index <= self.init_length:
             return None
 
         hist_mean = np.mean(self.init_data[-self.window_len :])
 
         normal_X = float(X) - hist_mean
 
-        prob = 0.0
-
-        if normal_X > self.extreme_quantile["up"]:
-            prob = 1.0
+        if (
+            normal_X > self.extreme_quantile["up"]
+            or normal_X < self.extreme_quantile["down"]
+        ):
+            score = 1.0
             self.init_data = self.init_data[:-1]
         elif normal_X > self.init_threshold["up"]:
-            prob = float(normal_X - self.init_threshold["up"]) / (
-                self.extreme_quantile["up"] - self.init_threshold["up"]
-            )
-            self.peaks["up"] = np.append(
-                self.peaks["up"], normal_X - self.init_threshold["up"]
-            )
-            self.num_threshold["up"] += 1
-            gamma, sigma, _ = self._grimshaw("up")
-            self.extreme_quantile["up"] = self._quantile(
-                "up", gamma=gamma, sigma=sigma
-            )
-
-        elif normal_X < self.extreme_quantile["down"]:
-            prob = 1.0
-            self.init_data = self.init_data[:-1]
+            score = self._update_one_side("up", normal_X)
 
         elif normal_X < self.init_threshold["down"]:
-            prob = float(self.init_threshold["down"] - normal_X) / (
-                self.extreme_quantile["down"] - normal_X
-            )
-            self.peaks["down"] = np.append(
-                self.peaks["down"], self.init_threshold["down"] - normal_X
-            )
-
-            self.num_threshold["down"] += 1
-
-            gamma, sigma, _ = self._grimshaw("down")
-            self.extreme_quantile["down"] = self._quantile(
-                "down", gamma=gamma, sigma=sigma
-            )
+            score = self._update_one_side("down", normal_X)
         else:
-            prob = 0.0
+            score = 0.0
 
         self.init_data = self.init_data[-self.window_len :]
 
         self.thup.append(self.extreme_quantile["up"] + hist_mean)
         self.thdown.append(self.extreme_quantile["down"] + hist_mean)
 
-        return abs(prob)
+        return abs(score)

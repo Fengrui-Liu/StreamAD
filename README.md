@@ -24,7 +24,9 @@ Anomaly detection for data streams/time series. Detectors process the univariate
 ![example workflow](https://github.com/Fengrui-Liu/StreamAD/actions/workflows/testing.yml//badge.svg)
 [![codecov](https://codecov.io/gh/Fengrui-Liu/StreamAD/branch/main/graph/badge.svg?token=AQG26L2RA7)](https://codecov.io/gh/Fengrui-Liu/StreamAD)
 ![Conda](https://img.shields.io/conda/v/conda-forge/streamad)
+[![Maintainability](https://api.codeclimate.com/v1/badges/525d7e3663ee4c5c0daa/maintainability)](https://codeclimate.com/github/Fengrui-Liu/StreamAD/maintainability)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FFengrui-Liu%2FStreamAD.svg?type=small)](https://app.fossa.com/projects/git%2Bgithub.com%2FFengrui-Liu%2FStreamAD?ref=badge_small)
+
 
 ---
 

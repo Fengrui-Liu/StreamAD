@@ -13,7 +13,6 @@ class BaseDetector(ABC):
         self.index = -1
         self.window_len = 10
         self.score_stats = StreamStatistic()
-        pass
 
     def _check(self, X) -> bool:
         """Check whether the detector can handle the data."""
@@ -55,13 +54,10 @@ class BaseDetector(ABC):
             float: Anomaly score. A high score indicates a high degree of anomaly.
         """
 
-        if self.index == -1:
-            if normalized_global:
-                self.score_stats = StreamStatistic(is_global=True)
-            else:
-                self.score_stats = StreamStatistic(
-                    is_global=False, window_len=self.window_len
-                )
+        if self.index == -1 and not normalized_global:
+            self.score_stats = StreamStatistic(
+                is_global=False, window_len=self.window_len
+            )
         self._check(X)
 
         score = self.fit(X).score(X)

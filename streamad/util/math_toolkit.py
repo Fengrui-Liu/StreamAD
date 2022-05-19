@@ -1,8 +1,7 @@
-import collections
 import math
 
 import numpy as np
-from collections import deque
+from collections import deque, defaultdict
 
 
 class StreamStatistic:
@@ -14,13 +13,13 @@ class StreamStatistic:
         self._window = deque(maxlen=window_len)
         self._num_items = 0
 
-        self._max = collections.defaultdict(lambda: -math.inf)
-        self._min = collections.defaultdict(lambda: math.inf)
-        self._sum = collections.defaultdict(float)
-        self._mean = collections.defaultdict(float)
-        self._sum_squares = collections.defaultdict(float)
-        self._var = collections.defaultdict(float)
-        self._std = collections.defaultdict(float)
+        self._max = defaultdict(lambda: -math.inf)
+        self._min = defaultdict(lambda: math.inf)
+        self._sum = defaultdict(float)
+        self._mean = defaultdict(float)
+        self._sum_squares = defaultdict(float)
+        self._var = defaultdict(float)
+        self._std = defaultdict(float)
 
     def update(self, X: np.ndarray):
         """Update a pd.Series to stream
@@ -46,7 +45,7 @@ class StreamStatistic:
 
         if self._is_global:
 
-            tmp = collections.defaultdict(float)
+            tmp = defaultdict(float)
 
             for index, item in enumerate(X):
                 self._max[index] = (
@@ -74,15 +73,10 @@ class StreamStatistic:
 
         if self._is_global:
             result = [_ for _ in self._max.values()]
-            if self._is_uni:
-                return result[0]
-            else:
-                return np.array(result)
         else:
-            if self._is_uni:
-                return np.max(self._window, axis=0)[0]
-            else:
-                return np.max(self._window, axis=0)
+            result = np.max(self._window, axis=0)
+
+        return result[0] if self._is_uni else np.array(result)
 
     def get_min(self):
         """
@@ -91,15 +85,10 @@ class StreamStatistic:
 
         if self._is_global:
             result = [_ for _ in self._min.values()]
-            if self._is_uni:
-                return result[0]
-            else:
-                return np.array(result)
         else:
-            if self._is_uni:
-                return np.min(self._window, axis=0)[0]
-            else:
-                return np.min(self._window, axis=0)
+            result = np.min(self._window, axis=0)
+
+        return result[0] if self._is_uni else np.array(result)
 
     def get_mean(self):
         """
@@ -108,15 +97,10 @@ class StreamStatistic:
 
         if self._is_global:
             result = [_ for _ in self._mean.values()]
-            if self._is_uni:
-                return result[0]
-            else:
-                return np.array(result)
         else:
-            if self._is_uni:
-                return np.mean(self._window, axis=0)[0]
-            else:
-                return np.mean(self._window, axis=0)
+            result = np.mean(self._window, axis=0)
+
+        return result[0] if self._is_uni else np.array(result)
 
     def get_std(self):
         """
@@ -125,15 +109,10 @@ class StreamStatistic:
 
         if self._is_global:
             result = [_ for _ in self._std.values()]
-            if self._is_uni:
-                return result[0]
-            else:
-                return np.array(result)
         else:
-            if self._is_uni:
-                return np.std(self._window, axis=0)[0]
-            else:
-                return np.std(self._window, axis=0)
+            result = np.std(self._window, axis=0)
+
+        return result[0] if self._is_uni else np.array(result)
 
     def get_sum(self):
         """
@@ -142,15 +121,10 @@ class StreamStatistic:
 
         if self._is_global:
             result = [_ for _ in self._sum.values()]
-            if self._is_uni:
-                return result[0]
-            else:
-                return np.array(result)
         else:
-            if self._is_uni:
-                return np.sum(self._window, axis=0)[0]
-            else:
-                return np.sum(self._window, axis=0)
+            result = np.sum(self._window, axis=0)
+
+        return result[0] if self._is_uni else np.array(result)
 
     def get_var(self):
         """
@@ -159,13 +133,7 @@ class StreamStatistic:
 
         if self._is_global:
             result = [_ for _ in self._var.values()]
-            if self._is_uni:
-                return result[0]
-            else:
-                return np.array(result)
-
         else:
-            if self._is_uni:
-                return np.var(self._window, axis=0)[0]
-            else:
-                return np.var(self._window, axis=0)
+            result = np.var(self._window, axis=0)
+
+        return result[0] if self._is_uni else np.array(result)
