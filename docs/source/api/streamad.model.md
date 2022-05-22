@@ -3,6 +3,8 @@
 
 
 ## Univariate Anomaly Detector
+
+If you want to detect multivarite time series with these models, you need to apply them on each feature separately.
 ### KNNDetector
 
 ```{eval-rst}
@@ -60,7 +62,7 @@
 
 ## Multivariate Anomaly Detector
 
-Note that these methods are compatible with univariate time series.
+These models are compatible with univariate time series.
 
 ### xStreamDetector
 
