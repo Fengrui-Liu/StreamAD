@@ -61,7 +61,7 @@ pip install git+https://github.com/Fengrui-Liu/StreamAD
 
 ## Quick Start
 
-Start once detection within 5 lines of code. You can find more example with visualization results [here](https://streamad.readthedocs.io/en/latest/example/example.html)
+Start once detection within 5 lines of code. You can find more example with visualization results [here](https://streamad.readthedocs.io/en/latest/example/example.html).
 
 ```python
 from streamad.util import StreamGenerator, UnivariateDS, plot
@@ -73,13 +73,13 @@ model = SpotDetector()
 
 for x in stream.iter_item():
     score = model.fit_score(x)
-
 ```
 
 ## Models
 
 ### For univariate time series
 
+If you want to detect multivarite time series with these models, you need to apply them on each feature separately.
 
 | Model Example                                                                                                     | API Usage                                                                                                         | Paper                                                                                                               |
 | ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
@@ -90,7 +90,11 @@ for x in stream.iter_item():
 | [Z score](https://streamad.readthedocs.io/en/latest/example/univariate.html#z-score-detector)                     | [streamad.model.ZScoreDetector](https://streamad.readthedocs.io/en/latest/api/streamad.model.html#zscoredetector) | [Standard score](https://en.wikipedia.org/wiki/Standard_score)                                                      |
 
 
-### For multivariate time series, also compatible with univariate time series.
+### For multivariate time series
+
+These models are compatible with univariate time series.
+
+
 
 | Models Example                                                                                         | API Usage                                                                                                          | Paper                                                                                                                                                                     |
 | ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
