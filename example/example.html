@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Examples &#8212; StreamAD 0.1.0 documentation</title>
+    <title>Examples &#8212; StreamAD 0.1.1 documentation</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -47,8 +47,8 @@
     <link rel="shortcut icon" href="../_static/logo_html.svg"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="SpotDetector" href="spot_example.html" />
-    <link rel="prev" title="QuickStart" href="../quickstart.html" />
+    <link rel="next" title="Dataset Usage" href="dataset_usage.html" />
+    <link rel="prev" title="StreamAD" href="../overview.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en">
     
@@ -92,7 +92,7 @@
       <img src="../_static/logo_htmlwithname.svg" class="logo" alt="logo">
       
       
-      <h1 class="site-logo" id="site-title">StreamAD 0.1.0 documentation</h1>
+      <h1 class="site-logo" id="site-title">StreamAD 0.1.1 documentation</h1>
       
     </a>
 </div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
@@ -100,10 +100,15 @@
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
-        <ul class="current nav bd-sidenav">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Overview
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="../quickstart.html">
-   QuickStart
+  <a class="reference internal" href="../overview.html">
+   StreamAD
   </a>
  </li>
  <li class="toctree-l1 current active has-children">
@@ -117,13 +122,18 @@
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="spot_example.html">
-     SpotDetector
+    <a class="reference internal" href="dataset_usage.html">
+     Dataset Usage
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="xstream_example.html">
-     xStreamDetector
+    <a class="reference internal" href="univariate.html">
+     Univariate detector
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="multivariate.html">
+     Multivariate detector
     </a>
    </li>
   </ul>
@@ -153,6 +163,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="../api/streamad.util.html">
      StreamAD Utilities
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../api/streamad.evaluate.html">
+     StreamAD Evaluation
     </a>
    </li>
   </ul>
@@ -310,19 +325,41 @@ title="Print to PDF"
               <div>
                 
   <section class="tex2jax_ignore mathjax_ignore" id="examples">
-<h1>Examples<a class="headerlink" href="#examples" title="Permalink to this headline"></a></h1>
+<h1>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">#</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="spot_example.html">SpotDetector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dataset_usage.html">Dataset Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="dataset_usage.html#univariate-time-series">Univariate time series</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataset_usage.html#multivariate-time-series">Multivariate time series</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dataset_usage.html#customized-time-series">Customized time series</a></li>
+</ul>
+</li>
 </ul>
 </div>
 <hr class="docutils" />
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="xstream_example.html">xStreamDetector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="univariate.html">Univariate detector</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="univariate.html#knncad-detector">KNNCAD Detector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="univariate.html#spot-detector">Spot Detector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="univariate.html#rrcf-detector">RRCF Detector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="univariate.html#spectral-residual-detector">Spectral Residual Detector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="univariate.html#z-score-detector">Z-score Detector</a></li>
+</ul>
+</li>
 </ul>
 </div>
 <hr class="docutils" />
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="multivariate.html">Multivariate detector</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="multivariate.html#xstream-detector">xStream Detector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multivariate.html#rshash-detector">Rshash Detector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multivariate.html#half-space-tree-detector">Half Space Tree Detector</a></li>
+</ul>
+</li>
+</ul>
+</div>
 </section>
 
 
@@ -333,17 +370,17 @@ title="Print to PDF"
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="../quickstart.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="../overview.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">QuickStart</p>
+            <p class="prev-next-title">StreamAD</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="spot_example.html" title="next page">
+    <a class='right-next' id="next-link" href="dataset_usage.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">SpotDetector</p>
+        <p class="prev-next-title">Dataset Usage</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

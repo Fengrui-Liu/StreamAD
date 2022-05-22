@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>streamad.util.dataset &#8212; StreamAD 0.1.0 documentation</title>
+    <title>streamad.util.dataset &#8212; StreamAD 0.1.1 documentation</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -89,7 +89,7 @@
       <img src="../../../_static/logo_htmlwithname.svg" class="logo" alt="logo">
       
       
-      <h1 class="site-logo" id="site-title">StreamAD 0.1.0 documentation</h1>
+      <h1 class="site-logo" id="site-title">StreamAD 0.1.1 documentation</h1>
       
     </a>
 </div><form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
@@ -97,10 +97,15 @@
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
-        <ul class="nav bd-sidenav">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Overview
+ </span>
+</p>
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="../../../quickstart.html">
-   QuickStart
+  <a class="reference internal" href="../../../overview.html">
+   StreamAD
   </a>
  </li>
  <li class="toctree-l1 has-children">
@@ -114,13 +119,18 @@
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="../../../example/spot_example.html">
-     SpotDetector
+    <a class="reference internal" href="../../../example/dataset_usage.html">
+     Dataset Usage
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../../../example/xstream_example.html">
-     xStreamDetector
+    <a class="reference internal" href="../../../example/univariate.html">
+     Univariate detector
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../example/multivariate.html">
+     Multivariate detector
     </a>
    </li>
   </ul>
@@ -150,6 +160,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="../../../api/streamad.util.html">
      StreamAD Utilities
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../api/streamad.evaluate.html">
+     StreamAD Evaluation
     </a>
    </li>
   </ul>
@@ -261,9 +276,14 @@ title="Source repository"
               <div>
                 
   <h1>Source code for streamad.util.dataset</h1><div class="highlight"><pre>
-<span></span>from os.path import dirname, join
+<span></span>import warnings
+from os.path import dirname, join
+from typing import Union
+
 import numpy as np
 import pandas as pd
+
+warnings.simplefilter(action=&quot;ignore&quot;, category=FutureWarning)
 
 
 class DS:
@@ -282,20 +302,26 @@ class DS:
         self.preprocess_feature()
 
     def preprocess_data(self) -&gt; None:
-        self.data = pd.read_csv(self.path)
+        if type(self.path) == str:
+            try:
+                self.data = pd.read_csv(self.path)
+            except FileExistsError:
+                print(&quot;Cannot read this file:&quot;, self.path)
+        elif type(self.path) == np.ndarray:
+            self.data = pd.DataFrame(self.path)
+        elif type(self.path) == pd.DataFrame:
+            self.data = self.path
         self.names = self.data.columns.values
 
     def preprocess_timestamp(self) -&gt; None:
-        if &quot;timestamp&quot; in self.names:
+        if &quot;timestamp&quot; in self.names.tolist():
             self.date = self.data[&quot;timestamp&quot;].values
         else:
             self.date = self.data.index.values
 
     def preprocess_label(self) -&gt; None:
-        if &quot;label&quot; in self.names:
+        if &quot;label&quot; in self.names.tolist():
             self.label = np.array(self.data[&quot;label&quot;].values)
-        else:
-            self.label = None
 
     def preprocess_feature(self) -&gt; None:
         self.features = np.setdiff1d(
@@ -328,15 +354,22 @@ class DS:
         self.preprocess()</div>
 
 
-class CustomDS(DS):
+<div class="viewcode-block" id="CustomDS"><a class="viewcode-back" href="../../../api/streamad.util.html#streamad.util.CustomDS">[docs]</a>class CustomDS(DS):
     &quot;&quot;&quot;
     Load custom dataset.
+    Args:
+        f_path (Union[str, np.ndarray]): Dataset or its path.
+        label (np.ndarray, optional): Anomaly labels for dataset. Defaults to None.
     &quot;&quot;&quot;
 
-    def __init__(self, f_path) -&gt; None:
+    def __init__(
+        self, f_path: Union[str, np.ndarray], label: np.ndarray = None
+    ):
+
         super().__init__()
         self.path = f_path
-        self.preprocess()
+        self.label = label
+        self.preprocess()</div>
 </pre></div>
 
               </div>

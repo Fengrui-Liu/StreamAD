@@ -23,6 +23,14 @@
 
 ----
 
+### CustomDS
+```{eval-rst}
+.. autoclass:: streamad.util.CustomDS
+    :show-inheritance:
+    :members: parse
+```
+
+----
 
 ## Generator
 
@@ -44,16 +52,7 @@
     :members: parse
 ```
 
-----
 
-## Evaluation
-
-### AUCMetric
-```{eval-rst}
-.. autoclass:: streamad.util.AUCMetric
-    :show-inheritance:
-    :members: parse
-```
 
 ----
 
@@ -65,5 +64,3 @@
     :show-inheritance:
     :members: parse
 ```
-
-----

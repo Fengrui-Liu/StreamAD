@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>streamad.model.xStream_Detector &#8212; StreamAD 0.1.0 documentation</title>
+    <title>streamad.model.xStream_Detector &#8212; StreamAD 0.1.1 documentation</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -89,7 +89,7 @@
       <img src="../../../_static/logo_htmlwithname.svg" class="logo" alt="logo">
       
       
-      <h1 class="site-logo" id="site-title">StreamAD 0.1.0 documentation</h1>
+      <h1 class="site-logo" id="site-title">StreamAD 0.1.1 documentation</h1>
       
     </a>
 </div><form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
@@ -97,10 +97,15 @@
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
-        <ul class="nav bd-sidenav">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Overview
+ </span>
+</p>
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="../../../quickstart.html">
-   QuickStart
+  <a class="reference internal" href="../../../overview.html">
+   StreamAD
   </a>
  </li>
  <li class="toctree-l1 has-children">
@@ -114,13 +119,18 @@
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="../../../example/spot_example.html">
-     SpotDetector
+    <a class="reference internal" href="../../../example/dataset_usage.html">
+     Dataset Usage
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../../../example/xstream_example.html">
-     xStreamDetector
+    <a class="reference internal" href="../../../example/univariate.html">
+     Univariate detector
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../example/multivariate.html">
+     Multivariate detector
     </a>
    </li>
   </ul>
@@ -150,6 +160,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="../../../api/streamad.util.html">
      StreamAD Utilities
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../api/streamad.evaluate.html">
+     StreamAD Evaluation
     </a>
    </li>
   </ul>
@@ -262,56 +277,50 @@ title="Source repository"
                 
   <h1>Source code for streamad.model.xStream_Detector</h1><div class="highlight"><pre>
 <span></span>from streamad.base import BaseDetector
-import pandas as pd
 import numpy as np
 import mmh3
 
 
 <div class="viewcode-block" id="xStreamDetector"><a class="viewcode-back" href="../../../api/streamad.model.html#streamad.model.xStreamDetector">[docs]</a>class xStreamDetector(BaseDetector):
-    &quot;&quot;&quot;Multivariate xStreamDetector :cite:`DBLP:conf/kdd/ManzoorLA18`. See `xStream &lt;https://cmuxstream.github.io/&gt;`_&quot;&quot;&quot;
-
 <div class="viewcode-block" id="xStreamDetector.__init__"><a class="viewcode-back" href="../../../api/streamad.model.html#streamad.model.xStreamDetector.__init__">[docs]</a>    def __init__(
         self,
         n_components: int = 50,
-        n_chains: int = 100,
+        n_chains: int = 50,
         depth: int = 25,
-        window_size: int = 25,
+        window_len: int = 25,
     ):
-        &quot;&quot;&quot;xStream detector for multivariate data.
+        &quot;&quot;&quot;Multivariate xStreamDetector :cite:`DBLP:conf/kdd/ManzoorLA18`.
 
         Args:
             n_components (int, optional): Number of streamhash projection, similar to feature numbers. Defaults to 50.
             n_chains (int, optional): Number of half-space chains. Defaults to 100.
             depth (int, optional): Maximum depth for each chain. Defaults to 25.
-            window_size (int, optional): Size of reference window. Defaults to 25.
+            window_len (int, optional): Size of reference window. Defaults to 25.
         &quot;&quot;&quot;
 
+        super().__init__()
         self.projector = StreamhashProjector(
             num_components=n_components, density=1 / 3.0
         )
-        self.window_size = window_size
+        self.window_len = window_len
         self.count = 0
         self.cur_window = []
         self.ref_window = []
+
         delta = np.ones(n_components) * 0.5
         self.hs_chains = _hsChains(
             deltamax=delta, n_chains=n_chains, depth=depth
-        )
-        self.scores = []</div>
+        )</div>
 
-<div class="viewcode-block" id="xStreamDetector.fit"><a class="viewcode-back" href="../../../api/streamad.model.html#streamad.model.xStreamDetector.fit">[docs]</a>    def fit(self, X: np.ndarray):
-        &quot;&quot;&quot;xStreamDetector collects data with a window length, projects them via streamhash projector, and then scores the observed data.
+    def fit(self, X: np.ndarray):
 
-        Args:
-            X (np.ndarray): Current observation.
-        &quot;&quot;&quot;
         self.count += 1
 
         projected_X = self.projector.transform(X)
         self.cur_window.append(projected_X)
         self.hs_chains.fit(projected_X)
 
-        if self.count % self.window_size == 0:
+        if self.count % self.window_len == 0:
             self.ref_window = self.cur_window
             self.cur_window = []
 
@@ -321,34 +330,18 @@ import mmh3
             self.hs_chains.set_deltamax(deltamax=deltamax)
             self.hs_chains.next_window()
 
-        return self</div>
+        return self
 
-<div class="viewcode-block" id="xStreamDetector.score"><a class="viewcode-back" href="../../../api/streamad.model.html#streamad.model.xStreamDetector.score">[docs]</a>    def score(self, X: np.ndarray) -&gt; float:
-        &quot;&quot;&quot;Score the current observation. None for init period and float for the probability of anomalousness.
+    def score(self, X: np.ndarray) -&gt; float:
 
-        Args:
-            X (np.ndarray): Current observation.
-
-        Returns:
-            float: Anomaly probability.
-        &quot;&quot;&quot;
         projected_X = self.projector.transform(X)
 
         score = -1.0 * self.hs_chains.score_chains(projected_X)
-        self.scores.append(score)
 
-        if self.count &lt; self.window_size:
-            return 0.0
+        if self.count &lt; self.window_len:
+            return None
 
-        score = self.scores[-1]
-
-        prob = (
-            1.0
-            * len(np.where(np.array(self.scores) &lt; score)[0])
-            / len(self.scores)
-        )
-
-        return abs(prob)</div></div>
+        return score</div>
 
 
 class _Chain:
@@ -366,8 +359,8 @@ class _Chain:
     def bincount(self, X):
 
         scores = np.zeros(self.depth)
-        prebins = np.zeros(X.shape[0], dtype=np.float)
-        depthcount = np.zeros(len(self.deltamax), dtype=np.int)
+        prebins = np.zeros(X.shape[0], dtype=float)
+        depthcount = np.zeros(len(self.deltamax), dtype=int)
         for depth in range(self.depth):
             f = self.fs[depth]
             depthcount[f] += 1
@@ -401,8 +394,8 @@ class _Chain:
 
     def fit(self, X):
 
-        prebins = np.zeros(X.shape, dtype=np.float)
-        depthcount = np.zeros(len(self.deltamax), dtype=np.int)
+        prebins = np.zeros(X.shape, dtype=float)
+        depthcount = np.zeros(len(self.deltamax), dtype=int)
         for depth in range(self.depth):
             f = self.fs[depth]
             depthcount[f] += 1
@@ -487,10 +480,10 @@ class StreamhashProjector:
         &quot;&quot;&quot;Projects particular (next) timestep&#39;s vector to (possibly) lower dimensional space.
 
         Args:
-            X (np.float array of shape (num_features,)): Input feature vector.
+            X (float array of shape (num_features,)): Input feature vector.
 
         Returns:
-            projected_X (np.float array of shape (num_components,)): Projected feature vector.
+            projected_X (float array of shape (num_components,)): Projected feature vector.
         &quot;&quot;&quot;
         ndim = X.shape[0]
 
@@ -509,7 +502,7 @@ class StreamhashProjector:
 
     def _hash_string(self, k, s):
 
-        hash_value = int(mmh3.hash(s, signed=False, seed=k)) / (2.0**32 - 1)
+        hash_value = int(mmh3.hash(s, signed=False, seed=k)) / (2.0 ** 32 - 1)
         s = self.density
         if hash_value &lt;= s / 2.0:
             return -1 * self.constant

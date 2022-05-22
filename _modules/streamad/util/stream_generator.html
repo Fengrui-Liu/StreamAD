@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>streamad.util.stream_generator &#8212; StreamAD 0.1.0 documentation</title>
+    <title>streamad.util.stream_generator &#8212; StreamAD 0.1.1 documentation</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -89,7 +89,7 @@
       <img src="../../../_static/logo_htmlwithname.svg" class="logo" alt="logo">
       
       
-      <h1 class="site-logo" id="site-title">StreamAD 0.1.0 documentation</h1>
+      <h1 class="site-logo" id="site-title">StreamAD 0.1.1 documentation</h1>
       
     </a>
 </div><form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
@@ -97,10 +97,15 @@
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
-        <ul class="nav bd-sidenav">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Overview
+ </span>
+</p>
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="../../../quickstart.html">
-   QuickStart
+  <a class="reference internal" href="../../../overview.html">
+   StreamAD
   </a>
  </li>
  <li class="toctree-l1 has-children">
@@ -114,13 +119,18 @@
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="../../../example/spot_example.html">
-     SpotDetector
+    <a class="reference internal" href="../../../example/dataset_usage.html">
+     Dataset Usage
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../../../example/xstream_example.html">
-     xStreamDetector
+    <a class="reference internal" href="../../../example/univariate.html">
+     Univariate detector
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../example/multivariate.html">
+     Multivariate detector
     </a>
    </li>
   </ul>
@@ -150,6 +160,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="../../../api/streamad.util.html">
      StreamAD Utilities
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../api/streamad.evaluate.html">
+     StreamAD Evaluation
     </a>
    </li>
   </ul>
@@ -266,27 +281,24 @@ title="Source repository"
 import numpy as np
 
 
-
 <div class="viewcode-block" id="StreamGenerator"><a class="viewcode-back" href="../../../api/streamad.util.html#streamad.util.StreamGenerator">[docs]</a>class StreamGenerator:
-    &quot;&quot;&quot;Load static dataset and generate observation once a time.&quot;&quot;&quot;
+    &quot;&quot;&quot;Load static dataset and generate observation once a time.
 
-<div class="viewcode-block" id="StreamGenerator.__init__"><a class="viewcode-back" href="../../../api/streamad.util.html#streamad.util.StreamGenerator.__init__">[docs]</a>    def __init__(
-        self,
-        X: np.ndarray,
+    Args:
+        X (np.ndarray): Origin static dataset.
+
+    Raises:
+        TypeError: Unexpected input data type.
+    &quot;&quot;&quot;
+
+    def __init__(
+        self, X: np.ndarray,
     ):
-        &quot;&quot;&quot;Initialize a StreamGenerator.
-
-        Args:
-            X (np.ndarray): Origin static dataset.
-
-        Raises:
-            TypeError: Unexpected input data type.
-        &quot;&quot;&quot;
 
         if isinstance(X, np.ndarray):
             self.X = X
         else:
-            raise TypeError(&quot;Unexpected input data type, except np.ndarray.&quot;)</div>
+            raise TypeError(&quot;Unexpected input data type, except np.ndarray.&quot;)
 
 <div class="viewcode-block" id="StreamGenerator.iter_item"><a class="viewcode-back" href="../../../api/streamad.util.html#streamad.util.StreamGenerator.iter_item">[docs]</a>    def iter_item(self) -&gt; Generator:
         &quot;&quot;&quot;Iterate item once a time from the dataset.

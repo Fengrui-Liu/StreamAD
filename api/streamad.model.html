@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>StreamAD Detector &#8212; StreamAD 0.1.0 documentation</title>
+    <title>StreamAD Detector &#8212; StreamAD 0.1.1 documentation</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -92,7 +92,7 @@
       <img src="../_static/logo_htmlwithname.svg" class="logo" alt="logo">
       
       
-      <h1 class="site-logo" id="site-title">StreamAD 0.1.0 documentation</h1>
+      <h1 class="site-logo" id="site-title">StreamAD 0.1.1 documentation</h1>
       
     </a>
 </div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
@@ -100,10 +100,15 @@
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
-        <ul class="nav bd-sidenav">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Overview
+ </span>
+</p>
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="../quickstart.html">
-   QuickStart
+  <a class="reference internal" href="../overview.html">
+   StreamAD
   </a>
  </li>
  <li class="toctree-l1 has-children">
@@ -117,13 +122,18 @@
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="../example/spot_example.html">
-     SpotDetector
+    <a class="reference internal" href="../example/dataset_usage.html">
+     Dataset Usage
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../example/xstream_example.html">
-     xStreamDetector
+    <a class="reference internal" href="../example/univariate.html">
+     Univariate detector
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../example/multivariate.html">
+     Multivariate detector
     </a>
    </li>
   </ul>
@@ -153,6 +163,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="streamad.util.html">
      StreamAD Utilities
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="streamad.evaluate.html">
+     StreamAD Evaluation
     </a>
    </li>
   </ul>
@@ -322,6 +337,21 @@ title="Print to PDF"
      SpotDetector
     </a>
    </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#rrcfdetector">
+     RrcfDetector
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#srdetector">
+     SRDetector
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#zscoredetector">
+     ZScoreDetector
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -332,6 +362,16 @@ title="Print to PDF"
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#xstreamdetector">
      xStreamDetector
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#rshashdetector">
+     RShashDetector
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#hstreedetector">
+     HSTreeDetector
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
@@ -375,6 +415,21 @@ title="Print to PDF"
      SpotDetector
     </a>
    </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#rrcfdetector">
+     RrcfDetector
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#srdetector">
+     SRDetector
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#zscoredetector">
+     ZScoreDetector
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -385,6 +440,16 @@ title="Print to PDF"
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#xstreamdetector">
      xStreamDetector
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#rshashdetector">
+     RShashDetector
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#hstreedetector">
+     HSTreeDetector
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
@@ -405,72 +470,49 @@ title="Print to PDF"
               <div>
                 
   <section class="tex2jax_ignore mathjax_ignore" id="streamad-detector">
-<h1>StreamAD Detector<a class="headerlink" href="#streamad-detector" title="Permalink to this headline"></a></h1>
+<h1>StreamAD Detector<a class="headerlink" href="#streamad-detector" title="Permalink to this headline">#</a></h1>
 <section id="univariate-anomaly-detector">
-<h2>Univariate Anomaly Detector<a class="headerlink" href="#univariate-anomaly-detector" title="Permalink to this headline"></a></h2>
+<h2>Univariate Anomaly Detector<a class="headerlink" href="#univariate-anomaly-detector" title="Permalink to this headline">#</a></h2>
+<p>If you want to detect multivarite time series with these models, you need to apply them on each feature separately.</p>
 <section id="knndetector">
-<h3>KNNDetector<a class="headerlink" href="#knndetector" title="Permalink to this headline"></a></h3>
+<h3>KNNDetector<a class="headerlink" href="#knndetector" title="Permalink to this headline">#</a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="streamad.model.KNNDetector">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">streamad.model.</span></span><span class="sig-name descname"><span class="pre">KNNDetector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">init_len</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_neighbor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_his</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/model/KNN_Detector.html#KNNDetector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.model.KNNDetector" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">streamad.model.</span></span><span class="sig-name descname"><span class="pre">KNNDetector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window_len</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_len</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">150</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_neighbor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/model/KNN_Detector.html#KNNDetector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.model.KNNDetector" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">streamad.base.detector.BaseDetector</span></code></p>
-<p>Univariate KNN-CAD model with mahalanobis distance. <span id="id1">[<a class="reference internal" href="../references.html#id2" title="Evgeny Burnaev and Vladislav Ishimtsev. Conformalized density- and distance-based anomaly detection in time-series data. CoRR, 2016. URL: http://arxiv.org/abs/1608.04585, arXiv:1608.04585.">BBI16</a>]</span>. See <a class="reference external" href="https://arxiv.org/abs/1608.04585">KNN-CAD</a></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="streamad.model.KNNDetector.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">init_len</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_neighbor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_his</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/model/KNN_Detector.html#KNNDetector.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.model.KNNDetector.__init__" title="Permalink to this definition"></a></dt>
-<dd><p>KNN anomaly detector with mahalanobis distance.</p>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window_len</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_len</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">150</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_neighbor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/model/KNN_Detector.html#KNNDetector.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.model.KNNDetector.__init__" title="Permalink to this definition">#</a></dt>
+<dd><p>Univariate KNN-CAD model with mahalanobis distance <span id="id1">[<a class="reference internal" href="../references.html#id2" title="Evgeny Burnaev and Vladislav Ishimtsev. Conformalized density- and distance-based anomaly detection in time-series data. CoRR, 2016. URL: http://arxiv.org/abs/1608.04585, arXiv:1608.04585.">Burnaev and Ishimtsev, 2016</a>]</span>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>init_len</strong> (<em>int</em><em>, </em><em>optional</em>) – The length of initialization data. This can be adjusted by the number of referenced neighbors. Defaults to -1.</p></li>
-<li><p><strong>k_neighbor</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of neighbors to cumulate distances. Defaults to 25.</p></li>
-<li><p><strong>all_his</strong> (<em>bool</em><em>, </em><em>optional</em>) – The history records used for the reference. True for all records. Defaults to True.</p></li>
+<li><p><strong>window_len</strong> (<em>int</em><em>, </em><em>optional</em>) – The length of window. Defaults to 10.</p></li>
+<li><p><strong>init_len</strong> (<em>int</em><em>, </em><em>optional</em>) – The length of references. Defaults to 150.</p></li>
+<li><p><strong>k_neighbor</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of neighbors to cumulate distances. Defaults to 3.</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="streamad.model.KNNDetector.fit">
-<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/model/KNN_Detector.html#KNNDetector.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.model.KNNDetector.fit" title="Permalink to this definition"></a></dt>
-<dd><p>Record and analyse the current observation from the stream. Detector collect the init data firstly, and further score observation base on the observed data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>X</strong> (<em>np.ndarray</em>) – Current observation.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="streamad.model.KNNDetector.fit_score">
-<span class="sig-name descname"><span class="pre">fit_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#streamad.model.KNNDetector.fit_score" title="Permalink to this definition"></a></dt>
-<dd><p>Detector fit and score the probability of anomaly current observation from StreamGenerator.</p>
+<span class="sig-name descname"><span class="pre">fit_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalized</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalized_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalized_global</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#streamad.model.KNNDetector.fit_score" title="Permalink to this definition">#</a></dt>
+<dd><p>Fit one observation and calculate its anomaly score.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>X</strong> (<em>Union</em><em>[</em><em>np.ndarray</em><em>, </em><em>pd.DataFrame</em><em>]</em>) – [description]</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>np.ndarray</em>) – Data of current observation.</p></li>
+<li><p><strong>normalized</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to normalize the score into a range of [0, 1]. Defaults to True.</p></li>
+<li><p><strong>normalized_sigma</strong> (<em>int</em><em>, </em><em>optional</em>) – We use k-sigma/z-score to report the anomalies, A large sigma inicates few anomalies. Defaults to 3.</p></li>
+<li><p><strong>normalized_global</strong> (<em>bool</em><em>, </em><em>optional</em>) – True for normalizing the score globally, with all history. Flase for normalizing the score within the window, with forgeting long histories. Defaults to True.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></p>
 </dd>
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><em>float</em> – [description]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="streamad.model.KNNDetector.score">
-<span class="sig-name descname"><span class="pre">score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/model/KNN_Detector.html#KNNDetector.score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.model.KNNDetector.score" title="Permalink to this definition"></a></dt>
-<dd><p>Score the current observation. None for init period and float for the probability of anomalousness.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>X</strong> (<em>np.ndarray</em>) – Current observation.</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></p>
-</dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><em>float</em> – Anomaly probability.</p>
+<dd class="field-odd"><p><em>float</em> – Anomaly score. A high score indicates a high degree of anomaly.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -480,68 +522,171 @@ title="Print to PDF"
 </section>
 <hr class="docutils" />
 <section id="spotdetector">
-<h3>SpotDetector<a class="headerlink" href="#spotdetector" title="Permalink to this headline"></a></h3>
+<h3>SpotDetector<a class="headerlink" href="#spotdetector" title="Permalink to this headline">#</a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="streamad.model.SpotDetector">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">streamad.model.</span></span><span class="sig-name descname"><span class="pre">SpotDetector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prob</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_len</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">300</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/model/spot_Detector.html#SpotDetector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.model.SpotDetector" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">streamad.model.</span></span><span class="sig-name descname"><span class="pre">SpotDetector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prob</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_len</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_len</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">150</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/model/spot_Detector.html#SpotDetector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.model.SpotDetector" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">streamad.base.detector.BaseDetector</span></code></p>
-<p>Univariate Spot model. <span id="id1">[<a class="reference internal" href="../references.html#id4" title="Alban Siffer, Pierre-Alain Fouque, Alexandre Termier, and Christine Largouët. Anomaly detection in streams with extreme value theory. In Proceedings of the 23rd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining, Halifax, NS, Canada, August 13 - 17, 2017, 1067–1075. ACM, 2017. URL: https://doi.org/10.1145/3097983.3098144, doi:10.1145/3097983.3098144.">BSFTLargouet17</a>]</span>. See <a class="reference external" href="https://dl.acm.org/doi/10.1145/3097983.3098144">SPOT</a></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="streamad.model.SpotDetector.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prob</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_len</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">300</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/model/spot_Detector.html#SpotDetector.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.model.SpotDetector.__init__" title="Permalink to this definition"></a></dt>
-<dd><p>Spot detector.</p>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prob</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_len</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_len</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">150</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/model/spot_Detector.html#SpotDetector.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.model.SpotDetector.__init__" title="Permalink to this definition">#</a></dt>
+<dd><p>Univariate Spot model <span id="id1">[<a class="reference internal" href="../references.html#id4" title="Alban Siffer, Pierre-Alain Fouque, Alexandre Termier, and Christine Largouët. Anomaly detection in streams with extreme value theory. In Proceedings of the 23rd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining, Halifax, NS, Canada, August 13 - 17, 2017, 1067–1075. ACM, 2017. URL: https://doi.org/10.1145/3097983.3098144, doi:10.1145/3097983.3098144.">Siffer <em>et al.</em>, 2017</a>]</span>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>prob</strong> (<em>float</em><em>, </em><em>optional</em>) – Threshold for probability, a small float value. Defaults to 1e-4.</p></li>
-<li><p><strong>window_size</strong> (<em>int</em><em>, </em><em>optional</em>) – A window for reference. Defaults to 10.</p></li>
-<li><p><strong>init_len</strong> (<em>int</em><em>, </em><em>optional</em>) – Data length for initialization. Recommended &gt; 100. Defaults to 300.</p></li>
+<li><p><strong>window_len</strong> (<em>int</em><em>, </em><em>optional</em>) – A window for reference. Defaults to 10.</p></li>
+<li><p><strong>init_len</strong> (<em>int</em><em>, </em><em>optional</em>) – Data length for initialization. Recommended &gt; 150. Defaults to 150.</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="streamad.model.SpotDetector.fit">
-<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/model/spot_Detector.html#SpotDetector.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.model.SpotDetector.fit" title="Permalink to this definition"></a></dt>
-<dd><p>Record and analyse the current observation from the stream. Detector collect the init data firstly, and add random drift.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>X</strong> (<em>np.ndarray</em>) – [description]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="streamad.model.SpotDetector.fit_score">
-<span class="sig-name descname"><span class="pre">fit_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#streamad.model.SpotDetector.fit_score" title="Permalink to this definition"></a></dt>
-<dd><p>Detector fit and score the probability of anomaly current observation from StreamGenerator.</p>
+<span class="sig-name descname"><span class="pre">fit_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalized</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalized_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalized_global</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#streamad.model.SpotDetector.fit_score" title="Permalink to this definition">#</a></dt>
+<dd><p>Fit one observation and calculate its anomaly score.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>X</strong> (<em>Union</em><em>[</em><em>np.ndarray</em><em>, </em><em>pd.DataFrame</em><em>]</em>) – [description]</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>np.ndarray</em>) – Data of current observation.</p></li>
+<li><p><strong>normalized</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to normalize the score into a range of [0, 1]. Defaults to True.</p></li>
+<li><p><strong>normalized_sigma</strong> (<em>int</em><em>, </em><em>optional</em>) – We use k-sigma/z-score to report the anomalies, A large sigma inicates few anomalies. Defaults to 3.</p></li>
+<li><p><strong>normalized_global</strong> (<em>bool</em><em>, </em><em>optional</em>) – True for normalizing the score globally, with all history. Flase for normalizing the score within the window, with forgeting long histories. Defaults to True.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></p>
 </dd>
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><em>float</em> – [description]</p>
+<dd class="field-odd"><p><em>float</em> – Anomaly score. A high score indicates a high degree of anomaly.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<hr class="docutils" />
+<section id="rrcfdetector">
+<h3>RrcfDetector<a class="headerlink" href="#rrcfdetector" title="Permalink to this headline">#</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="streamad.model.RrcfDetector">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">streamad.model.</span></span><span class="sig-name descname"><span class="pre">RrcfDetector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window_len</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_trees</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">40</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tree_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">256</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/model/rrcf_Detector.html#RrcfDetector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.model.RrcfDetector" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">streamad.base.detector.BaseDetector</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="streamad.model.RrcfDetector.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window_len</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_trees</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">40</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tree_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">256</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/model/rrcf_Detector.html#RrcfDetector.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.model.RrcfDetector.__init__" title="Permalink to this definition">#</a></dt>
+<dd><p>Rrcf detector <span id="id1">[<a class="reference internal" href="../references.html#id5" title="Sudipto Guha, Nina Mishra, Gourav Roy, and Okke Schrijvers. Robust random cut forest based anomaly detection on streams. In Maria-Florina Balcan and Kilian Q. Weinberger, editors, Proceedings of the 33nd International Conference on Machine Learning, ICML 2016, New York City, NY, USA, June 19-24, 2016, volume 48 of JMLR Workshop and Conference Proceedings, 2712–2721. JMLR.org, 2016. URL: http://proceedings.mlr.press/v48/guha16.html.">Guha <em>et al.</em>, 2016</a>]</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>window_len</strong> (<em>int</em><em>, </em><em>optional</em>) – Length of sliding window. Defaults to 10.</p></li>
+<li><p><strong>num_trees</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of trees. Defaults to 40.</p></li>
+<li><p><strong>tree_size</strong> (<em>int</em><em>, </em><em>optional</em>) – Size of each tree. Defaults to 256.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="streamad.model.SpotDetector.score">
-<span class="sig-name descname"><span class="pre">score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/model/spot_Detector.html#SpotDetector.score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.model.SpotDetector.score" title="Permalink to this definition"></a></dt>
-<dd><p>Score the current observation. None for init period and float for the probability of anomalousness between two thresholds. 1.0 for certain anomaly point.</p>
+<dt class="sig sig-object py" id="streamad.model.RrcfDetector.fit_score">
+<span class="sig-name descname"><span class="pre">fit_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalized</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalized_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalized_global</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#streamad.model.RrcfDetector.fit_score" title="Permalink to this definition">#</a></dt>
+<dd><p>Fit one observation and calculate its anomaly score.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>X</strong> (<em>np.ndarray</em>) – Current observation.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>np.ndarray</em>) – Data of current observation.</p></li>
+<li><p><strong>normalized</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to normalize the score into a range of [0, 1]. Defaults to True.</p></li>
+<li><p><strong>normalized_sigma</strong> (<em>int</em><em>, </em><em>optional</em>) – We use k-sigma/z-score to report the anomalies, A large sigma inicates few anomalies. Defaults to 3.</p></li>
+<li><p><strong>normalized_global</strong> (<em>bool</em><em>, </em><em>optional</em>) – True for normalizing the score globally, with all history. Flase for normalizing the score within the window, with forgeting long histories. Defaults to True.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></p>
 </dd>
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><em>float</em> – Anomaly probability.</p>
+<dd class="field-odd"><p><em>float</em> – Anomaly score. A high score indicates a high degree of anomaly.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<hr class="docutils" />
+<section id="srdetector">
+<h3>SRDetector<a class="headerlink" href="#srdetector" title="Permalink to this headline">#</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="streamad.model.SRDetector">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">streamad.model.</span></span><span class="sig-name descname"><span class="pre">SRDetector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window_len</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extend_len</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ahead_len</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mag_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/model/SR_Detector.html#SRDetector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.model.SRDetector" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">streamad.base.detector.BaseDetector</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="streamad.model.SRDetector.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window_len</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extend_len</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ahead_len</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mag_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/model/SR_Detector.html#SRDetector.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.model.SRDetector.__init__" title="Permalink to this definition">#</a></dt>
+<dd><p>Spectral Residual Detector <span id="id1">[<a class="reference internal" href="../references.html#id6" title="Hansheng Ren, Bixiong Xu, Yujing Wang, Chao Yi, Congrui Huang, Xiaoyu Kou, Tony Xing, Mao Yang, Jie Tong, and Qi Zhang. Time-series anomaly detection service at microsoft. In Ankur Teredesai, Vipin Kumar, Ying Li, Rómer Rosales, Evimaria Terzi, and George Karypis, editors, Proceedings of the 25th ACM SIGKDD International Conference on Knowledge Discovery &amp; Data Mining, KDD 2019, Anchorage, AK, USA, August 4-8, 2019, 3009–3017. ACM, 2019. URL: https://doi.org/10.1145/3292500.3330680, doi:10.1145/3292500.3330680.">Ren <em>et al.</em>, 2019</a>]</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>window_len</strong> (<em>int</em><em>, </em><em>optional</em>) – Length of sliding window. Defaults to 100.</p></li>
+<li><p><strong>extend_len</strong> (<em>int</em><em>, </em><em>optional</em>) – Length to be extended, for FFT transforme. Defaults to 5.</p></li>
+<li><p><strong>ahead_len</strong> (<em>int</em><em>, </em><em>optional</em>) – Length to look ahead for references. Defaults to 10.</p></li>
+<li><p><strong>mag_num</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of FFT magnitude. Defaults to 5.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="streamad.model.SRDetector.fit_score">
+<span class="sig-name descname"><span class="pre">fit_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalized</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalized_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalized_global</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#streamad.model.SRDetector.fit_score" title="Permalink to this definition">#</a></dt>
+<dd><p>Fit one observation and calculate its anomaly score.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>np.ndarray</em>) – Data of current observation.</p></li>
+<li><p><strong>normalized</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to normalize the score into a range of [0, 1]. Defaults to True.</p></li>
+<li><p><strong>normalized_sigma</strong> (<em>int</em><em>, </em><em>optional</em>) – We use k-sigma/z-score to report the anomalies, A large sigma inicates few anomalies. Defaults to 3.</p></li>
+<li><p><strong>normalized_global</strong> (<em>bool</em><em>, </em><em>optional</em>) – True for normalizing the score globally, with all history. Flase for normalizing the score within the window, with forgeting long histories. Defaults to True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>float</em> – Anomaly score. A high score indicates a high degree of anomaly.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<hr class="docutils" />
+<section id="zscoredetector">
+<h3>ZScoreDetector<a class="headerlink" href="#zscoredetector" title="Permalink to this headline">#</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="streamad.model.ZScoreDetector">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">streamad.model.</span></span><span class="sig-name descname"><span class="pre">ZScoreDetector</span></span><a class="reference internal" href="../_modules/streamad/model/zscore_Detector.html#ZScoreDetector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.model.ZScoreDetector" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">streamad.base.detector.BaseDetector</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="streamad.model.ZScoreDetector.fit_score">
+<span class="sig-name descname"><span class="pre">fit_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalized</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalized_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalized_global</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#streamad.model.ZScoreDetector.fit_score" title="Permalink to this definition">#</a></dt>
+<dd><p>Fit one observation and calculate its anomaly score.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>np.ndarray</em>) – Data of current observation.</p></li>
+<li><p><strong>normalized</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to normalize the score into a range of [0, 1]. Defaults to True.</p></li>
+<li><p><strong>normalized_sigma</strong> (<em>int</em><em>, </em><em>optional</em>) – We use k-sigma/z-score to report the anomalies, A large sigma inicates few anomalies. Defaults to 3.</p></li>
+<li><p><strong>normalized_global</strong> (<em>bool</em><em>, </em><em>optional</em>) – True for normalizing the score globally, with all history. Flase for normalizing the score within the window, with forgeting long histories. Defaults to True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>float</em> – Anomaly score. A high score indicates a high degree of anomaly.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -552,72 +697,143 @@ title="Print to PDF"
 </section>
 <hr class="docutils" />
 <section id="multivariate-anomaly-detector">
-<h2>Multivariate Anomaly Detector<a class="headerlink" href="#multivariate-anomaly-detector" title="Permalink to this headline"></a></h2>
-<p>Note that these methods are compatible with univariate time series.</p>
+<h2>Multivariate Anomaly Detector<a class="headerlink" href="#multivariate-anomaly-detector" title="Permalink to this headline">#</a></h2>
+<p>These models are compatible with univariate time series.</p>
 <section id="xstreamdetector">
-<h3>xStreamDetector<a class="headerlink" href="#xstreamdetector" title="Permalink to this headline"></a></h3>
+<h3>xStreamDetector<a class="headerlink" href="#xstreamdetector" title="Permalink to this headline">#</a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="streamad.model.xStreamDetector">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">streamad.model.</span></span><span class="sig-name descname"><span class="pre">xStreamDetector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_chains</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/model/xStream_Detector.html#xStreamDetector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.model.xStreamDetector" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">streamad.model.</span></span><span class="sig-name descname"><span class="pre">xStreamDetector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_chains</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_len</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/model/xStream_Detector.html#xStreamDetector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.model.xStreamDetector" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">streamad.base.detector.BaseDetector</span></code></p>
-<p>Multivariate xStreamDetector <span id="id1">[<a class="reference internal" href="../references.html#id3" title="Emaad A. Manzoor, Hemank Lamba, and Leman Akoglu. Xstream: outlier detection in feature-evolving data streams. In Yike Guo and Faisal Farooq, editors, Proceedings of the 24th ACM SIGKDD International Conference on Knowledge Discovery &amp; Data Mining, KDD 2018, London, UK, August 19-23, 2018, 1963–1972. ACM, 2018. URL: https://doi.org/10.1145/3219819.3220107, doi:10.1145/3219819.3220107.">BMLA18</a>]</span>. See <a class="reference external" href="https://cmuxstream.github.io/">xStream</a></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="streamad.model.xStreamDetector.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_chains</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/model/xStream_Detector.html#xStreamDetector.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.model.xStreamDetector.__init__" title="Permalink to this definition"></a></dt>
-<dd><p>xStream detector for multivariate data.</p>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_chains</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_len</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">25</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/model/xStream_Detector.html#xStreamDetector.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.model.xStreamDetector.__init__" title="Permalink to this definition">#</a></dt>
+<dd><p>Multivariate xStreamDetector <span id="id1">[<a class="reference internal" href="../references.html#id3" title="Emaad A. Manzoor, Hemank Lamba, and Leman Akoglu. Xstream: outlier detection in feature-evolving data streams. In Yike Guo and Faisal Farooq, editors, Proceedings of the 24th ACM SIGKDD International Conference on Knowledge Discovery &amp; Data Mining, KDD 2018, London, UK, August 19-23, 2018, 1963–1972. ACM, 2018. URL: https://doi.org/10.1145/3219819.3220107, doi:10.1145/3219819.3220107.">Manzoor <em>et al.</em>, 2018</a>]</span>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>n_components</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of streamhash projection, similar to feature numbers. Defaults to 50.</p></li>
 <li><p><strong>n_chains</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of half-space chains. Defaults to 100.</p></li>
 <li><p><strong>depth</strong> (<em>int</em><em>, </em><em>optional</em>) – Maximum depth for each chain. Defaults to 25.</p></li>
-<li><p><strong>window_size</strong> (<em>int</em><em>, </em><em>optional</em>) – Size of reference window. Defaults to 25.</p></li>
+<li><p><strong>window_len</strong> (<em>int</em><em>, </em><em>optional</em>) – Size of reference window. Defaults to 25.</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="streamad.model.xStreamDetector.fit">
-<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/model/xStream_Detector.html#xStreamDetector.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.model.xStreamDetector.fit" title="Permalink to this definition"></a></dt>
-<dd><p>xStreamDetector collects data with a window length, projects them via streamhash projector, and then scores the observed data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>X</strong> (<em>np.ndarray</em>) – Current observation.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="streamad.model.xStreamDetector.fit_score">
-<span class="sig-name descname"><span class="pre">fit_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#streamad.model.xStreamDetector.fit_score" title="Permalink to this definition"></a></dt>
-<dd><p>Detector fit and score the probability of anomaly current observation from StreamGenerator.</p>
+<span class="sig-name descname"><span class="pre">fit_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalized</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalized_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalized_global</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#streamad.model.xStreamDetector.fit_score" title="Permalink to this definition">#</a></dt>
+<dd><p>Fit one observation and calculate its anomaly score.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>X</strong> (<em>Union</em><em>[</em><em>np.ndarray</em><em>, </em><em>pd.DataFrame</em><em>]</em>) – [description]</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>np.ndarray</em>) – Data of current observation.</p></li>
+<li><p><strong>normalized</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to normalize the score into a range of [0, 1]. Defaults to True.</p></li>
+<li><p><strong>normalized_sigma</strong> (<em>int</em><em>, </em><em>optional</em>) – We use k-sigma/z-score to report the anomalies, A large sigma inicates few anomalies. Defaults to 3.</p></li>
+<li><p><strong>normalized_global</strong> (<em>bool</em><em>, </em><em>optional</em>) – True for normalizing the score globally, with all history. Flase for normalizing the score within the window, with forgeting long histories. Defaults to True.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></p>
 </dd>
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><em>float</em> – [description]</p>
+<dd class="field-odd"><p><em>float</em> – Anomaly score. A high score indicates a high degree of anomaly.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<hr class="docutils" />
+<section id="rshashdetector">
+<h3>RShashDetector<a class="headerlink" href="#rshashdetector" title="Permalink to this headline">#</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="streamad.model.RShashDetector">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">streamad.model.</span></span><span class="sig-name descname"><span class="pre">RShashDetector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">init_len</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">150</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.015</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">components_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hash_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/model/rshash_Detector.html#RShashDetector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.model.RShashDetector" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">streamad.base.detector.BaseDetector</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="streamad.model.RShashDetector.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">init_len</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">150</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.015</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">components_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hash_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/model/rshash_Detector.html#RShashDetector.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.model.RShashDetector.__init__" title="Permalink to this definition">#</a></dt>
+<dd><p>Multivariate RSHashDetector <span id="id1">[<a class="reference internal" href="../references.html#id7" title="Saket Sathe and Charu C. Aggarwal. Subspace outlier detection in linear time with randomized hashing. In Francesco Bonchi, Josep Domingo-Ferrer, Ricardo Baeza-Yates, Zhi-Hua Zhou, and Xindong Wu, editors, IEEE 16th International Conference on Data Mining, ICDM 2016, December 12-15, 2016, Barcelona, Spain, 459–468. IEEE Computer Society, 2016. URL: https://doi.org/10.1109/ICDM.2016.0057, doi:10.1109/ICDM.2016.0057.">Sathe and Aggarwal, 2016</a>]</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>init_len</strong> (<em>int</em><em>, </em><em>optional</em>) – Length of data to burn in/init. Defaults to 150.</p></li>
+<li><p><strong>decay</strong> (<em>float</em><em>, </em><em>optional</em>) – Decay ratio. Defaults to 0.015.</p></li>
+<li><p><strong>components_num</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of components. Defaults to 100.</p></li>
+<li><p><strong>hash_num</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of hash functions. Defaults to 10.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="streamad.model.xStreamDetector.score">
-<span class="sig-name descname"><span class="pre">score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/model/xStream_Detector.html#xStreamDetector.score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.model.xStreamDetector.score" title="Permalink to this definition"></a></dt>
-<dd><p>Score the current observation. None for init period and float for the probability of anomalousness.</p>
+<dt class="sig sig-object py" id="streamad.model.RShashDetector.fit_score">
+<span class="sig-name descname"><span class="pre">fit_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalized</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalized_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalized_global</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#streamad.model.RShashDetector.fit_score" title="Permalink to this definition">#</a></dt>
+<dd><p>Fit one observation and calculate its anomaly score.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>X</strong> (<em>np.ndarray</em>) – Current observation.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>np.ndarray</em>) – Data of current observation.</p></li>
+<li><p><strong>normalized</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to normalize the score into a range of [0, 1]. Defaults to True.</p></li>
+<li><p><strong>normalized_sigma</strong> (<em>int</em><em>, </em><em>optional</em>) – We use k-sigma/z-score to report the anomalies, A large sigma inicates few anomalies. Defaults to 3.</p></li>
+<li><p><strong>normalized_global</strong> (<em>bool</em><em>, </em><em>optional</em>) – True for normalizing the score globally, with all history. Flase for normalizing the score within the window, with forgeting long histories. Defaults to True.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></p>
 </dd>
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><em>float</em> – Anomaly probability.</p>
+<dd class="field-odd"><p><em>float</em> – Anomaly score. A high score indicates a high degree of anomaly.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<hr class="docutils" />
+<section id="hstreedetector">
+<h3>HSTreeDetector<a class="headerlink" href="#hstreedetector" title="Permalink to this headline">#</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="streamad.model.HSTreeDetector">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">streamad.model.</span></span><span class="sig-name descname"><span class="pre">HSTreeDetector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window_len</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tree_height</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tree_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/model/hstree_Detector.html#HSTreeDetector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.model.HSTreeDetector" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">streamad.base.detector.BaseDetector</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="streamad.model.HSTreeDetector.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">window_len</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tree_height</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tree_num</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/model/hstree_Detector.html#HSTreeDetector.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.model.HSTreeDetector.__init__" title="Permalink to this definition">#</a></dt>
+<dd><p>Half space tree detectors. <span id="id1">[<a class="reference internal" href="../references.html#id8" title="Swee Chuan Tan, Kai Ming Ting, and Fei Tony Liu. Fast anomaly detection for streaming data. In Toby Walsh, editor, IJCAI 2011, Proceedings of the 22nd International Joint Conference on Artificial Intelligence, Barcelona, Catalonia, Spain, July 16-22, 2011, 1511–1516. IJCAI/AAAI, 2011. URL: https://doi.org/10.5591/978-1-57735-516-8/IJCAI11-254, doi:10.5591/978-1-57735-516-8/IJCAI11-254.">Tan <em>et al.</em>, 2011</a>]</span>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>window_len</strong> (<em>int</em><em>, </em><em>optional</em>) – The length of reference window. Defaults to 100.</p></li>
+<li><p><strong>tree_height</strong> (<em>int</em><em>, </em><em>optional</em>) – Height of a half space tree. Defaults to 10.</p></li>
+<li><p><strong>tree_num</strong> (<em>int</em><em>, </em><em>optional</em>) – Totla number of the trees. Defaults to 100.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="streamad.model.HSTreeDetector.fit_score">
+<span class="sig-name descname"><span class="pre">fit_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalized</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalized_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalized_global</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#streamad.model.HSTreeDetector.fit_score" title="Permalink to this definition">#</a></dt>
+<dd><p>Fit one observation and calculate its anomaly score.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>np.ndarray</em>) – Data of current observation.</p></li>
+<li><p><strong>normalized</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to normalize the score into a range of [0, 1]. Defaults to True.</p></li>
+<li><p><strong>normalized_sigma</strong> (<em>int</em><em>, </em><em>optional</em>) – We use k-sigma/z-score to report the anomalies, A large sigma inicates few anomalies. Defaults to 3.</p></li>
+<li><p><strong>normalized_global</strong> (<em>bool</em><em>, </em><em>optional</em>) – True for normalizing the score globally, with all history. Flase for normalizing the score within the window, with forgeting long histories. Defaults to True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><em>float</em> – Anomaly score. A high score indicates a high degree of anomaly.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -627,63 +843,36 @@ title="Print to PDF"
 </section>
 <hr class="docutils" />
 <section id="randomdetector">
-<h3>RandomDetector<a class="headerlink" href="#randomdetector" title="Permalink to this headline"></a></h3>
+<h3>RandomDetector<a class="headerlink" href="#randomdetector" title="Permalink to this headline">#</a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="streamad.model.RandomDetector">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">streamad.model.</span></span><span class="sig-name descname"><span class="pre">RandomDetector</span></span><a class="reference internal" href="../_modules/streamad/model/random_detector.html#RandomDetector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.model.RandomDetector" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">streamad.model.</span></span><span class="sig-name descname"><span class="pre">RandomDetector</span></span><a class="reference internal" href="../_modules/streamad/model/random_Detector.html#RandomDetector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.model.RandomDetector" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">streamad.base.detector.BaseDetector</span></code></p>
 <p>Return random anomaly score. A minimum score for benchmark.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="streamad.model.RandomDetector.fit">
-<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/model/random_detector.html#RandomDetector.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.model.RandomDetector.fit" title="Permalink to this definition"></a></dt>
-<dd><p>Detector fit current observation from StreamGenerator.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>X</strong> (<em>np.ndarray</em>) – The data value of current observation from StreamGenerator.</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="streamad.model.RandomDetector.fit_score">
-<span class="sig-name descname"><span class="pre">fit_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#streamad.model.RandomDetector.fit_score" title="Permalink to this definition"></a></dt>
-<dd><p>Detector fit and score the probability of anomaly current observation from StreamGenerator.</p>
+<span class="sig-name descname"><span class="pre">fit_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalized</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalized_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalized_global</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#streamad.model.RandomDetector.fit_score" title="Permalink to this definition">#</a></dt>
+<dd><p>Fit one observation and calculate its anomaly score.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>X</strong> (<em>Union</em><em>[</em><em>np.ndarray</em><em>, </em><em>pd.DataFrame</em><em>]</em>) – [description]</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>np.ndarray</em>) – Data of current observation.</p></li>
+<li><p><strong>normalized</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to normalize the score into a range of [0, 1]. Defaults to True.</p></li>
+<li><p><strong>normalized_sigma</strong> (<em>int</em><em>, </em><em>optional</em>) – We use k-sigma/z-score to report the anomalies, A large sigma inicates few anomalies. Defaults to 3.</p></li>
+<li><p><strong>normalized_global</strong> (<em>bool</em><em>, </em><em>optional</em>) – True for normalizing the score globally, with all history. Flase for normalizing the score within the window, with forgeting long histories. Defaults to True.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></p>
 </dd>
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><em>float</em> – [description]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="streamad.model.RandomDetector.score">
-<span class="sig-name descname"><span class="pre">score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/model/random_detector.html#RandomDetector.score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.model.RandomDetector.score" title="Permalink to this definition"></a></dt>
-<dd><p>Abstract method: Detector predict the probability of anomaly for current observation form StreamGenerator.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>X</strong> (<em>np.ndarray</em>) – The data value of current observation from StreamGenerator.</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></p>
-</dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><em>float</em> – Anomaly probability.</p>
+<dd class="field-odd"><p><em>float</em> – Anomaly score. A high score indicates a high degree of anomaly.</p>
 </dd>
 </dl>
 </dd></dl>
 
 </dd></dl>
 
-<hr class="docutils" />
 </section>
 </section>
 </section>

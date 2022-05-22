@@ -1,16 +1,25 @@
 # Examples
 
 
+
 ```{toctree}
 
-spot_example
+dataset_usage
 ```
 
 ----
 
 
+
 ```{toctree}
-xstream_example
+
+univariate
 ```
 
 ----
+
+
+
+```{toctree}
+multivariate
+```

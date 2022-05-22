@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>API Reference &#8212; StreamAD 0.1.0 documentation</title>
+    <title>API Reference &#8212; StreamAD 0.1.1 documentation</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -48,7 +48,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="StreamAD Detector" href="streamad.model.html" />
-    <link rel="prev" title="xStreamDetector" href="../example/xstream_example.html" />
+    <link rel="prev" title="Multivariate detector" href="../example/multivariate.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en">
     
@@ -92,7 +92,7 @@
       <img src="../_static/logo_htmlwithname.svg" class="logo" alt="logo">
       
       
-      <h1 class="site-logo" id="site-title">StreamAD 0.1.0 documentation</h1>
+      <h1 class="site-logo" id="site-title">StreamAD 0.1.1 documentation</h1>
       
     </a>
 </div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
@@ -100,10 +100,15 @@
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
-        <ul class="nav bd-sidenav">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Overview
+ </span>
+</p>
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="../quickstart.html">
-   QuickStart
+  <a class="reference internal" href="../overview.html">
+   StreamAD
   </a>
  </li>
  <li class="toctree-l1 has-children">
@@ -117,13 +122,18 @@
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="../example/spot_example.html">
-     SpotDetector
+    <a class="reference internal" href="../example/dataset_usage.html">
+     Dataset Usage
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../example/xstream_example.html">
-     xStreamDetector
+    <a class="reference internal" href="../example/univariate.html">
+     Univariate detector
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../example/multivariate.html">
+     Multivariate detector
     </a>
    </li>
   </ul>
@@ -153,6 +163,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="streamad.util.html">
      StreamAD Utilities
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="streamad.evaluate.html">
+     StreamAD Evaluation
     </a>
    </li>
   </ul>
@@ -310,7 +325,7 @@ title="Print to PDF"
               <div>
                 
   <section class="tex2jax_ignore mathjax_ignore" id="api-reference">
-<h1>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline"></a></h1>
+<h1>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">#</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="streamad.model.html">StreamAD Detector</a><ul>
@@ -322,8 +337,11 @@ title="Print to PDF"
 <li class="toctree-l2"><a class="reference internal" href="streamad.util.html#dataset">Dataset</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streamad.util.html#generator">Generator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streamad.util.html#math-toolkit">Math toolkit</a></li>
-<li class="toctree-l2"><a class="reference internal" href="streamad.util.html#evaluation">Evaluation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="streamad.util.html#visualization">Visualization</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="streamad.evaluate.html">StreamAD Evaluation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="streamad.evaluate.html#aucmetric">AUCMetric</a></li>
 </ul>
 </li>
 </ul>
@@ -338,11 +356,11 @@ title="Print to PDF"
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="../example/xstream_example.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="../example/multivariate.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">xStreamDetector</p>
+            <p class="prev-next-title">Multivariate detector</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="streamad.model.html" title="next page">

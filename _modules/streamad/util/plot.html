@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>streamad.util.plot &#8212; StreamAD 0.1.0 documentation</title>
+    <title>streamad.util.plot &#8212; StreamAD 0.1.1 documentation</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -89,7 +89,7 @@
       <img src="../../../_static/logo_htmlwithname.svg" class="logo" alt="logo">
       
       
-      <h1 class="site-logo" id="site-title">StreamAD 0.1.0 documentation</h1>
+      <h1 class="site-logo" id="site-title">StreamAD 0.1.1 documentation</h1>
       
     </a>
 </div><form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
@@ -97,10 +97,15 @@
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
-        <ul class="nav bd-sidenav">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Overview
+ </span>
+</p>
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="../../../quickstart.html">
-   QuickStart
+  <a class="reference internal" href="../../../overview.html">
+   StreamAD
   </a>
  </li>
  <li class="toctree-l1 has-children">
@@ -114,13 +119,18 @@
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="../../../example/spot_example.html">
-     SpotDetector
+    <a class="reference internal" href="../../../example/dataset_usage.html">
+     Dataset Usage
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../../../example/xstream_example.html">
-     xStreamDetector
+    <a class="reference internal" href="../../../example/univariate.html">
+     Univariate detector
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../example/multivariate.html">
+     Multivariate detector
     </a>
    </li>
   </ul>
@@ -150,6 +160,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="../../../api/streamad.util.html">
      StreamAD Utilities
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../api/streamad.evaluate.html">
+     StreamAD Evaluation
     </a>
    </li>
   </ul>
@@ -266,11 +281,41 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
 
-<div class="viewcode-block" id="plot"><a class="viewcode-back" href="../../../api/streamad.util.html#streamad.util.plot">[docs]</a>def plot(data, label, date, scores, features):
+<div class="viewcode-block" id="plot"><a class="viewcode-back" href="../../../api/streamad.util.html#streamad.util.plot">[docs]</a>def plot(
+    data: np.ndarray,
+    scores: np.ndarray,
+    date: np.ndarray = None,
+    features: np.ndarray = None,
+    label: np.ndarray = None,
+):
+    &quot;&quot;&quot;Plot data, score and ground truth (if exists).
+
+    Args:
+        data (np.array): Original data stream.
+        scores (np.array): Anomaly scores of the data stream.
+        date (np.array, optional): Timestamp of the data. Defaults to None.
+        features (np.array, optional): Features name. Defaults to None.
+        label (np.array, optional): Ground truth. Defaults to None.
+    &quot;&quot;&quot;
+
+    if features is None:
+        features = [&quot;f&quot; + str(i) for i in range(np.array(data).shape[1])]
+    else:
+        assert (
+            len(features) == data.shape[1]
+        ), &quot;Number of features must match data dimension.&quot;
+
+    if date is None:
+        date = [i for i in range(np.array(data).shape[0])]
+    else:
+        assert (
+            len(date) == data.shape[0]
+        ), &quot;Number of date must match data dimension.&quot;
 
     height = 100 * len(features) + 80
     row_heights = [100 / height for _ in range(len(features))]
     row_heights.append(80 / height)
+
     fig = make_subplots(
         rows=len(features) + 1,
         cols=1,
@@ -279,24 +324,29 @@ from plotly.subplots import make_subplots
         row_heights=row_heights,
     )
 
-    anomalies = date[np.where(label == 1)[0]]
-
+    # Plot data by features
     for i, feature in enumerate(features):
         fig.add_trace(
-            go.Scatter(x=date, y=data[:, i], name=feature), row=i + 1, col=1
-        )
-
-    for anomaly in anomalies:
-        fig.add_vrect(
-            x0=anomaly,
-            x1=anomaly,
-            fillcolor=&quot;red&quot;,
-            opacity=0.25,
-            row=&quot;all&quot;,
+            go.Scatter(x=date, y=data[:, i], name=str(feature)),
+            row=i + 1,
             col=1,
-            name=&quot;Anomaly&quot;,
         )
 
+    # Plot label by anomalies
+    if label is not None:
+        anomalies = date[np.where(label == 1)[0]]
+        for anomaly in anomalies:
+            fig.add_vrect(
+                x0=anomaly,
+                x1=anomaly,
+                fillcolor=&quot;red&quot;,
+                opacity=0.25,
+                row=&quot;all&quot;,
+                col=1,
+                name=&quot;Anomaly&quot;,
+            )
+
+    # Plot score
     fig.add_trace(
         go.Scatter(x=date, y=scores, name=&quot;anomaly score&quot;, marker_color=&quot;red&quot;),
         row=len(features) + 1,
@@ -310,7 +360,7 @@ from plotly.subplots import make_subplots
         ),
         height=height,
     )
-    fig.show()</div>
+    return fig</div>
 </pre></div>
 
               </div>

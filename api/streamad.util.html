@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>StreamAD Utilities &#8212; StreamAD 0.1.0 documentation</title>
+    <title>StreamAD Utilities &#8212; StreamAD 0.1.1 documentation</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -47,7 +47,7 @@
     <link rel="shortcut icon" href="../_static/logo_html.svg"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Paper Reference" href="../references.html" />
+    <link rel="next" title="StreamAD Evaluation" href="streamad.evaluate.html" />
     <link rel="prev" title="StreamAD Detector" href="streamad.model.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en">
@@ -92,7 +92,7 @@
       <img src="../_static/logo_htmlwithname.svg" class="logo" alt="logo">
       
       
-      <h1 class="site-logo" id="site-title">StreamAD 0.1.0 documentation</h1>
+      <h1 class="site-logo" id="site-title">StreamAD 0.1.1 documentation</h1>
       
     </a>
 </div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
@@ -100,10 +100,15 @@
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
-        <ul class="nav bd-sidenav">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Overview
+ </span>
+</p>
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="../quickstart.html">
-   QuickStart
+  <a class="reference internal" href="../overview.html">
+   StreamAD
   </a>
  </li>
  <li class="toctree-l1 has-children">
@@ -117,13 +122,18 @@
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="../example/spot_example.html">
-     SpotDetector
+    <a class="reference internal" href="../example/dataset_usage.html">
+     Dataset Usage
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../example/xstream_example.html">
-     xStreamDetector
+    <a class="reference internal" href="../example/univariate.html">
+     Univariate detector
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../example/multivariate.html">
+     Multivariate detector
     </a>
    </li>
   </ul>
@@ -153,6 +163,11 @@
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
      StreamAD Utilities
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="streamad.evaluate.html">
+     StreamAD Evaluation
     </a>
    </li>
   </ul>
@@ -322,6 +337,11 @@ title="Print to PDF"
      MultivariateDS
     </a>
    </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#customds">
+     CustomDS
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -344,18 +364,6 @@ title="Print to PDF"
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#statistic">
      Statistic
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#evaluation">
-   Evaluation
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#aucmetric">
-     AUCMetric
     </a>
    </li>
   </ul>
@@ -406,6 +414,11 @@ title="Print to PDF"
      MultivariateDS
     </a>
    </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#customds">
+     CustomDS
+    </a>
+   </li>
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -433,18 +446,6 @@ title="Print to PDF"
   </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#evaluation">
-   Evaluation
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#aucmetric">
-     AUCMetric
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#visualization">
    Visualization
   </a>
@@ -467,14 +468,14 @@ title="Print to PDF"
               <div>
                 
   <section class="tex2jax_ignore mathjax_ignore" id="streamad-utilities">
-<h1>StreamAD Utilities<a class="headerlink" href="#streamad-utilities" title="Permalink to this headline"></a></h1>
+<h1>StreamAD Utilities<a class="headerlink" href="#streamad-utilities" title="Permalink to this headline">#</a></h1>
 <section id="dataset">
-<h2>Dataset<a class="headerlink" href="#dataset" title="Permalink to this headline"></a></h2>
+<h2>Dataset<a class="headerlink" href="#dataset" title="Permalink to this headline">#</a></h2>
 <section id="univariateds">
-<h3>UnivariateDS<a class="headerlink" href="#univariateds" title="Permalink to this headline"></a></h3>
+<h3>UnivariateDS<a class="headerlink" href="#univariateds" title="Permalink to this headline">#</a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="streamad.util.UnivariateDS">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">streamad.util.</span></span><span class="sig-name descname"><span class="pre">UnivariateDS</span></span><a class="reference internal" href="../_modules/streamad/util/dataset.html#UnivariateDS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.util.UnivariateDS" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">streamad.util.</span></span><span class="sig-name descname"><span class="pre">UnivariateDS</span></span><a class="reference internal" href="../_modules/streamad/util/dataset.html#UnivariateDS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.util.UnivariateDS" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">streamad.util.dataset.DS</span></code></p>
 <p>Load univariate dataset.</p>
 </dd></dl>
@@ -482,30 +483,43 @@ title="Print to PDF"
 </section>
 <hr class="docutils" />
 <section id="multivariateds">
-<h3>MultivariateDS<a class="headerlink" href="#multivariateds" title="Permalink to this headline"></a></h3>
+<h3>MultivariateDS<a class="headerlink" href="#multivariateds" title="Permalink to this headline">#</a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="streamad.util.MultivariateDS">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">streamad.util.</span></span><span class="sig-name descname"><span class="pre">MultivariateDS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">has_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/util/dataset.html#MultivariateDS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.util.MultivariateDS" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">streamad.util.</span></span><span class="sig-name descname"><span class="pre">MultivariateDS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">has_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/util/dataset.html#MultivariateDS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.util.MultivariateDS" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">streamad.util.dataset.DS</span></code></p>
 <p>Load multivariate dataset.</p>
+</dd></dl>
+
+</section>
+<hr class="docutils" />
+<section id="customds">
+<h3>CustomDS<a class="headerlink" href="#customds" title="Permalink to this headline">#</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="streamad.util.CustomDS">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">streamad.util.</span></span><span class="sig-name descname"><span class="pre">CustomDS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/util/dataset.html#CustomDS"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.util.CustomDS" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">streamad.util.dataset.DS</span></code></p>
+<p>Load custom dataset.
+:type f_path: <code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]
+:param f_path: Dataset or its path.
+:type f_path: Union[str, np.ndarray]
+:type label: <code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code>]
+:param label: Anomaly labels for dataset. Defaults to None.
+:type label: np.ndarray, optional</p>
 </dd></dl>
 
 </section>
 </section>
 <hr class="docutils" />
 <section id="generator">
-<h2>Generator<a class="headerlink" href="#generator" title="Permalink to this headline"></a></h2>
+<h2>Generator<a class="headerlink" href="#generator" title="Permalink to this headline">#</a></h2>
 <section id="streamgenerator">
-<h3>StreamGenerator<a class="headerlink" href="#streamgenerator" title="Permalink to this headline"></a></h3>
+<h3>StreamGenerator<a class="headerlink" href="#streamgenerator" title="Permalink to this headline">#</a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="streamad.util.StreamGenerator">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">streamad.util.</span></span><span class="sig-name descname"><span class="pre">StreamGenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/util/stream_generator.html#StreamGenerator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.util.StreamGenerator" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">streamad.util.</span></span><span class="sig-name descname"><span class="pre">StreamGenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/util/stream_generator.html#StreamGenerator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.util.StreamGenerator" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Load static dataset and generate observation once a time.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="streamad.util.StreamGenerator.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/util/stream_generator.html#StreamGenerator.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.util.StreamGenerator.__init__" title="Permalink to this definition"></a></dt>
-<dd><p>Initialize a StreamGenerator.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>X</strong> (<em>np.ndarray</em>) – Origin static dataset.</p>
@@ -514,11 +528,9 @@ title="Print to PDF"
 <dd class="field-even"><p><strong>TypeError</strong> – Unexpected input data type.</p>
 </dd>
 </dl>
-</dd></dl>
-
 <dl class="py method">
 <dt class="sig sig-object py" id="streamad.util.StreamGenerator.iter_item">
-<span class="sig-name descname"><span class="pre">iter_item</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/util/stream_generator.html#StreamGenerator.iter_item"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.util.StreamGenerator.iter_item" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">iter_item</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/util/stream_generator.html#StreamGenerator.iter_item"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.util.StreamGenerator.iter_item" title="Permalink to this definition">#</a></dt>
 <dd><p>Iterate item once a time from the dataset.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Yields</dt>
@@ -536,60 +548,53 @@ title="Print to PDF"
 </section>
 <hr class="docutils" />
 <section id="math-toolkit">
-<h2>Math toolkit<a class="headerlink" href="#math-toolkit" title="Permalink to this headline"></a></h2>
+<h2>Math toolkit<a class="headerlink" href="#math-toolkit" title="Permalink to this headline">#</a></h2>
 <section id="statistic">
-<h3>Statistic<a class="headerlink" href="#statistic" title="Permalink to this headline"></a></h3>
+<h3>Statistic<a class="headerlink" href="#statistic" title="Permalink to this headline">#</a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="streamad.util.StreamStatistic">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">streamad.util.</span></span><span class="sig-name descname"><span class="pre">StreamStatistic</span></span><a class="reference internal" href="../_modules/streamad/util/math_toolkit.html#StreamStatistic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.util.StreamStatistic" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">streamad.util.</span></span><span class="sig-name descname"><span class="pre">StreamStatistic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">is_global</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_len</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/util/math_toolkit.html#StreamStatistic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.util.StreamStatistic" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Data statistics for the streaming data.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="streamad.util.StreamStatistic.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/util/math_toolkit.html#StreamStatistic.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.util.StreamStatistic.__init__" title="Permalink to this definition"></a></dt>
-<dd><p>Statistic for stream data
-We support max, min, sum, mean, sum of squares, var, std and standard scaler for streaming data.</p>
-</dd></dl>
-
+<p>Data statistics for the streaming data, with supporting max, min, sum, mean, sum of squares, var, std and standard scaler.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="streamad.util.StreamStatistic.get_max">
-<span class="sig-name descname"><span class="pre">get_max</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/util/math_toolkit.html#StreamStatistic.get_max"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.util.StreamStatistic.get_max" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_max</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/util/math_toolkit.html#StreamStatistic.get_max"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.util.StreamStatistic.get_max" title="Permalink to this definition">#</a></dt>
 <dd><p>Get max stattistic.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="streamad.util.StreamStatistic.get_mean">
-<span class="sig-name descname"><span class="pre">get_mean</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/util/math_toolkit.html#StreamStatistic.get_mean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.util.StreamStatistic.get_mean" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_mean</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/util/math_toolkit.html#StreamStatistic.get_mean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.util.StreamStatistic.get_mean" title="Permalink to this definition">#</a></dt>
 <dd><p>Get mean stattistic.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="streamad.util.StreamStatistic.get_min">
-<span class="sig-name descname"><span class="pre">get_min</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/util/math_toolkit.html#StreamStatistic.get_min"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.util.StreamStatistic.get_min" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_min</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/util/math_toolkit.html#StreamStatistic.get_min"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.util.StreamStatistic.get_min" title="Permalink to this definition">#</a></dt>
 <dd><p>Get min stattistic.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="streamad.util.StreamStatistic.get_std">
-<span class="sig-name descname"><span class="pre">get_std</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/util/math_toolkit.html#StreamStatistic.get_std"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.util.StreamStatistic.get_std" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_std</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/util/math_toolkit.html#StreamStatistic.get_std"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.util.StreamStatistic.get_std" title="Permalink to this definition">#</a></dt>
 <dd><p>Get max stattistic.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="streamad.util.StreamStatistic.get_sum">
-<span class="sig-name descname"><span class="pre">get_sum</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/util/math_toolkit.html#StreamStatistic.get_sum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.util.StreamStatistic.get_sum" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_sum</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/util/math_toolkit.html#StreamStatistic.get_sum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.util.StreamStatistic.get_sum" title="Permalink to this definition">#</a></dt>
 <dd><p>Get sum stattistic.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="streamad.util.StreamStatistic.get_var">
-<span class="sig-name descname"><span class="pre">get_var</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/util/math_toolkit.html#StreamStatistic.get_var"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.util.StreamStatistic.get_var" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">get_var</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/util/math_toolkit.html#StreamStatistic.get_var"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.util.StreamStatistic.get_var" title="Permalink to this definition">#</a></dt>
 <dd><p>Get var stattistic.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="streamad.util.StreamStatistic.update">
-<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/util/math_toolkit.html#StreamStatistic.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.util.StreamStatistic.update" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/util/math_toolkit.html#StreamStatistic.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.util.StreamStatistic.update" title="Permalink to this definition">#</a></dt>
 <dd><p>Update a pd.Series to stream</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -603,31 +608,28 @@ We support max, min, sum, mean, sum of squares, var, std and standard scaler for
 </section>
 </section>
 <hr class="docutils" />
-<section id="evaluation">
-<h2>Evaluation<a class="headerlink" href="#evaluation" title="Permalink to this headline"></a></h2>
-<section id="aucmetric">
-<h3>AUCMetric<a class="headerlink" href="#aucmetric" title="Permalink to this headline"></a></h3>
-<dl class="py class">
-<dt class="sig sig-object py" id="streamad.util.AUCMetric">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">streamad.util.</span></span><span class="sig-name descname"><span class="pre">AUCMetric</span></span><a class="reference internal" href="../_modules/streamad/util/eval.html#AUCMetric"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.util.AUCMetric" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">streamad.base.metrics.BaseMetrics</span></code></p>
-<p>ROC_AUC score for evaluation.</p>
-</dd></dl>
-
-</section>
-</section>
-<hr class="docutils" />
 <section id="visualization">
-<h2>Visualization<a class="headerlink" href="#visualization" title="Permalink to this headline"></a></h2>
+<h2>Visualization<a class="headerlink" href="#visualization" title="Permalink to this headline">#</a></h2>
 <section id="plot">
-<h3>Plot<a class="headerlink" href="#plot" title="Permalink to this headline"></a></h3>
+<h3>Plot<a class="headerlink" href="#plot" title="Permalink to this headline">#</a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="streamad.util.plot">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">streamad.util.</span></span><span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scores</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">features</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/util/plot.html#plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.util.plot" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">streamad.util.</span></span><span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scores</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">features</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/streamad/util/plot.html#plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#streamad.util.plot" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases:</p>
+<p>Plot data, score and ground truth (if exists).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>np.array</em>) – Original data stream.</p></li>
+<li><p><strong>scores</strong> (<em>np.array</em>) – Anomaly scores of the data stream.</p></li>
+<li><p><strong>date</strong> (<em>np.array</em><em>, </em><em>optional</em>) – Timestamp of the data. Defaults to None.</p></li>
+<li><p><strong>features</strong> (<em>np.array</em><em>, </em><em>optional</em>) – Features name. Defaults to None.</p></li>
+<li><p><strong>label</strong> (<em>np.array</em><em>, </em><em>optional</em>) – Ground truth. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
-<hr class="docutils" />
 </section>
 </section>
 </section>
@@ -647,10 +649,10 @@ We support max, min, sum, mean, sum of squares, var, std and standard scaler for
             <p class="prev-next-title">StreamAD Detector</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="../references.html" title="next page">
+    <a class='right-next' id="next-link" href="streamad.evaluate.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Paper Reference</p>
+        <p class="prev-next-title">StreamAD Evaluation</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

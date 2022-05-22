@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Paper Reference &#8212; StreamAD 0.1.0 documentation</title>
+    <title>Paper Reference &#8212; StreamAD 0.1.1 documentation</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -47,7 +47,7 @@
     <link rel="shortcut icon" href="_static/logo_html.svg"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="StreamAD Utilities" href="api/streamad.util.html" />
+    <link rel="prev" title="StreamAD Evaluation" href="api/streamad.evaluate.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en">
     
@@ -91,7 +91,7 @@
       <img src="_static/logo_htmlwithname.svg" class="logo" alt="logo">
       
       
-      <h1 class="site-logo" id="site-title">StreamAD 0.1.0 documentation</h1>
+      <h1 class="site-logo" id="site-title">StreamAD 0.1.1 documentation</h1>
       
     </a>
 </div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
@@ -99,10 +99,15 @@
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
-        <ul class="nav bd-sidenav">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Overview
+ </span>
+</p>
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="quickstart.html">
-   QuickStart
+  <a class="reference internal" href="overview.html">
+   StreamAD
   </a>
  </li>
  <li class="toctree-l1 has-children">
@@ -116,13 +121,18 @@
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="example/spot_example.html">
-     SpotDetector
+    <a class="reference internal" href="example/dataset_usage.html">
+     Dataset Usage
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="example/xstream_example.html">
-     xStreamDetector
+    <a class="reference internal" href="example/univariate.html">
+     Univariate detector
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="example/multivariate.html">
+     Multivariate detector
     </a>
    </li>
   </ul>
@@ -152,6 +162,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="api/streamad.util.html">
      StreamAD Utilities
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/streamad.evaluate.html">
+     StreamAD Evaluation
     </a>
    </li>
   </ul>
@@ -309,17 +324,29 @@ title="Print to PDF"
               <div>
                 
   <section class="tex2jax_ignore mathjax_ignore" id="paper-reference">
-<h1>Paper Reference<a class="headerlink" href="#paper-reference" title="Permalink to this headline"></a></h1>
+<h1>Paper Reference<a class="headerlink" href="#paper-reference" title="Permalink to this headline">#</a></h1>
 <div class="docutils container" id="id1">
 <dl class="citation">
-<dt class="label" id="id2"><span class="brackets">BBI16</span></dt>
+<dt class="label" id="id2"><span class="brackets">md1</span></dt>
 <dd><p>Evgeny Burnaev and Vladislav Ishimtsev. Conformalized density- and distance-based anomaly detection in time-series data. <em>CoRR</em>, 2016. URL: <a class="reference external" href="http://arxiv.org/abs/1608.04585">http://arxiv.org/abs/1608.04585</a>, <a class="reference external" href="https://arxiv.org/abs/1608.04585">arXiv:1608.04585</a>.</p>
 </dd>
-<dt class="label" id="id4"><span class="brackets">BSFTLargouet17</span></dt>
+<dt class="label" id="id4"><span class="brackets">md2</span></dt>
 <dd><p>Alban Siffer, Pierre-Alain Fouque, Alexandre Termier, and Christine Largouët. Anomaly detection in streams with extreme value theory. In <em>Proceedings of the 23rd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining, Halifax, NS, Canada, August 13 - 17, 2017</em>, 1067–1075. ACM, 2017. URL: <a class="reference external" href="https://doi.org/10.1145/3097983.3098144">https://doi.org/10.1145/3097983.3098144</a>, <a class="reference external" href="https://doi.org/10.1145/3097983.3098144">doi:10.1145/3097983.3098144</a>.</p>
 </dd>
-<dt class="label" id="id3"><span class="brackets">BMLA18</span></dt>
+<dt class="label" id="id5"><span class="brackets">md3</span></dt>
+<dd><p>Sudipto Guha, Nina Mishra, Gourav Roy, and Okke Schrijvers. Robust random cut forest based anomaly detection on streams. In Maria-Florina Balcan and Kilian Q. Weinberger, editors, <em>Proceedings of the 33nd International Conference on Machine Learning, ICML 2016, New York City, NY, USA, June 19-24, 2016</em>, volume 48 of JMLR Workshop and Conference Proceedings, 2712–2721. JMLR.org, 2016. URL: <a class="reference external" href="http://proceedings.mlr.press/v48/guha16.html">http://proceedings.mlr.press/v48/guha16.html</a>.</p>
+</dd>
+<dt class="label" id="id6"><span class="brackets">md4</span></dt>
+<dd><p>Hansheng Ren, Bixiong Xu, Yujing Wang, Chao Yi, Congrui Huang, Xiaoyu Kou, Tony Xing, Mao Yang, Jie Tong, and Qi Zhang. Time-series anomaly detection service at microsoft. In Ankur Teredesai, Vipin Kumar, Ying Li, Rómer Rosales, Evimaria Terzi, and George Karypis, editors, <em>Proceedings of the 25th ACM SIGKDD International Conference on Knowledge Discovery &amp; Data Mining, KDD 2019, Anchorage, AK, USA, August 4-8, 2019</em>, 3009–3017. ACM, 2019. URL: <a class="reference external" href="https://doi.org/10.1145/3292500.3330680">https://doi.org/10.1145/3292500.3330680</a>, <a class="reference external" href="https://doi.org/10.1145/3292500.3330680">doi:10.1145/3292500.3330680</a>.</p>
+</dd>
+<dt class="label" id="id3"><span class="brackets">md5</span></dt>
 <dd><p>Emaad A. Manzoor, Hemank Lamba, and Leman Akoglu. Xstream: outlier detection in feature-evolving data streams. In Yike Guo and Faisal Farooq, editors, <em>Proceedings of the 24th ACM SIGKDD International Conference on Knowledge Discovery &amp; Data Mining, KDD 2018, London, UK, August 19-23, 2018</em>, 1963–1972. ACM, 2018. URL: <a class="reference external" href="https://doi.org/10.1145/3219819.3220107">https://doi.org/10.1145/3219819.3220107</a>, <a class="reference external" href="https://doi.org/10.1145/3219819.3220107">doi:10.1145/3219819.3220107</a>.</p>
+</dd>
+<dt class="label" id="id7"><span class="brackets">md6</span></dt>
+<dd><p>Saket Sathe and Charu C. Aggarwal. Subspace outlier detection in linear time with randomized hashing. In Francesco Bonchi, Josep Domingo-Ferrer, Ricardo Baeza-Yates, Zhi-Hua Zhou, and Xindong Wu, editors, <em>IEEE 16th International Conference on Data Mining, ICDM 2016, December 12-15, 2016, Barcelona, Spain</em>, 459–468. IEEE Computer Society, 2016. URL: <a class="reference external" href="https://doi.org/10.1109/ICDM.2016.0057">https://doi.org/10.1109/ICDM.2016.0057</a>, <a class="reference external" href="https://doi.org/10.1109/ICDM.2016.0057">doi:10.1109/ICDM.2016.0057</a>.</p>
+</dd>
+<dt class="label" id="id8"><span class="brackets">md7</span></dt>
+<dd><p>Swee Chuan Tan, Kai Ming Ting, and Fei Tony Liu. Fast anomaly detection for streaming data. In Toby Walsh, editor, <em>IJCAI 2011, Proceedings of the 22nd International Joint Conference on Artificial Intelligence, Barcelona, Catalonia, Spain, July 16-22, 2011</em>, 1511–1516. IJCAI/AAAI, 2011. URL: <a class="reference external" href="https://doi.org/10.5591/978-1-57735-516-8/IJCAI11-254">https://doi.org/10.5591/978-1-57735-516-8/IJCAI11-254</a>, <a class="reference external" href="https://doi.org/10.5591/978-1-57735-516-8/IJCAI11-254">doi:10.5591/978-1-57735-516-8/IJCAI11-254</a>.</p>
 </dd>
 </dl>
 </div>
@@ -333,11 +360,11 @@ title="Print to PDF"
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="api/streamad.util.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="api/streamad.evaluate.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">StreamAD Utilities</p>
+            <p class="prev-next-title">StreamAD Evaluation</p>
         </div>
     </a>
 </div>

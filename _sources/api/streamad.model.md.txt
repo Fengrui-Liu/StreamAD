@@ -3,6 +3,8 @@
 
 
 ## Univariate Anomaly Detector
+
+If you want to detect multivarite time series with these models, you need to apply them on each feature separately.
 ### KNNDetector
 
 ```{eval-rst}
@@ -25,14 +27,67 @@
 ----
 
 
+### RrcfDetector
+
+```{eval-rst}
+.. autoclass:: streamad.model.RrcfDetector
+    :show-inheritance:
+    :members: parse
+```
+
+----
+
+
+### SRDetector
+
+```{eval-rst}
+.. autoclass:: streamad.model.SRDetector
+    :show-inheritance:
+    :members: parse
+```
+
+----
+
+
+### ZScoreDetector
+
+```{eval-rst}
+.. autoclass:: streamad.model.ZScoreDetector
+    :show-inheritance:
+    :members: parse
+```
+
+----
+
+
 ## Multivariate Anomaly Detector
 
-Note that these methods are compatible with univariate time series.
+These models are compatible with univariate time series.
 
 ### xStreamDetector
 
 ```{eval-rst}
 .. autoclass:: streamad.model.xStreamDetector
+    :show-inheritance:
+    :members: parse
+```
+
+----
+
+### RShashDetector
+
+```{eval-rst}
+.. autoclass:: streamad.model.RShashDetector
+    :show-inheritance:
+    :members: parse
+```
+
+----
+
+### HSTreeDetector
+
+```{eval-rst}
+.. autoclass:: streamad.model.HSTreeDetector
     :show-inheritance:
     :members: parse
 ```
@@ -46,5 +101,3 @@ Note that these methods are compatible with univariate time series.
     :show-inheritance:
     :members: parse
 ```
-
-----

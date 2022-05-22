@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>streamad.util.math_toolkit &#8212; StreamAD 0.1.0 documentation</title>
+    <title>streamad.util.math_toolkit &#8212; StreamAD 0.1.1 documentation</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -89,7 +89,7 @@
       <img src="../../../_static/logo_htmlwithname.svg" class="logo" alt="logo">
       
       
-      <h1 class="site-logo" id="site-title">StreamAD 0.1.0 documentation</h1>
+      <h1 class="site-logo" id="site-title">StreamAD 0.1.1 documentation</h1>
       
     </a>
 </div><form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
@@ -97,10 +97,15 @@
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
-        <ul class="nav bd-sidenav">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Overview
+ </span>
+</p>
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="../../../quickstart.html">
-   QuickStart
+  <a class="reference internal" href="../../../overview.html">
+   StreamAD
   </a>
  </li>
  <li class="toctree-l1 has-children">
@@ -114,13 +119,18 @@
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="../../../example/spot_example.html">
-     SpotDetector
+    <a class="reference internal" href="../../../example/dataset_usage.html">
+     Dataset Usage
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../../../example/xstream_example.html">
-     xStreamDetector
+    <a class="reference internal" href="../../../example/univariate.html">
+     Univariate detector
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../example/multivariate.html">
+     Multivariate detector
     </a>
    </li>
   </ul>
@@ -150,6 +160,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="../../../api/streamad.util.html">
      StreamAD Utilities
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../api/streamad.evaluate.html">
+     StreamAD Evaluation
     </a>
    </li>
   </ul>
@@ -261,38 +276,28 @@ title="Source repository"
               <div>
                 
   <h1>Source code for streamad.util.math_toolkit</h1><div class="highlight"><pre>
-<span></span>#!/usr/bin/env python
-# coding=utf-8
-#
-# Author: liufr
-# Github: https://github.com/Fengrui-Liu
-# LastEditTime: 2021-01-09 19:24:46
-# Copyright 2021 liufr
-# Description:
-
-import collections
-import math
+<span></span>import math
 
 import numpy as np
+from collections import deque, defaultdict
 
 
 <div class="viewcode-block" id="StreamStatistic"><a class="viewcode-back" href="../../../api/streamad.util.html#streamad.util.StreamStatistic">[docs]</a>class StreamStatistic:
-    &quot;&quot;&quot;Data statistics for the streaming data.&quot;&quot;&quot;
+    &quot;&quot;&quot;Data statistics for the streaming data, with supporting max, min, sum, mean, sum of squares, var, std and standard scaler.&quot;&quot;&quot;
 
-<div class="viewcode-block" id="StreamStatistic.__init__"><a class="viewcode-back" href="../../../api/streamad.util.html#streamad.util.StreamStatistic.__init__">[docs]</a>    def __init__(self):
-        &quot;&quot;&quot;Statistic for stream data
-        We support max, min, sum, mean, sum of squares, var, std and standard scaler for streaming data.
-        &quot;&quot;&quot;
+    def __init__(self, is_global: bool = True, window_len: int = 10):
         self._is_uni = False
+        self._is_global = is_global
+        self._window = deque(maxlen=window_len)
         self._num_items = 0
 
-        self._max = collections.defaultdict(lambda: -math.inf)
-        self._min = collections.defaultdict(lambda: math.inf)
-        self._sum = collections.defaultdict(float)
-        self._mean = collections.defaultdict(float)
-        self._sum_squares = collections.defaultdict(float)
-        self._var = collections.defaultdict(float)
-        self._std = collections.defaultdict(float)</div>
+        self._max = defaultdict(lambda: -math.inf)
+        self._min = defaultdict(lambda: math.inf)
+        self._sum = defaultdict(float)
+        self._mean = defaultdict(float)
+        self._sum_squares = defaultdict(float)
+        self._var = defaultdict(float)
+        self._std = defaultdict(float)
 
 <div class="viewcode-block" id="StreamStatistic.update"><a class="viewcode-back" href="../../../api/streamad.util.html#streamad.util.StreamStatistic.update">[docs]</a>    def update(self, X: np.ndarray):
         &quot;&quot;&quot;Update a pd.Series to stream
@@ -304,89 +309,112 @@ import numpy as np
 
         self._num_items += 1
 
-        if not isinstance(X, np.ndarray):
-            X = [X]
+        if isinstance(X, int) or isinstance(X, float):
+            X = np.array([X])
             self._is_uni = True
-        tmp = collections.defaultdict(float)
+        elif isinstance(X, np.ndarray):
+            X = np.array([X]).flatten()
+            if len(X) == 1:
+                self._is_uni = True
+            else:
+                self._is_uni = False
+        else:
+            raise NotImplementedError(&quot;Only support int, float and np.ndarray&quot;)
 
-        for index, item in enumerate(X):
-            self._max[index] = self._max[index] if self._max[index] &gt; item else item
-            self._min[index] = self._min[index] if self._min[index] &lt; item else item
-            self._sum[index] += X[index]
-            old_mean = self._mean[index]
-            tmp[index] = item - self._mean[index]
-            self._mean[index] = self._sum[index] / self._num_items
-            self._sum_squares[index] += (X[index] - old_mean) * (
-                X[index] - self._mean[index]
-            )
-            self._var[index] = self._sum_squares[index] / self._num_items
-            self._std[index] = math.sqrt(self._var[index])</div>
+        if self._is_global:
+
+            tmp = defaultdict(float)
+
+            for index, item in enumerate(X):
+                self._max[index] = (
+                    self._max[index] if self._max[index] &gt; item else item
+                )
+                self._min[index] = (
+                    self._min[index] if self._min[index] &lt; item else item
+                )
+                self._sum[index] += X[index]
+                old_mean = self._mean[index]
+                tmp[index] = item - self._mean[index]
+                self._mean[index] = self._sum[index] / self._num_items
+                self._sum_squares[index] += (X[index] - old_mean) * (
+                    X[index] - self._mean[index]
+                )
+                self._var[index] = self._sum_squares[index] / self._num_items
+                self._std[index] = math.sqrt(self._var[index])
+        else:
+            self._window.append(X)</div>
 
 <div class="viewcode-block" id="StreamStatistic.get_max"><a class="viewcode-back" href="../../../api/streamad.util.html#streamad.util.StreamStatistic.get_max">[docs]</a>    def get_max(self):
         &quot;&quot;&quot;
         Get max stattistic.
         &quot;&quot;&quot;
 
-        result = [_ for _ in self._max.values()]
-        if self._is_uni:
-            return result[0]
+        if self._is_global:
+            result = [_ for _ in self._max.values()]
+        else:
+            result = np.max(self._window, axis=0)
 
-        return np.array(result)</div>
+        return result[0] if self._is_uni else np.array(result)</div>
 
 <div class="viewcode-block" id="StreamStatistic.get_min"><a class="viewcode-back" href="../../../api/streamad.util.html#streamad.util.StreamStatistic.get_min">[docs]</a>    def get_min(self):
         &quot;&quot;&quot;
         Get min stattistic.
         &quot;&quot;&quot;
 
-        result = [_ for _ in self._min.values()]
-        if self._is_uni:
-            return result[0]
+        if self._is_global:
+            result = [_ for _ in self._min.values()]
+        else:
+            result = np.min(self._window, axis=0)
 
-        return np.array(result)</div>
+        return result[0] if self._is_uni else np.array(result)</div>
 
 <div class="viewcode-block" id="StreamStatistic.get_mean"><a class="viewcode-back" href="../../../api/streamad.util.html#streamad.util.StreamStatistic.get_mean">[docs]</a>    def get_mean(self):
         &quot;&quot;&quot;
         Get mean stattistic.
         &quot;&quot;&quot;
 
-        result = [_ for _ in self._mean.values()]
-        if self._is_uni:
-            return result[0]
+        if self._is_global:
+            result = [_ for _ in self._mean.values()]
+        else:
+            result = np.mean(self._window, axis=0)
 
-        return np.array(result)</div>
+        return result[0] if self._is_uni else np.array(result)</div>
 
 <div class="viewcode-block" id="StreamStatistic.get_std"><a class="viewcode-back" href="../../../api/streamad.util.html#streamad.util.StreamStatistic.get_std">[docs]</a>    def get_std(self):
         &quot;&quot;&quot;
         Get max stattistic.
         &quot;&quot;&quot;
 
-        result = [_ for _ in self._std.values()]
-        if self._is_uni:
-            return result[0]
+        if self._is_global:
+            result = [_ for _ in self._std.values()]
+        else:
+            result = np.std(self._window, axis=0)
 
-        return np.array(result)</div>
+        return result[0] if self._is_uni else np.array(result)</div>
 
 <div class="viewcode-block" id="StreamStatistic.get_sum"><a class="viewcode-back" href="../../../api/streamad.util.html#streamad.util.StreamStatistic.get_sum">[docs]</a>    def get_sum(self):
         &quot;&quot;&quot;
         Get sum stattistic.
         &quot;&quot;&quot;
 
-        result = [_ for _ in self._sum.values()]
-        if self._is_uni:
-            return result[0]
+        if self._is_global:
+            result = [_ for _ in self._sum.values()]
+        else:
+            result = np.sum(self._window, axis=0)
 
-        return np.array(result)</div>
+        return result[0] if self._is_uni else np.array(result)</div>
 
 <div class="viewcode-block" id="StreamStatistic.get_var"><a class="viewcode-back" href="../../../api/streamad.util.html#streamad.util.StreamStatistic.get_var">[docs]</a>    def get_var(self):
         &quot;&quot;&quot;
         Get var stattistic.
         &quot;&quot;&quot;
 
-        result = [_ for _ in self._var.values()]
-        if self._is_uni:
-            return result[0]
+        if self._is_global:
+            result = [_ for _ in self._var.values()]
+        else:
+            result = np.var(self._window, axis=0)
 
-        return np.array(result)</div></div>
+        return result[0] if self._is_uni else np.array(result)</div></div>
 </pre></div>
 
               </div>

@@ -1,0 +1,570 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>StreamAD &#8212; StreamAD 0.1.1 documentation</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/design-tabs.js"></script>
+    <link rel="shortcut icon" href="_static/logo_html.svg"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Examples" href="example/example.html" />
+    <link rel="prev" title="StreamAD" href="index.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/logo_htmlwithname.svg" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">StreamAD 0.1.1 documentation</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Overview
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   StreamAD
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="example/example.html">
+   Examples
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="example/dataset_usage.html">
+     Dataset Usage
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="example/univariate.html">
+     Univariate detector
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="example/multivariate.html">
+     Multivariate detector
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Reference
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="api/streamad.html">
+   API Reference
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/streamad.model.html">
+     StreamAD Detector
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/streamad.util.html">
+     StreamAD Utilities
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="api/streamad.evaluate.html">
+     StreamAD Evaluation
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="references.html">
+   Paper Reference
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+<a href="https://github.com/Fengrui-Liu/StreamAD"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="bottom"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/overview.md.txt"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.md</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#installation">
+   Installation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#quick-start">
+   Quick Start
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#models">
+   Models
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#for-univariate-time-series">
+     For univariate time series
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#for-multivariate-time-series">
+     For multivariate time series
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>StreamAD</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#installation">
+   Installation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#quick-start">
+   Quick Start
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#models">
+   Models
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#for-univariate-time-series">
+     For univariate time series
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#for-multivariate-time-series">
+     For multivariate time series
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="streamad">
+<h1>StreamAD<a class="headerlink" href="#streamad" title="Permalink to this headline">#</a></h1>
+<p><img alt="StreamAD Logo" src="_images/logo_htmlwithname.svg" /></p>
+<p>Anomaly detection for data streams/time series. Detectors process the univariate or multivariate data one by one to simulte a real-time scene.</p>
+<p><a class="reference external" href="https://streamad.readthedocs.io/en/latest/">Documentation</a></p>
+<!--- BADGES: START --->
+<p><img alt="Conda" src="https://img.shields.io/conda/v/conda-forge/streamad" />
+<img alt="PyPI" src="https://img.shields.io/pypi/v/streamad" />
+<img alt="PyPI - Python Version" src="https://img.shields.io/pypi/pyversions/StreamAD?style=flat" />
+<img alt="PyPI - Implementation" src="https://img.shields.io/pypi/implementation/streamad" /></p>
+<p><img alt="Read the Docs" src="https://img.shields.io/readthedocs/streamad?style=flat" />
+<img alt="GitHub" src="https://img.shields.io/github/license/Fengrui-Liu/StreamAD" />
+<img alt="Conda" src="https://img.shields.io/conda/pn/conda-forge/streamad" />
+<a class="reference external" href="https://pepy.tech/project/streamad"><img alt="Downloads" src="https://static.pepy.tech/personalized-badge/streamad?period=total&amp;units=international_system&amp;left_color=grey&amp;right_color=orange&amp;left_text=Downloads" /></a></p>
+<p><img alt="example workflow" src="https://github.com/Fengrui-Liu/StreamAD/actions/workflows/testing.yml//badge.svg" />
+<a class="reference external" href="https://codecov.io/gh/Fengrui-Liu/StreamAD"><img alt="codecov" src="https://codecov.io/gh/Fengrui-Liu/StreamAD/branch/main/graph/badge.svg?token=AQG26L2RA7" /></a>
+<a class="reference external" href="https://codeclimate.com/github/Fengrui-Liu/StreamAD/maintainability"><img alt="Maintainability" src="https://api.codeclimate.com/v1/badges/525d7e3663ee4c5c0daa/maintainability" /></a>
+<a class="reference external" href="https://app.fossa.com/projects/git%2Bgithub.com%2FFengrui-Liu%2FStreamAD?ref=badge_small"><img alt="FOSSA Status" src="https://app.fossa.com/api/projects/git%2Bgithub.com%2FFengrui-Liu%2FStreamAD.svg?type=small" /></a></p>
+<hr class="docutils" />
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">#</a></h2>
+<p>The stable version can be installed from PyPI:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install streamad
+</pre></div>
+</div>
+<p>The stable version can be installed from conda-forge:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda install --channel <span class="s2">&quot;conda-forge&quot;</span> streamad
+</pre></div>
+</div>
+<p>The development version can be installed from GitHub:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install git+https://github.com/Fengrui-Liu/StreamAD
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">#</a></h2>
+<p>Start once detection within 5 lines of code. You can find more example with visualization results <a class="reference external" href="https://streamad.readthedocs.io/en/latest/example/example.html">here</a>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">streamad.util</span> <span class="kn">import</span> <span class="n">StreamGenerator</span><span class="p">,</span> <span class="n">UnivariateDS</span><span class="p">,</span> <span class="n">plot</span>
+<span class="kn">from</span> <span class="nn">streamad.model</span> <span class="kn">import</span> <span class="n">SpotDetector</span>
+
+<span class="n">ds</span> <span class="o">=</span> <span class="n">UnivariateDS</span><span class="p">()</span>
+<span class="n">stream</span> <span class="o">=</span> <span class="n">StreamGenerator</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">SpotDetector</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">stream</span><span class="o">.</span><span class="n">iter_item</span><span class="p">():</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit_score</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="models">
+<h2>Models<a class="headerlink" href="#models" title="Permalink to this headline">#</a></h2>
+<section id="for-univariate-time-series">
+<h3>For univariate time series<a class="headerlink" href="#for-univariate-time-series" title="Permalink to this headline">#</a></h3>
+<p>If you want to detect multivarite time series with these models, you need to apply them on each feature separately.</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Model Example</p></th>
+<th class="head"><p>API Usage</p></th>
+<th class="head"><p>Paper</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference external" href="https://streamad.readthedocs.io/en/latest/example/univariate.html#knncad-detector">KNNCAD</a></p></td>
+<td><p><a class="reference external" href="https://streamad.readthedocs.io/en/latest/api/streamad.model.html#knndetector">streamad.model.KNNDetector</a></p></td>
+<td><p><a class="reference external" href="https://arxiv.org/abs/1608.04585">Conformalized density- and distance-based anomaly detection in time-series data</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://streamad.readthedocs.io/en/latest/example/univariate.html#spot-detector">SPOT</a></p></td>
+<td><p><a class="reference external" href="https://streamad.readthedocs.io/en/latest/api/streamad.model.html#spotdetector">streamad.model.SpotDetector</a></p></td>
+<td><p><a class="reference external" href="https://dl.acm.org/doi/10.1145/3097983.3098144">Anomaly detection in streams with extreme value theory</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://streamad.readthedocs.io/en/latest/example/univariate.html#rrcf-detector">RRCF</a></p></td>
+<td><p><a class="reference external" href="https://streamad.readthedocs.io/en/latest/api/streamad.model.html#rrcfdetector">streamad.model.RrcfDetector</a></p></td>
+<td><p><a class="reference external" href="http://proceedings.mlr.press/v48/guha16.pdf">Robust random cut forest based anomaly detection on streams</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://streamad.readthedocs.io/en/latest/example/univariate.html#spectral-residual-detector">Spectral Residual</a></p></td>
+<td><p><a class="reference external" href="https://streamad.readthedocs.io/en/latest/api/streamad.model.html#srdetector">streamad.model.SRDetector</a></p></td>
+<td><p><a class="reference external" href="https://arxiv.org/abs/1906.03821">Time-series anomaly detection service at microsoft</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://streamad.readthedocs.io/en/latest/example/univariate.html#z-score-detector">Z score</a></p></td>
+<td><p><a class="reference external" href="https://streamad.readthedocs.io/en/latest/api/streamad.model.html#zscoredetector">streamad.model.ZScoreDetector</a></p></td>
+<td><p><a class="reference external" href="https://en.wikipedia.org/wiki/Standard_score">Standard score</a></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="for-multivariate-time-series">
+<h3>For multivariate time series<a class="headerlink" href="#for-multivariate-time-series" title="Permalink to this headline">#</a></h3>
+<p>These models are compatible with univariate time series.</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Models Example</p></th>
+<th class="head"><p>API Usage</p></th>
+<th class="head"><p>Paper</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference external" href="https://streamad.readthedocs.io/en/latest/example/multivariate.html#xstream-detector">xStream</a></p></td>
+<td><p><a class="reference external" href="https://streamad.readthedocs.io/en/latest/api/streamad.model.html#xstreamdetector">streamad.model.xStramDetector</a></p></td>
+<td><p><a class="reference external" href="http://www.kdd.org/kdd2018/accepted-papers/view/xstream-outlier-detection-in-feature-evolving-data-streams">Xstream: outlier detection in feature-evolving data streams</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://streamad.readthedocs.io/en/latest/example/multivariate.html#rshash-detector">RShash</a></p></td>
+<td><p><a class="reference external" href="https://streamad.readthedocs.io/en/latest/api/streamad.model.html#rshashdetector">streamad.model.RShashDetector</a></p></td>
+<td><p><a class="reference external" href="https://ieeexplore.ieee.org/document/7837870">Subspace Outlier Detection in Linear Time with Randomized Hashing</a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://streamad.readthedocs.io/en/latest/example/multivariate.html#half-space-tree-detector">HSTree</a></p></td>
+<td><p><a class="reference external" href="https://streamad.readthedocs.io/en/latest/api/streamad.model.html#hstreedetector">streamad.model.HSTreeDetector</a></p></td>
+<td><p><a class="reference external" href="https://www.ijcai.org/Proceedings/11/Papers/254.pdf">Fast Anomaly Detection for Streaming Data</a></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+</section>
+
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="index.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">StreamAD</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="example/example.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Examples</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Fengrui-Liu<br/>
+  
+      &copy; Copyright 2022, Fengrui-Liu.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

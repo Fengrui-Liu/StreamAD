@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>streamad.model.spot_Detector &#8212; StreamAD 0.1.0 documentation</title>
+    <title>streamad.model.spot_Detector &#8212; StreamAD 0.1.1 documentation</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -89,7 +89,7 @@
       <img src="../../../_static/logo_htmlwithname.svg" class="logo" alt="logo">
       
       
-      <h1 class="site-logo" id="site-title">StreamAD 0.1.0 documentation</h1>
+      <h1 class="site-logo" id="site-title">StreamAD 0.1.1 documentation</h1>
       
     </a>
 </div><form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
@@ -97,10 +97,15 @@
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
-        <ul class="nav bd-sidenav">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Overview
+ </span>
+</p>
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="../../../quickstart.html">
-   QuickStart
+  <a class="reference internal" href="../../../overview.html">
+   StreamAD
   </a>
  </li>
  <li class="toctree-l1 has-children">
@@ -114,13 +119,18 @@
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="../../../example/spot_example.html">
-     SpotDetector
+    <a class="reference internal" href="../../../example/dataset_usage.html">
+     Dataset Usage
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../../../example/xstream_example.html">
-     xStreamDetector
+    <a class="reference internal" href="../../../example/univariate.html">
+     Univariate detector
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../example/multivariate.html">
+     Multivariate detector
     </a>
    </li>
   </ul>
@@ -150,6 +160,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="../../../api/streamad.util.html">
      StreamAD Utilities
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../api/streamad.evaluate.html">
+     StreamAD Evaluation
     </a>
    </li>
   </ul>
@@ -261,36 +276,33 @@ title="Source repository"
               <div>
                 
   <h1>Source code for streamad.model.spot_Detector</h1><div class="highlight"><pre>
-<span></span>#!/usr/bin/env python
-# coding=utf-8
-
-from streamad.base import BaseDetector
-import pandas as pd
+<span></span>from streamad.base import BaseDetector
 import numpy as np
 from math import log
 from scipy.optimize import minimize
 
+np.seterr(divide=&quot;ignore&quot;, invalid=&quot;ignore&quot;)
+
 
 <div class="viewcode-block" id="SpotDetector"><a class="viewcode-back" href="../../../api/streamad.model.html#streamad.model.SpotDetector">[docs]</a>class SpotDetector(BaseDetector):
-    &quot;&quot;&quot;Univariate Spot model. :cite:`DBLP:conf/kdd/SifferFTL17`. See `SPOT &lt;https://dl.acm.org/doi/10.1145/3097983.3098144&gt;`_&quot;&quot;&quot;
-
 <div class="viewcode-block" id="SpotDetector.__init__"><a class="viewcode-back" href="../../../api/streamad.model.html#streamad.model.SpotDetector.__init__">[docs]</a>    def __init__(
-        self, prob: float = 1e-4, window_size: int = 10, init_len: int = 300
+        self, prob: float = 1e-4, window_len: int = 10, init_len: int = 150
     ):
-        &quot;&quot;&quot;Spot detector.
+        &quot;&quot;&quot;Univariate Spot model :cite:`DBLP:conf/kdd/SifferFTL17`.
 
         Args:
             prob (float, optional): Threshold for probability, a small float value. Defaults to 1e-4.
-            window_size (int, optional): A window for reference. Defaults to 10.
-            init_len (int, optional): Data length for initialization. Recommended &gt; 100. Defaults to 300.
+            window_len (int, optional): A window for reference. Defaults to 10.
+            init_len (int, optional): Data length for initialization. Recommended &gt; 150. Defaults to 150.
         &quot;&quot;&quot;
+        super().__init__()
+
+        self.data_type = &quot;univariate&quot;
         self.prob = prob
-        self.data = []
         self.init_data = []
         self.init_length = init_len
-        self.record_count = 0
         self.num_threshold = {&quot;up&quot;: 0, &quot;down&quot;: 0}
-        self.window_size = window_size
+        self.window_len = window_len
 
         nonedict = {&quot;up&quot;: None, &quot;down&quot;: None}
 
@@ -298,12 +310,12 @@ from scipy.optimize import minimize
         self.init_threshold = dict.copy(nonedict)
         self.peaks = dict.copy(nonedict)
         self.gamma = dict.copy(nonedict)
-        self.sigma = dict.copy(nonedict)
+        self.sigma = dict.copy(nonedict)</div>
 
-        self.thup = []
-        self.thdown = []</div>
+        # self.thup = []
+        # self.thdown = []
 
-    def _grimshaw(self, side, epsilon=1e-8, n_points=8):
+    def _grimshaw(self, side, epsilon=1e-8, n_points=10):
         def u(s):
             return 1 + np.log(s).mean()
 
@@ -320,8 +332,12 @@ from scipy.optimize import minimize
             s = 1 + t * Y
             us = u(s)
             vs = v(s)
-            jac_us = (1 / t) * (1 - vs)
-            jac_vs = (1 / t) * (-vs + np.mean(1 / s**2))
+            jac_us = np.divide(1, t, out=np.zeros_like(a), where=t != 0) * (
+                1 - vs
+            )
+            jac_vs = np.divide(1, t, out=np.zeros_like(a), where=t != 0) * (
+                -vs + np.mean(1 / s ** 2)
+            )
             return us * jac_vs + vs * jac_us
 
         Ym = self.peaks[side].min()
@@ -334,7 +350,7 @@ from scipy.optimize import minimize
 
         a = a + epsilon
         b = 2 * (Ymean - Ym) / (Ymean * Ym)
-        c = 2 * (Ymean - Ym) / (Ym**2)
+        c = 2 * (Ymean - Ym) / (Ym ** 2)
 
         left_zeros = self._rootsFinder(
             lambda t: w(self.peaks[side], t),
@@ -363,7 +379,7 @@ from scipy.optimize import minimize
         # we look for better candidates
         for z in zeros:
             gamma = u(1 + z * self.peaks[side]) - 1
-            sigma = gamma / z
+            sigma = np.divide(gamma, z, out=np.zeros_like(gamma), where=z != 0)
             ll = self._log_likelihood(self.peaks[side], gamma, sigma)
             if ll &gt; ll_best:
                 gamma_best = gamma
@@ -409,7 +425,7 @@ from scipy.optimize import minimize
             i = 0
             for x in X:
                 fx = f(x)
-                g = g + fx**2
+                g = g + fx ** 2
                 j[i] = 2 * fx * jac(x)
                 i = i + 1
             return g, j
@@ -459,7 +475,7 @@ from scipy.optimize import minimize
 
         if side == &quot;up&quot;:
             r = (
-                (self.init_length - self.window_size)
+                (self.init_length - self.window_len)
                 * self.prob
                 / self.num_threshold[side]
             )
@@ -471,7 +487,7 @@ from scipy.optimize import minimize
                 return self.init_threshold[&quot;up&quot;] - sigma * log(r)
         elif side == &quot;down&quot;:
             r = (
-                (self.init_length - self.window_size)
+                (self.init_length - self.window_len)
                 * self.prob
                 / self.num_threshold[side]
             )
@@ -486,21 +502,21 @@ from scipy.optimize import minimize
 
     def _back_mean(self):
         M = []
-        w = sum(self.init_data[: self.window_size])
-        M.append(w / self.window_size)
-        for i in range(self.window_size, self.record_count):
-            w = w - self.init_data[i - self.window_size] + self.init_data[i]
-            M.append(w / self.window_size)
+        w = sum(self.init_data[: self.window_len])
+        M.append(w / self.window_len)
+        for i in range(self.window_len, self.index + 1):
+            w = w - self.init_data[i - self.window_len] + self.init_data[i]
+            M.append(w / self.window_len)
 
         return np.array(M)
 
-    def _init_drift(self, X: pd.Series, verbose=False):
+    def _init_drift(self, X: np.ndarray, verbose=False):
 
-        n_init = self.init_length - self.window_size
+        n_init = self.init_length - self.window_len
 
         M = self._back_mean()
 
-        T = self.init_data[self.window_size :] - M[:-1]
+        T = self.init_data[self.window_len :] - M[:-1]
         S = np.sort(T.tolist())
         self.init_threshold[&quot;up&quot;] = S[int(0.98 * n_init)]
         self.init_threshold[&quot;down&quot;] = S[int(0.02 * n_init)]
@@ -521,83 +537,59 @@ from scipy.optimize import minimize
             self.sigma[side] = sigma
         return self
 
-<div class="viewcode-block" id="SpotDetector.fit"><a class="viewcode-back" href="../../../api/streamad.model.html#streamad.model.SpotDetector.fit">[docs]</a>    def fit(self, X: np.ndarray):
-        &quot;&quot;&quot;Record and analyse the current observation from the stream. Detector collect the init data firstly, and add random drift.
+    def fit(self, X: np.ndarray):
 
-        Args:
-            X (np.ndarray): [description]
-
-        &quot;&quot;&quot;
-
-        self.record_count += 1
         self.init_data.append(float(X))
 
-        if self.record_count == self.init_length:
+        if self.index == self.init_length - 1:
             self._init_drift(X)
 
-        return self</div>
+        return self
 
-<div class="viewcode-block" id="SpotDetector.score"><a class="viewcode-back" href="../../../api/streamad.model.html#streamad.model.SpotDetector.score">[docs]</a>    def score(self, X: np.ndarray) -&gt; float:
-        &quot;&quot;&quot;Score the current observation. None for init period and float for the probability of anomalousness between two thresholds. 1.0 for certain anomaly point.
+    def _update_one_side(self, side: str, X: float):
+        score = abs(
+            float(self.init_threshold[side] - X)
+            / (self.extreme_quantile[side] - self.init_threshold[side])
+        )
+        self.peaks[side] = np.append(
+            self.peaks[side], abs(X - self.init_threshold[side])
+        )
+        self.num_threshold[side] += 1
+        gamma, sigma, _ = self._grimshaw(side)
+        self.extreme_quantile[side] = self._quantile(
+            side, gamma=gamma, sigma=sigma
+        )
 
-        Args:
-            X (np.ndarray): Current observation.
+        return score
 
-        Returns:
-            float: Anomaly probability.
-        &quot;&quot;&quot;
-        if self.record_count &lt;= self.init_length:
-            return 0.0
+    def score(self, X: np.ndarray) -&gt; float:
+        if self.index &lt; self.init_length:
+            return None
 
-        hist_mean = np.mean(self.init_data[-self.window_size :])
+        hist_mean = np.mean(self.init_data[-self.window_len :])
 
         normal_X = float(X) - hist_mean
 
-        prob = 0.0
-
-        if normal_X &gt; self.extreme_quantile[&quot;up&quot;]:
-            prob = 1.0
+        if (
+            normal_X &gt; self.extreme_quantile[&quot;up&quot;]
+            or normal_X &lt; self.extreme_quantile[&quot;down&quot;]
+        ):
+            score = 1.0
             self.init_data = self.init_data[:-1]
         elif normal_X &gt; self.init_threshold[&quot;up&quot;]:
-            prob = float(normal_X - self.init_threshold[&quot;up&quot;]) / (
-                self.extreme_quantile[&quot;up&quot;] - self.init_threshold[&quot;up&quot;]
-            )
-            self.peaks[&quot;up&quot;] = np.append(
-                self.peaks[&quot;up&quot;], normal_X - self.init_threshold[&quot;up&quot;]
-            )
-            self.num_threshold[&quot;up&quot;] += 1
-            gamma, sigma, _ = self._grimshaw(&quot;up&quot;)
-            self.extreme_quantile[&quot;up&quot;] = self._quantile(
-                &quot;up&quot;, gamma=gamma, sigma=sigma
-            )
-
-        elif normal_X &lt; self.extreme_quantile[&quot;down&quot;]:
-            prob = 1.0
-            self.init_data = self.init_data[:-1]
+            score = self._update_one_side(&quot;up&quot;, normal_X)
 
         elif normal_X &lt; self.init_threshold[&quot;down&quot;]:
-            prob = float(self.init_threshold[&quot;down&quot;] - normal_X) / (
-                self.extreme_quantile[&quot;down&quot;] - normal_X
-            )
-            self.peaks[&quot;down&quot;] = np.append(
-                self.peaks[&quot;down&quot;], self.init_threshold[&quot;down&quot;] - normal_X
-            )
-
-            self.num_threshold[&quot;down&quot;] += 1
-
-            gamma, sigma, _ = self._grimshaw(&quot;down&quot;)
-            self.extreme_quantile[&quot;down&quot;] = self._quantile(
-                &quot;down&quot;, gamma=gamma, sigma=sigma
-            )
+            score = self._update_one_side(&quot;down&quot;, normal_X)
         else:
-            prob = 0.0
+            score = 0.0
 
-        self.init_data = self.init_data[-self.window_size :]
+        self.init_data = self.init_data[-self.window_len :]
 
-        self.thup.append(self.extreme_quantile[&quot;up&quot;] + hist_mean)
-        self.thdown.append(self.extreme_quantile[&quot;down&quot;] + hist_mean)
+        # self.thup.append(self.extreme_quantile[&quot;up&quot;] + hist_mean)
+        # self.thdown.append(self.extreme_quantile[&quot;down&quot;] + hist_mean)
 
-        return abs(prob)</div></div>
+        return abs(score)</div>
 </pre></div>
 
               </div>

@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>streamad.model.KNN_Detector &#8212; StreamAD 0.1.0 documentation</title>
+    <title>streamad.model.KNN_Detector &#8212; StreamAD 0.1.1 documentation</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../../../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -89,7 +89,7 @@
       <img src="../../../_static/logo_htmlwithname.svg" class="logo" alt="logo">
       
       
-      <h1 class="site-logo" id="site-title">StreamAD 0.1.0 documentation</h1>
+      <h1 class="site-logo" id="site-title">StreamAD 0.1.1 documentation</h1>
       
     </a>
 </div><form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
@@ -97,10 +97,15 @@
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
-        <ul class="nav bd-sidenav">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Overview
+ </span>
+</p>
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="../../../quickstart.html">
-   QuickStart
+  <a class="reference internal" href="../../../overview.html">
+   StreamAD
   </a>
  </li>
  <li class="toctree-l1 has-children">
@@ -114,13 +119,18 @@
   </label>
   <ul>
    <li class="toctree-l2">
-    <a class="reference internal" href="../../../example/spot_example.html">
-     SpotDetector
+    <a class="reference internal" href="../../../example/dataset_usage.html">
+     Dataset Usage
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="../../../example/xstream_example.html">
-     xStreamDetector
+    <a class="reference internal" href="../../../example/univariate.html">
+     Univariate detector
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../example/multivariate.html">
+     Multivariate detector
     </a>
    </li>
   </ul>
@@ -150,6 +160,11 @@
    <li class="toctree-l2">
     <a class="reference internal" href="../../../api/streamad.util.html">
      StreamAD Utilities
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../../../api/streamad.evaluate.html">
+     StreamAD Evaluation
     </a>
    </li>
   </ul>
@@ -261,131 +276,67 @@ title="Source repository"
               <div>
                 
   <h1>Source code for streamad.model.KNN_Detector</h1><div class="highlight"><pre>
-<span></span>import warnings
+<span></span>from collections import deque
+from copy import deepcopy
+
 import numpy as np
+from scipy.spatial.distance import cdist
 from streamad.base import BaseDetector
 
 
 <div class="viewcode-block" id="KNNDetector"><a class="viewcode-back" href="../../../api/streamad.model.html#streamad.model.KNNDetector">[docs]</a>class KNNDetector(BaseDetector):
-    &quot;&quot;&quot;Univariate KNN-CAD model with mahalanobis distance. :cite:`DBLP:journals/corr/BurnaevI16`. See `KNN-CAD &lt;https://arxiv.org/abs/1608.04585&gt;`_&quot;&quot;&quot;
-
-<div class="viewcode-block" id="KNNDetector.__init__"><a class="viewcode-back" href="../../../api/streamad.model.html#streamad.model.KNNDetector.__init__">[docs]</a>    def __init__(
-        self, init_len: int = 100, k_neighbor: int = 20, all_his: bool = True
-    ):
-        &quot;&quot;&quot;KNN anomaly detector with mahalanobis distance.
+<div class="viewcode-block" id="KNNDetector.__init__"><a class="viewcode-back" href="../../../api/streamad.model.html#streamad.model.KNNDetector.__init__">[docs]</a>    def __init__(self, window_len: int = 10, init_len=150, k_neighbor: int = 3):
+        &quot;&quot;&quot;Univariate KNN-CAD model with mahalanobis distance :cite:`DBLP:journals/corr/BurnaevI16`.
 
         Args:
-            init_len (int, optional): The length of initialization data. This can be adjusted by the number of referenced neighbors. Defaults to -1.
-            k_neighbor (int, optional): The number of neighbors to cumulate distances. Defaults to 25.
-            all_his (bool, optional): The history records used for the reference. True for all records. Defaults to True.
+            window_len (int, optional): The length of window. Defaults to 10.
+            init_len (int, optional): The length of references. Defaults to 150.
+            k_neighbor (int, optional): The number of neighbors to cumulate distances. Defaults to 3.
         &quot;&quot;&quot;
+        super().__init__()
 
-        self.init = []
-        self.scores = []
-        self.count = 0
-        self.k = k_neighbor
-        self.buf = []
-        self.l = 2 * k_neighbor
-        self.use_all = all_his
-        if init_len == -1:
-            warnings.warn(&quot;Set init length to 5 times of k.&quot;)
-        elif init_len / 2 &lt; k_neighbor:
-            warnings.warn(&quot;Short init length short, reset it to 4 times of k.&quot;)
-        self.init_len = max(init_len, 4 * k_neighbor)
-        self.window_length = int(self.init_len / 2)
-        self.sigma = np.diag(np.ones(self.window_length))</div>
+        assert k_neighbor &lt; init_len, &quot;k_neighbor must be less than init_len&quot;
 
-    def _mah_distance(self, x: np.ndarray, item: np.ndarray) -&gt; np.ndarray:
-        &quot;&quot;&quot;Mahalanobis distance
+        self.data_type = &quot;univariate&quot;
+        self.buffer = deque(maxlen=init_len)
+        self.window = deque(maxlen=window_len)
+        self.prob = 0
 
-        Args:
-            x (np.ndarray): One observation.
-            item (np.ndarray): The other observation.
+        self.k = k_neighbor</div>
 
-        Returns:
-            np.ndarray: Mahalanobis distance
-        &quot;&quot;&quot;
-        diff = np.array(x) - np.array(item)
-        return np.dot(np.dot(diff, self.sigma), diff.T)
+    def fit(self, X: np.ndarray):
 
-    def _ncm(self, item: np.ndarray, item_in_array: bool = False) -&gt; float:
-        &quot;&quot;&quot;Cumulated Mahalanobis distance among the current observation with all init data.
+        self.window.append(X[0])
 
-        Args:
-            item (np.ndarray): Current observation.
-            item_in_array (bool, optional): Whether the observation in list. Defaults to False.
+        if len(self.window) == self.window.maxlen:
+            self.buffer.append(deepcopy(self.window))
 
-        Returns:
-            float: Cumulated Mahalanobis distance.
-        &quot;&quot;&quot;
-        arr = [self._mah_distance(x, item) for x in self.init]
-        result = np.sum(
-            np.partition(arr, self.k + item_in_array)[: self.k + item_in_array]
-        )
-        return result
+        if len(self.buffer) == self.buffer.maxlen:
+            if self.score_stats._num_items == 0:
+                all_dist = cdist(self.buffer, self.buffer, metric=&quot;mahalanobis&quot;)
 
-<div class="viewcode-block" id="KNNDetector.fit"><a class="viewcode-back" href="../../../api/streamad.model.html#streamad.model.KNNDetector.fit">[docs]</a>    def fit(self, X: np.ndarray):
-        &quot;&quot;&quot;Record and analyse the current observation from the stream. Detector collect the init data firstly, and further score observation base on the observed data.
-
-        Args:
-            X (np.ndarray): Current observation.
-        &quot;&quot;&quot;
-
-        self.count += 1
-        self.buf.append(X)
-
-        if self.count &lt; self.window_length:
-            pass
-        elif self.count &lt; 2 * self.window_length:
-            self.init.append(self.buf)
-            self.buf = self.buf[1:]
-        else:
-
-            ost = self.count % self.init_len
-            if ost == 0 or ost == self.window_length:
-                try:
-                    self.sigma = np.linalg.inv(
-                        np.dot(np.array(self.init).T, np.array(self.init))
+                for dist in all_dist:
+                    score = np.sum(
+                        np.partition(np.array(dist), self.k + 1)[1 : self.k + 1]
                     )
-                except np.linalg.linalg.LinAlgError:
-                    print(&quot;\nSingular Matrix at record&quot;, self.count)
+                    self.score_stats.update(score)
 
-            if len(self.scores) == 0:
-                self.scores = [self._ncm(v, True) for v in self.init]
+        return self
 
-            new_score = self._ncm(self.buf)
+    def score(self, X) -&gt; float:
 
-            self.init.pop(0)
-
-            self.init.append(self.buf)
-
-            self.scores.append(new_score)
-            self.buf = self.buf[1:]
-            if not self.use_all:
-                self.scores.pop(0)
-        return self</div>
-
-<div class="viewcode-block" id="KNNDetector.score"><a class="viewcode-back" href="../../../api/streamad.model.html#streamad.model.KNNDetector.score">[docs]</a>    def score(self, X) -&gt; float:
-        &quot;&quot;&quot;Score the current observation. None for init period and float for the probability of anomalousness.
-
-        Args:
-            X (np.ndarray): Current observation.
-
-        Returns:
-            float: Anomaly probability.
-        &quot;&quot;&quot;
-
-        if self.count &lt; 2 * self.window_length:
+        if (
+            len(self.window) + len(self.buffer)
+            &lt; self.window.maxlen + self.buffer.maxlen
+        ):
             return None
 
-        score = self.scores[-1]
+        dist = cdist(
+            np.array([self.window]), self.buffer, metric=&quot;mahalanobis&quot;
+        )[0]
+        score = np.sum(np.partition(np.array(dist), self.k + 1)[1 : self.k + 1])
 
-        prob = (
-            1.0
-            * len(np.where(np.array(self.scores) &lt; score)[0])
-            / len(self.scores)
-        )
-        return prob</div></div>
+        return score</div>
 </pre></div>
 
               </div>
