@@ -57,9 +57,26 @@ The development version can be installed from GitHub:
 pip install git+https://github.com/Fengrui-Liu/StreamAD
 ```
 
+---
 
+## Quick Start
 
-## MODELS
+Start once detection within 5 lines of code. You can find more example with visualization results [here](https://streamad.readthedocs.io/en/latest/example/example.html)
+
+```python
+from streamad.util import StreamGenerator, UnivariateDS, plot
+from streamad.model import SpotDetector
+
+ds = UnivariateDS()
+stream = StreamGenerator(ds.data)
+model = SpotDetector()
+
+for x in stream.iter_item():
+    score = model.fit_score(x)
+
+```
+
+## Models
 
 ### For univariate time series
 

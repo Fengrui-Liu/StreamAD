@@ -56,6 +56,7 @@ extensions = [
     # "myst_parser",
     "myst_nb",
     "sphinx_design",
+    "sphinx.ext.autosectionlabel",
 ]
 
 
@@ -70,6 +71,7 @@ myst_enable_extensions = [
 ]
 myst_url_schemes = ("http", "https", "mailto")
 myst_footnote_transition = False
+autosectionlabel_prefix_document = True
 nb_execution_mode = "off"
 suppress_warnings = ["mystnb.unknown_mime_type"]
 nb_execution_show_tb = "READTHEDOCS" in os.environ
@@ -84,14 +86,14 @@ import glob
 
 nb_files = [
     os.path.basename(f)
-    for f in glob.glob(os.path.join("examples", "*.ipynb"))
+    for f in glob.glob(os.path.join("example", "*.ipynb"))
     if not os.path.basename(f).startswith("temp_")
 ]
 for nb_file in nb_files:
-    target = os.path.join("../../examples", nb_file)
+    target = os.path.join("../../example", nb_file)
     if os.path.exists(target):
         os.remove(target)
-    os.symlink(os.path.join("../doc/source/examples", nb_file), target)
+    os.symlink(os.path.join("../docs/source/example", nb_file), target)
 
 
 # -- Bibliography ------------------------------------------------------------

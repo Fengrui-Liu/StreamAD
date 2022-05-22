@@ -1,27 +1,23 @@
 
 
 
+```{toctree}
+:caption: Overview
+:maxdepth: 2
 
-```{include} ../../README.md
-:relative-images:
+overview
 ```
 
-# QuickStart
 
-```{button-ref} quickstart
-:ref-type: doc
-:color: primary
-:class: sd-rounded-pill
 
-Get Started
-```
 
 
 ```{toctree}
 :hidden:
 :maxdepth: 2
 
-quickstart
+
+
 example/example
 ```
 
