@@ -92,6 +92,16 @@ Note that these methods are compatible with univariate time series.
 
 ----
 
+### LodaDetector
+
+```{eval-rst}
+.. autoclass:: streamad.model.LodaDetector
+    :show-inheritance:
+    :members: parse
+```
+
+----
+
 ### RandomDetector
 
 ```{eval-rst}
