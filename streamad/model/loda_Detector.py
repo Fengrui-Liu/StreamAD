@@ -1,8 +1,6 @@
 from collections import deque
-from copy import deepcopy
 
 import numpy as np
-from scipy.spatial.distance import cdist
 from streamad.base import BaseDetector
 
 
@@ -11,6 +9,8 @@ class LodaDetector(BaseDetector):
         self, window_len: int = 100, random_cuts_num: int = 100,
     ):
         super().__init__()
+
+        self.window_len = window_len
         self.window = deque(maxlen=window_len)
 
         self.random_cuts_num = random_cuts_num
@@ -56,8 +56,6 @@ class LodaDetector(BaseDetector):
         return self
 
     def score(self, X: np.ndarray):
-        if len(self.window) < self.window.maxlen:
-            return None
 
         score = 0
 
@@ -70,4 +68,5 @@ class LodaDetector(BaseDetector):
             )
             score += -self._weights[i] * np.log(self._histograms[i, inds])
 
-        return score / self.random_cuts_num
+        score = score / self.random_cuts_num
+        return float(score)

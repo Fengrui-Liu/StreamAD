@@ -17,3 +17,6 @@ def test_AUC():
 
     label = ds.label
     auc_score = AUCMetric().evaluate(label, scores)
+
+
+# test_AUC()

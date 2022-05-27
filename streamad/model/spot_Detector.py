@@ -7,24 +7,22 @@ np.seterr(divide="ignore", invalid="ignore")
 
 
 class SpotDetector(BaseDetector):
-    def __init__(
-        self, prob: float = 1e-4, window_len: int = 10, init_len: int = 150
-    ):
+    def __init__(self, window_len: int = 100, prob: float = 1e-4):
         """Univariate Spot model :cite:`DBLP:conf/kdd/SifferFTL17`.
 
         Args:
+            window_len (int, optional): A window for reference. Defaults to 100.
             prob (float, optional): Threshold for probability, a small float value. Defaults to 1e-4.
-            window_len (int, optional): A window for reference. Defaults to 10.
-            init_len (int, optional): Data length for initialization. Recommended > 150. Defaults to 150.
         """
         super().__init__()
 
         self.data_type = "univariate"
         self.prob = prob
         self.init_data = []
-        self.init_length = init_len
-        self.num_threshold = {"up": 0, "down": 0}
         self.window_len = window_len
+        self._window_len = int(np.sqrt(window_len))
+        self.init_length = window_len - self._window_len
+        self.num_threshold = {"up": 0, "down": 0}
 
         nonedict = {"up": None, "down": None}
 
@@ -197,7 +195,7 @@ class SpotDetector(BaseDetector):
 
         if side == "up":
             r = (
-                (self.init_length - self.window_len)
+                (self.init_length - self._window_len)
                 * self.prob
                 / self.num_threshold[side]
             )
@@ -209,7 +207,7 @@ class SpotDetector(BaseDetector):
                 return self.init_threshold["up"] - sigma * log(r)
         elif side == "down":
             r = (
-                (self.init_length - self.window_len)
+                (self.init_length - self._window_len)
                 * self.prob
                 / self.num_threshold[side]
             )
@@ -224,21 +222,21 @@ class SpotDetector(BaseDetector):
 
     def _back_mean(self):
         M = []
-        w = sum(self.init_data[: self.window_len])
-        M.append(w / self.window_len)
-        for i in range(self.window_len, self.index + 1):
-            w = w - self.init_data[i - self.window_len] + self.init_data[i]
-            M.append(w / self.window_len)
+        w = sum(self.init_data[: self._window_len])
+        M.append(w / self._window_len)
+        for i in range(self._window_len, self.index + 1):
+            w = w - self.init_data[i - self._window_len] + self.init_data[i]
+            M.append(w / self._window_len)
 
         return np.array(M)
 
     def _init_drift(self, X: np.ndarray, verbose=False):
 
-        n_init = self.init_length - self.window_len
+        n_init = self.init_length - self._window_len
 
         M = self._back_mean()
 
-        T = self.init_data[self.window_len :] - M[:-1]
+        T = self.init_data[self._window_len :] - M[:-1]
         S = np.sort(T.tolist())
         self.init_threshold["up"] = S[int(0.98 * n_init)]
         self.init_threshold["down"] = S[int(0.02 * n_init)]
@@ -259,20 +257,8 @@ class SpotDetector(BaseDetector):
             self.sigma[side] = sigma
         return self
 
-    def fit(self, X: np.ndarray):
-
-        self.init_data.append(float(X))
-
-        if self.index == self.init_length - 1:
-            self._init_drift(X)
-
-        return self
-
     def _update_one_side(self, side: str, X: float):
-        score = abs(
-            float(self.init_threshold[side] - X)
-            / (self.extreme_quantile[side] - self.init_threshold[side])
-        )
+
         self.peaks[side] = np.append(
             self.peaks[side], abs(X - self.init_threshold[side])
         )
@@ -282,13 +268,36 @@ class SpotDetector(BaseDetector):
             side, gamma=gamma, sigma=sigma
         )
 
-        return score
+    def fit(self, X: np.ndarray):
+
+        self.init_data.append(float(X))
+
+        if self.index == self.window_len - 1:
+            self._init_drift(X)
+
+        if self.index > self.window_len - 1:
+            hist_mean = np.mean(self.init_data[-self._window_len :])
+
+            normal_X = float(X) - hist_mean
+
+            if (
+                normal_X > self.extreme_quantile["up"]
+                or normal_X < self.extreme_quantile["down"]
+            ):
+                self.init_data = self.init_data[:-1]
+            elif normal_X > self.init_threshold["up"]:
+                self._update_one_side("up", normal_X)
+
+            elif normal_X < self.init_threshold["down"]:
+                self._update_one_side("down", normal_X)
+
+            self.init_data = self.init_data[-self._window_len :]
+
+        return self
 
     def score(self, X: np.ndarray) -> float:
-        if self.index < self.init_length:
-            return None
 
-        hist_mean = np.mean(self.init_data[-self.window_len :])
+        hist_mean = np.mean(self.init_data[-self._window_len :])
 
         normal_X = float(X) - hist_mean
 
@@ -297,18 +306,24 @@ class SpotDetector(BaseDetector):
             or normal_X < self.extreme_quantile["down"]
         ):
             score = 1.0
-            self.init_data = self.init_data[:-1]
+
         elif normal_X > self.init_threshold["up"]:
-            score = self._update_one_side("up", normal_X)
+            side = "up"
+            score = abs(
+                float(self.init_threshold[side] - X)
+                / (self.extreme_quantile[side] - self.init_threshold[side])
+            )
 
         elif normal_X < self.init_threshold["down"]:
-            score = self._update_one_side("down", normal_X)
+            side = "down"
+            score = abs(
+                float(self.init_threshold[side] - X)
+                / (self.extreme_quantile[side] - self.init_threshold[side])
+            )
         else:
             score = 0.0
-
-        self.init_data = self.init_data[-self.window_len :]
 
         # self.thup.append(self.extreme_quantile["up"] + hist_mean)
         # self.thdown.append(self.extreme_quantile["down"] + hist_mean)
 
-        return abs(score)
+        return float(score)

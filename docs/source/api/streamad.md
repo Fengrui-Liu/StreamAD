@@ -9,4 +9,5 @@
 streamad.model
 streamad.util
 streamad.evaluate
+streamad.process
 ```

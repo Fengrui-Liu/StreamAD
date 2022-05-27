@@ -11,8 +11,7 @@ class BaseDetector(ABC):
         """Initialization BaseDetector"""
         self.data_type = "multivariate"
         self.index = -1
-        self.window_len = 10
-        self.score_stats = StreamStatistic()
+        self.window_len = 100
 
     def _check(self, X) -> bool:
         """Check whether the detector can handle the data."""
@@ -35,13 +34,7 @@ class BaseDetector(ABC):
 
         return NotImplementedError
 
-    def fit_score(
-        self,
-        X: np.ndarray,
-        normalized: bool = True,
-        normalized_sigma: int = 3,
-        normalized_global: bool = True,
-    ) -> float:
+    def fit_score(self, X: np.ndarray) -> float:
         """Fit one observation and calculate its anomaly score.
 
         Args:
@@ -54,37 +47,11 @@ class BaseDetector(ABC):
             float: Anomaly score. A high score indicates a high degree of anomaly.
         """
 
-        if self.index == -1 and not normalized_global:
-            self.score_stats = StreamStatistic(
-                is_global=False, window_len=self.window_len
-            )
         self._check(X)
+        if self.index < self.window_len:
+            self.fit(X)
+            return None
 
         score = self.fit(X).score(X)
 
-        if score is None:
-            return None
-
-        score = float(score)
-
-        if normalized:
-            self.score_stats.update(score)
-            score_mean = self.score_stats.get_mean()
-            score_std = self.score_stats.get_std()
-            sigma = np.divide(
-                (score - score_mean),
-                score_std,
-                out=np.zeros_like(score),
-                where=score_std != 0,
-            )
-
-            if sigma >= normalized_sigma:
-                score_max = self.score_stats.get_max()
-                score = (score - score_mean) / (score_max - score_mean)
-            elif sigma <= -normalized_sigma:
-                score_min = self.score_stats.get_min()
-                score = (score - score_mean) / (score_min - score_mean)
-            else:
-                return 0
-
-        return score
+        return float(score)

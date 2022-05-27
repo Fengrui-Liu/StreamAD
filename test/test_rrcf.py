@@ -10,4 +10,4 @@ def test_score():
         score = detector.fit_score(x)
 
         if score is not None:
-            assert 0 <= score <= 1
+            assert type(score) is float

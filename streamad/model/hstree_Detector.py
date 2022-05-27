@@ -89,13 +89,13 @@ class HSTreeDetector(BaseDetector):
 
         self.data_stats.update(X)
 
-        self.X_normalized = np.divide(
+        X_normalized = np.divide(
             X - self.data_stats.get_min(),
             self.data_stats.get_max() - self.data_stats.get_min(),
             out=np.zeros_like(X),
             where=self.data_stats.get_max() - self.data_stats.get_min() != 0,
         )
-        self.X_normalized[np.abs(self.X_normalized) == np.inf] = 0
+        X_normalized[np.abs(X_normalized) == np.inf] = 0
 
         if self.dimensions is None:
             self.dimensions = len(X)
@@ -106,29 +106,35 @@ class HSTreeDetector(BaseDetector):
 
         if self.index < self.window_len:
             for tree in self.forest:
-                self._update_tree_mass(tree, self.X_normalized, True)
-        elif (
-            self.index >= self.window_len and self.index % self.window_len == 0
-        ):
+                self._update_tree_mass(tree, X_normalized, True)
+        else:
+            if self.index % self.window_len == 0:
+                for tree in self.forest:
+                    self._reset_tree(tree)
+
             for tree in self.forest:
-                self._reset_tree(tree)
+                self._update_tree_mass(tree, X_normalized, False)
 
         return self
 
     def score(self, X: np.ndarray) -> float:
 
-        if self.index < self.window_len:
-            return None
-
         score = 0.0
 
+        X_normalized = np.divide(
+            X - self.data_stats.get_min(),
+            self.data_stats.get_max() - self.data_stats.get_min(),
+            out=np.zeros_like(X),
+            where=self.data_stats.get_max() - self.data_stats.get_min() != 0,
+        )
+        X_normalized[np.abs(X_normalized) == np.inf] = 0
+
         for tree in self.forest:
-            score += self._score_tree(tree, self.X_normalized, 0)
-            self._update_tree_mass(tree, self.X_normalized, False)
+            score += self._score_tree(tree, X_normalized, 0)
 
-        score = score / len(self.forest)
+        score = score / self.tree_num
 
-        return score
+        return float(score)
 
     def _score_tree(self, tree, X, k):
         s = 0

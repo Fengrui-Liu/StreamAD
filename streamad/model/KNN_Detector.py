@@ -7,22 +7,23 @@ from streamad.base import BaseDetector
 
 
 class KNNDetector(BaseDetector):
-    def __init__(self, window_len: int = 10, init_len=150, k_neighbor: int = 3):
+    def __init__(self, window_len: int = 100, k_neighbor: int = 5):
         """Univariate KNN-CAD model with mahalanobis distance :cite:`DBLP:journals/corr/BurnaevI16`.
 
         Args:
-            window_len (int, optional): The length of window. Defaults to 10.
-            init_len (int, optional): The length of references. Defaults to 150.
-            k_neighbor (int, optional): The number of neighbors to cumulate distances. Defaults to 3.
+            window_len (int, optional): The length of window. Defaults to 100.
+            k_neighbor (int, optional): The number of neighbors to cumulate distances. Defaults to 5.
         """
         super().__init__()
 
-        assert k_neighbor < init_len, "k_neighbor must be less than init_len"
-
+        self.window_len = window_len
         self.data_type = "univariate"
-        self.buffer = deque(maxlen=init_len)
-        self.window = deque(maxlen=window_len)
-        self.prob = 0
+        self.window = deque(maxlen=int(np.sqrt(window_len)))
+        self.buffer = deque(maxlen=window_len - self.window.maxlen)
+
+        assert (
+            k_neighbor < self.buffer.maxlen
+        ), "k_neighbor must be less than the length of buffer"
 
         self.k = k_neighbor
 
@@ -33,29 +34,15 @@ class KNNDetector(BaseDetector):
         if len(self.window) == self.window.maxlen:
             self.buffer.append(deepcopy(self.window))
 
-        if len(self.buffer) == self.buffer.maxlen:
-            if self.score_stats._num_items == 0:
-                all_dist = cdist(self.buffer, self.buffer, metric="mahalanobis")
-
-                for dist in all_dist:
-                    score = np.sum(
-                        np.partition(np.array(dist), self.k + 1)[1 : self.k + 1]
-                    )
-                    self.score_stats.update(score)
-
         return self
 
     def score(self, X) -> float:
 
-        if (
-            len(self.window) + len(self.buffer)
-            < self.window.maxlen + self.buffer.maxlen
-        ):
-            return None
+        window = deepcopy(self.window)
+        window.pop()
+        window.append(X[0])
 
-        dist = cdist(
-            np.array([self.window]), self.buffer, metric="mahalanobis"
-        )[0]
+        dist = cdist(np.array([window]), self.buffer, metric="mahalanobis")[0]
         score = np.sum(np.partition(np.array(dist), self.k + 1)[1 : self.k + 1])
 
-        return score
+        return float(score)

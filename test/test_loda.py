@@ -10,7 +10,7 @@ def test_score():
         score = detector.fit_score(x)
 
         if score is not None:
-            assert 0 <= score <= 1
+            assert type(score) is float
 
 
 def test_multi_score():
@@ -21,7 +21,4 @@ def test_multi_score():
         score = detector.fit_score(x)
 
         if score is not None:
-            assert 0 <= score <= 1
-
-
-test_multi_score()
+            assert type(score) is float

@@ -1,6 +1,7 @@
 import numpy as np
 from streamad.base import BaseDetector
 from collections import deque
+from copy import deepcopy
 
 EPS = 1e-8
 
@@ -27,24 +28,22 @@ class SRDetector(BaseDetector):
         assert ahead_len > 1, "ahead_len must be greater than 1"
         self.ahead_len = ahead_len
         self.mag_num = mag_num
-        self.extended_window = None
 
     def fit(self, X):
         self.window.append(X[0])
-
-        if len(self.window) < self.window.maxlen:
-            return self
-
-        self.extended_window = self._extend_window()
 
         return self
 
     def score(self, X):
 
-        if len(self.window) < self.window.maxlen:
-            return None
+        window = deepcopy(self.window)
 
-        mags = self._sr_transform()
+        window.pop()
+        window.append(X[0])
+
+        extended_window = self._extend_window(window)
+
+        mags = self._sr_transform(extended_window)
         anomaly_scores = self._spectral_score(mags)
 
         return anomaly_scores[-1 - self.extend_len]
@@ -59,9 +58,9 @@ class SRDetector(BaseDetector):
 
         return scores
 
-    def _sr_transform(self,):
+    def _sr_transform(self, window):
 
-        trans = np.fft.fft(self.extended_window)
+        trans = np.fft.fft(window)
         mag = np.sqrt(trans.real ** 2 + trans.imag ** 2)
         eps_index = np.where(mag <= EPS)[0]
         mag[eps_index] = EPS
@@ -98,15 +97,13 @@ class SRDetector(BaseDetector):
 
         return res
 
-    def _extend_window(self):
+    def _extend_window(self, window):
 
         predicted_window = [
-            self._predict_next(list(self.window)[-self.ahead_len : -1])
+            self._predict_next(list(window)[-self.ahead_len : -1])
         ] * self.extend_len
 
-        extended_window = np.concatenate(
-            (self.window, predicted_window), axis=0
-        )
+        extended_window = np.concatenate((window, predicted_window), axis=0)
 
         return extended_window
 

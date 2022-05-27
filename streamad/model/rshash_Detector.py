@@ -7,7 +7,7 @@ from collections import deque
 class RShashDetector(BaseDetector):
     def __init__(
         self,
-        init_len: int = 150,
+        window_len: int = 100,
         decay=0.015,
         components_num=100,
         hash_num: int = 10,
@@ -15,14 +15,15 @@ class RShashDetector(BaseDetector):
         """Multivariate RSHashDetector :cite:`DBLP:conf/icdm/SatheA16`.
 
         Args:
-            init_len (int, optional): Length of data to burn in/init. Defaults to 150.
+            window_len (int, optional): Length of data to burn in/init. Defaults to 150.
             decay (float, optional): Decay ratio. Defaults to 0.015.
             components_num (int, optional): Number of components. Defaults to 100.
             hash_num (int, optional): Number of hash functions. Defaults to 10.
         """
         super().__init__()
 
-        self.buffer = deque(maxlen=init_len)
+        self.window_len = window_len
+        self.buffer = deque(maxlen=window_len)
         self.decay = decay
         self.data_stats = StreamStatistic()
 
@@ -91,9 +92,6 @@ class RShashDetector(BaseDetector):
 
     def score(self, X):
 
-        if len(self.buffer) < self.buffer.maxlen:
-            return None
-
         X_normalized = np.divide(
             X - self.data_stats.get_min(),
             self.data_stats.get_max() - self.data_stats.get_min(),
@@ -130,4 +128,4 @@ class RShashDetector(BaseDetector):
 
         score = score_instance / self.components_num
 
-        return score
+        return float(score)
