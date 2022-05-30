@@ -5,3 +5,4 @@ scikit-learn>=1.0.0
 mmh3>=3.0.0
 plotly
 rrcf
+tdigest

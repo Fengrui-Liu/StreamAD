@@ -64,7 +64,7 @@ pip install git+https://github.com/Fengrui-Liu/StreamAD
 Start once detection within 5 lines of code. You can find more example with visualization results [here](https://streamad.readthedocs.io/en/latest/example/example.html).
 
 ```python
-from streamad.util import StreamGenerator, UnivariateDS, plot
+from streamad.util import StreamGenerator, UnivariateDS
 from streamad.model import SpotDetector
 
 ds = UnivariateDS()

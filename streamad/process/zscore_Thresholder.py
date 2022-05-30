@@ -1,6 +1,7 @@
-from streamad.base import BaseDetector
-import numpy as np
 from typing import Type
+
+import numpy as np
+from streamad.base import BaseDetector
 from streamad.util import StreamStatistic
 
 

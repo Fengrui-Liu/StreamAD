@@ -10,6 +10,14 @@ dataset_usage
 ----
 
 
+```{toctree}
+
+thresholder_usage
+```
+
+----
+
+
 
 ```{toctree}
 
