@@ -14,6 +14,15 @@ class TDigestThresholder:
         is_global: bool = True,
         window_len: int = 100,
     ) -> None:
+        """A thresholder which can filter out outliers using t-digest, and normalize the anomaly scores into [0,1] :cite:`DBLP:journals/simpa/Dunning21`.
+
+        Args:
+            detector (Type[BaseDetector]): A detector that must be a child class of BaseDetector.
+            percentile_up (float, optional): We regard the scores that beyond `percentile_up` as anomalies. Defaults to 95.
+            percentile_down (float, optional): We regard the scores that below `percentile_up` as anomalies. Defaults to 5.
+            is_global (bool, optional): Method to record, a global way or a rolling window way. Defaults to True.
+            window_len (int, optional): The length of rolling window, ignore this when `is_global=True`. Defaults to 100.
+        """
         self.detector = detector
         self.percentile_up = percentile_up
         self.percentile_down = percentile_down

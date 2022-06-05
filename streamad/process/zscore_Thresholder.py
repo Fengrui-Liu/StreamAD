@@ -13,6 +13,14 @@ class ZScoreThresholder:
         is_global: bool = True,
         window_len: int = 100,
     ) -> None:
+        """A thresholder which can filter out outliers using z-score, and normalize the anomaly scores into [0,1].
+
+        Args:
+            detector (Type[BaseDetector]): A detector that must be a child class of BaseDetector.
+            sigma (int, optional): Zscore threshold, we regard the scores that out of sigma as anomalies. Defaults to 3.
+            is_global (bool, optional): Method to record, a global way or a rolling window way. Defaults to True.
+            window_len (int, optional): The length of rolling window, ignore this when `is_global=True`. Defaults to 100.
+        """
         self.detector = detector
         self.sigma = sigma
         self.init_data = []
