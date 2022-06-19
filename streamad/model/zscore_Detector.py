@@ -5,6 +5,12 @@ from streamad.util import StreamStatistic
 
 class ZScoreDetector(BaseDetector):
     def __init__(self, window_len: int = 100, is_global: bool = False):
+        """Univariate Z-Score Detecto :cite:`enwiki:1086685336`
+
+        Args:
+            window_len (int, optional):  Length of the window for reference. Defaults to 100.
+            is_global (bool, optional): Whether to detect anomalies from a global view. Defaults to False.
+        """
         super().__init__()
 
         self.data_type = "univariate"

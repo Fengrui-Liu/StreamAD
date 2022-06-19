@@ -8,6 +8,12 @@ class LodaDetector(BaseDetector):
     def __init__(
         self, window_len: int = 100, random_cuts_num: int = 100,
     ):
+        """Multivariate LODA Detector :cite:`DBLP:journals/ml/Pevny16`.
+
+        Args:
+            window_len (int, optional): The length of window. Defaults to 100.
+            random_cuts_num (int, optional): The number of random experiments. Defaults to 100.
+        """
         super().__init__()
 
         self.window_len = window_len

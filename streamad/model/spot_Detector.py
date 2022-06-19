@@ -11,7 +11,7 @@ class SpotDetector(BaseDetector):
         """Univariate Spot model :cite:`DBLP:conf/kdd/SifferFTL17`.
 
         Args:
-            window_len (int, optional): A window for reference. Defaults to 100.
+            window_len (int, optional): Length of the window for reference. Defaults to 100.
             prob (float, optional): Threshold for probability, a small float value. Defaults to 1e-4.
         """
         super().__init__()

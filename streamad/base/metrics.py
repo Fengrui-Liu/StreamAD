@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+import numpy as np
 
 
 class BaseMetrics(ABC):
@@ -8,23 +9,13 @@ class BaseMetrics(ABC):
 
     def __init__(self) -> None:
         super().__init__()
-
-        self.score = None
-        self.y_true = []
-        self.y_pred = []
-
-    def update(self, y_true, y_pred):
-        if y_pred is None:
-            pass
-        else:
-            self.y_true.append(y_true)
-            self.y_pred.append(y_pred)
-
-    def reset(self):
-        self.y_true = []
-        self.y_pred = []
+        self.y_pred = None
+        self.y_true = None
 
     @abstractmethod
-    def evaluate(self, y_true=None, y_pred=None):
-
-        return 0.0
+    def evaluate(self, y_true: np.ndarray, y_pred: np.ndarray):
+        y_pred = np.array(y_pred)
+        y_pred[y_pred == None] = 0
+        self.y_true = y_true.astype(int)
+        self.y_pred = y_pred.astype(int)
+        return
