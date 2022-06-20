@@ -9,4 +9,4 @@ sphinx-togglebutton
 recommonmark
 myst_nb
 plotly
-setuptools
+setuptools==58.2.0

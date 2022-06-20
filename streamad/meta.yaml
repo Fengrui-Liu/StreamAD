@@ -18,7 +18,7 @@ requirements:
   host:
     - pip
     - python >= 3.7
-    - setuptools >=62.0.0
+    - setuptools ==58.2.0
   run:
     - mmh3 >=3.0.0
     - numpy >=1.19
