@@ -9,4 +9,6 @@ sphinx-togglebutton
 recommonmark
 myst_nb
 plotly
+rrcf
+tdigest
 setuptools==58.2.0
