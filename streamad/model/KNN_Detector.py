@@ -42,7 +42,17 @@ class KNNDetector(BaseDetector):
         window.pop()
         window.append(X[0])
 
-        dist = cdist(np.array([window]), self.buffer, metric="mahalanobis")[0]
+        try:
+            dist = cdist(np.array([window]), self.buffer, metric="mahalanobis")[
+                0
+            ]
+        except:
+            dist = cdist(
+                np.array([window]),
+                self.buffer,
+                metric="mahalanobis",
+                VI=np.linalg.pinv(self.buffer),
+            )[0]
         score = np.sum(np.partition(np.array(dist), self.k + 1)[1 : self.k + 1])
 
         return float(score)
