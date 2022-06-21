@@ -1,4 +1,4 @@
-# StreamAD process
+# StreamAD Process
 
 
 ## Post process
@@ -12,6 +12,7 @@
     :members: parse
 ```
 
+---
 ### TDigestThresholder
 ```{eval-rst}
 .. autoclass:: streamad.process.TDigestThresholder
