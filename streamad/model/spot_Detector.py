@@ -56,7 +56,7 @@ class SpotDetector(BaseDetector):
                 1 - vs
             )
             jac_vs = np.divide(1, t, out=np.zeros_like(a), where=t != 0) * (
-                -vs + np.mean(1 / s ** 2)
+                -vs + np.mean(1 / s**2)
             )
             return us * jac_vs + vs * jac_us
 
@@ -64,13 +64,23 @@ class SpotDetector(BaseDetector):
         YM = self.peaks[side].max()
         Ymean = self.peaks[side].mean()
 
-        a = -1 / YM
+        a = np.divide(-1, YM, out=np.array(-1 / epsilon), where=YM != 0)
         if abs(a) < 2 * epsilon:
             epsilon = abs(a) / n_points
 
         a = a + epsilon
-        b = 2 * (Ymean - Ym) / (Ymean * Ym)
-        c = 2 * (Ymean - Ym) / (Ym ** 2)
+        b = 2 * np.divide(
+            (Ymean - Ym),
+            (Ymean * Ym),
+            out=np.array(np.zeros_like(Ymean * Ym) - epsilon),
+            where=(Ymean * Ym) != 0,
+        )
+        c = 2 * np.divide(
+            Ymean - Ym,
+            Ym**2,
+            out=np.array(np.zeros_like(Ym) + epsilon),
+            where=Ym != 0,
+        )
 
         left_zeros = self._rootsFinder(
             lambda t: w(self.peaks[side], t),
@@ -145,7 +155,7 @@ class SpotDetector(BaseDetector):
             i = 0
             for x in X:
                 fx = f(x)
-                g = g + fx ** 2
+                g = g + fx**2
                 j[i] = 2 * fx * jac(x)
                 i = i + 1
             return g, j
@@ -188,7 +198,8 @@ class SpotDetector(BaseDetector):
                 - (1 + (1 / gamma)) * (np.log(1 + tau * Y)).sum()
             )
         else:
-            L = n * (1 + log(Y.mean()))
+            L = n * (1 + log(abs(Y.mean()) + 1e-8))
+
         return L
 
     def _quantile(self, side, gamma, sigma):
@@ -241,10 +252,10 @@ class SpotDetector(BaseDetector):
         self.init_threshold["up"] = S[int(0.98 * n_init)]
         self.init_threshold["down"] = S[int(0.02 * n_init)]
         self.peaks["up"] = (
-            T[T > self.init_threshold["up"]] - self.init_threshold["up"]
+            T[T >= self.init_threshold["up"]] - self.init_threshold["up"]
         )
         self.peaks["down"] = (
-            self.init_threshold["down"] - T[T < self.init_threshold["down"]]
+            self.init_threshold["down"] - T[T <= self.init_threshold["down"]]
         )
 
         self.num_threshold["up"] = self.peaks["up"].size
