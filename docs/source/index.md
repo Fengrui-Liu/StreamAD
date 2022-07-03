@@ -11,6 +11,15 @@ example/example
 
 
 
+```{toctree}
+:caption: Benchmark
+:hidden:
+:titlesonly:
+:maxdepth: 1
+
+benchmark/benchmark
+```
+
 
 
 

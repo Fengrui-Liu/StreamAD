@@ -129,6 +129,7 @@ venv.bak/
 # mkdocs documentation
 /site
 /docs/build/
+/docs/benchmark/streamad-benchmark-dataset
 
 # mypy
 .mypy_cache/
