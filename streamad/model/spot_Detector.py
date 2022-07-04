@@ -7,11 +7,11 @@ np.seterr(divide="ignore", invalid="ignore")
 
 
 class SpotDetector(BaseDetector):
-    def __init__(self, window_len: int = 100, prob: float = 1e-4):
+    def __init__(self, window_len: int = 200, prob: float = 1e-4):
         """Univariate Spot model :cite:`DBLP:conf/kdd/SifferFTL17`.
 
         Args:
-            window_len (int, optional): Length of the window for reference. Defaults to 100.
+            window_len (int, optional): Length of the window for reference. Defaults to 200.
             prob (float, optional): Threshold for probability, a small float value. Defaults to 1e-4.
         """
         super().__init__()
@@ -20,8 +20,11 @@ class SpotDetector(BaseDetector):
         self.prob = prob
         self.init_data = []
         self.window_len = window_len
-        self._window_len = int(np.sqrt(window_len))
+        self._window_len = max(int(window_len / 100), 20)
         self.init_length = window_len - self._window_len
+        assert (
+            self.init_length > 0
+        ), "window_len is too small, default value is 200"
         self.num_threshold = {"up": 0, "down": 0}
 
         nonedict = {"up": None, "down": None}
@@ -64,11 +67,11 @@ class SpotDetector(BaseDetector):
         YM = self.peaks[side].max()
         Ymean = self.peaks[side].mean()
 
-        a = np.divide(-1, YM, out=np.array(-1 / epsilon), where=YM != 0)
+        a = np.divide(-1, YM, out=np.array(-epsilon), where=YM != 0)
         if abs(a) < 2 * epsilon:
             epsilon = abs(a) / n_points
 
-        a = a + epsilon
+        # a = a + epsilon
         b = 2 * np.divide(
             (Ymean - Ym),
             (Ymean * Ym),
@@ -82,10 +85,13 @@ class SpotDetector(BaseDetector):
             where=Ym != 0,
         )
 
+        d = a + epsilon
+        e = -epsilon
+
         left_zeros = self._rootsFinder(
             lambda t: w(self.peaks[side], t),
             lambda t: jac_w(self.peaks[side], t),
-            (a + epsilon, -epsilon),
+            (d, e),
             n_points,
             "regular",
         )
@@ -243,7 +249,7 @@ class SpotDetector(BaseDetector):
 
     def _init_drift(self, X: np.ndarray, verbose=False):
 
-        n_init = self.init_length - self._window_len
+        n_init = self.init_length
 
         M = self._back_mean()
 
@@ -291,12 +297,7 @@ class SpotDetector(BaseDetector):
 
             normal_X = float(X) - hist_mean
 
-            if (
-                normal_X > self.extreme_quantile["up"]
-                or normal_X < self.extreme_quantile["down"]
-            ):
-                self.init_data = self.init_data[:-1]
-            elif normal_X > self.init_threshold["up"]:
+            if normal_X > self.init_threshold["up"]:
                 self._update_one_side("up", normal_X)
 
             elif normal_X < self.init_threshold["down"]:
@@ -321,14 +322,14 @@ class SpotDetector(BaseDetector):
         elif normal_X > self.init_threshold["up"]:
             side = "up"
             score = abs(
-                float(self.init_threshold[side] - X)
+                float(self.init_threshold[side] - normal_X)
                 / (self.extreme_quantile[side] - self.init_threshold[side])
             )
 
         elif normal_X < self.init_threshold["down"]:
             side = "down"
             score = abs(
-                float(self.init_threshold[side] - X)
+                float(self.init_threshold[side] - normal_X)
                 / (self.extreme_quantile[side] - self.init_threshold[side])
             )
         else:

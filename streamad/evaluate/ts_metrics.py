@@ -184,8 +184,6 @@ class TSMetric:
     def _prepare_data(self, values_real, values_pred):
 
         assert len(values_real) == len(values_pred)
-        assert np.allclose(np.unique(values_real), np.array([0, 1]))
-        assert np.allclose(np.unique(values_pred), np.array([0, 1]))
 
         if self.metric_option == "classic":
             real_anomalies = np.argwhere(values_real == 1).repeat(2, axis=1)
@@ -267,6 +265,13 @@ class TSMetric:
     def score(self, values_real, values_predicted):
         assert isinstance(values_real, np.ndarray)
         assert isinstance(values_predicted, np.ndarray)
+
+        if not values_predicted.any():
+            if not values_real.any():
+                return 1.0, 1.0, 1.0
+            else:
+                return 0.0, 0.0, 0.0
+
         real_anomalies, predicted_anomalies = self._prepare_data(
             values_real, values_predicted
         )
@@ -274,10 +279,10 @@ class TSMetric:
         recall = self._update_recall(real_anomalies, predicted_anomalies)
         if precision + recall != 0:
             Fbeta = (
-                (1 + self.beta ** 2)
+                (1 + self.beta**2)
                 * precision
                 * recall
-                / (self.beta ** 2 * precision + recall)
+                / (self.beta**2 * precision + recall)
             )
         else:
             Fbeta = 0
