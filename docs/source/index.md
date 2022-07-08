@@ -17,6 +17,7 @@ example/example
 :titlesonly:
 :maxdepth: 1
 
+benchmark
 ```
 
 
