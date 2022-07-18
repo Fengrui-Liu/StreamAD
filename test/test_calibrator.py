@@ -1,57 +1,57 @@
 from streamad.util import StreamGenerator, UnivariateDS
 from streamad.model import KNNDetector
-from streamad.process import ZScoreThresholder, TDigestThresholder
+from streamad.process import ZScoreCalibrator, TDigestCalibrator
 
 
-def test_ZScoreThresholder():
+def test_ZScoreCalibrator():
     ds = UnivariateDS()
     stream = StreamGenerator(ds.data)
     detector = KNNDetector()
-    thresholder = ZScoreThresholder(sigma=2)
+    calibrator = ZScoreCalibrator(sigma=2)
 
     for x in stream.iter_item():
         score = detector.fit_score(x)
-        score = thresholder.normalize(score)
+        score = calibrator.normalize(score)
         if score is not None:
             assert 0 <= score <= 1
 
 
-def test_ZScoreThresholder_global():
+def test_ZScoreCalibrator_global():
     ds = UnivariateDS()
     stream = StreamGenerator(ds.data)
     detector = KNNDetector()
-    thresholder = ZScoreThresholder(sigma=2, is_global=True)
+    calibrator = ZScoreCalibrator(sigma=2, is_global=True)
 
     for x in stream.iter_item():
         score = detector.fit_score(x)
-        score = thresholder.normalize(score)
+        score = calibrator.normalize(score)
         if score is not None:
             assert 0 <= score <= 1
 
 
-def test_TDigestThresholder():
+def test_TDigestCalibrator():
     ds = UnivariateDS()
     stream = StreamGenerator(ds.data)
     detector = KNNDetector()
-    thresholder = TDigestThresholder(percentile_up=93, percentile_down=0)
+    calibrator = TDigestCalibrator(percentile_up=93, percentile_down=0)
 
     for x in stream.iter_item():
         score = detector.fit_score(x)
-        normalized_score = thresholder.normalize(score)
+        normalized_score = calibrator.normalize(score)
         if normalized_score is not None:
             assert 0 <= normalized_score <= 1
 
 
-def test_TDigestThresholder_global():
+def test_TDigestCalibrator_global():
     ds = UnivariateDS()
     stream = StreamGenerator(ds.data)
     detector = KNNDetector()
-    thresholder = TDigestThresholder(
+    calibrator = TDigestCalibrator(
         percentile_up=93, percentile_down=0, is_global=True
     )
 
     for x in stream.iter_item():
         score = detector.fit_score(x)
-        score = thresholder.normalize(score)
+        score = calibrator.normalize(score)
         if score is not None:
             assert 0 <= score <= 1

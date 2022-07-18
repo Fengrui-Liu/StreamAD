@@ -1,4 +1,4 @@
-from .zscore_Thresholder import ZScoreThresholder
-from .tdigest_Thresholder import TDigestThresholder
+from .zscore_calibrator import ZScoreCalibrator
+from .tdigest_calibrator import TDigestCalibrator
 
-__all__ = ["ZScoreThresholder", "TDigestThresholder"]
+__all__ = ["ZScoreCalibrator", "TDigestCalibrator"]

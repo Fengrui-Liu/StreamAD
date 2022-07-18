@@ -12,7 +12,7 @@ dataset_usage
 
 ```{toctree}
 
-thresholder_usage
+calibrator_usage
 ```
 
 ----
