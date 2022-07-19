@@ -35,6 +35,9 @@ class WeightEnsemble:
             self.weights
         ), "Inconsistent weights and scores length"
 
+        if (np.array(scores) == None).any():
+            return None
+
         assert (
             (np.array(scores) >= 0) & (np.array(scores) <= 1)
         ).all(), (

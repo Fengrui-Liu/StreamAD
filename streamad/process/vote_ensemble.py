@@ -24,9 +24,8 @@ class VoteEnsemble:
             type(scores) == list or type(scores) == np.ndarray
         ), "Unsupport score types, it should be list or numpy.ndarray"
 
-        assert len(scores) == len(
-            self.weights
-        ), "Inconsistent weights and scores length"
+        if (np.array(scores) == None).any():
+            return None
 
         assert (
             (np.array(scores) >= 0) & (np.array(scores) <= 1)

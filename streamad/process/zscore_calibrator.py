@@ -24,7 +24,7 @@ class ZScoreCalibrator:
         )
 
     def normalize(self, score: float) -> float:
-        if not score:
+        if score is None:
             return None
 
         self.score_stats.update(score)
@@ -46,6 +46,6 @@ class ZScoreCalibrator:
             score_min = self.score_stats.get_min()
             score = (score - score_mean) / (score_min - score_mean)
         else:
-            return 0
+            return 0.0
 
         return score
