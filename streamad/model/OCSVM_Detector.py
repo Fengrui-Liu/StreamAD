@@ -3,13 +3,14 @@ import pandas as pd
 from sklearn.preprocessing import StandardScaler
 import numpy as np
 from streamad.base.detector import BaseDetector
-
+from collections import deque
+from typing import Literal
 
 class OCSVMDetector(BaseDetector):
     def __init__(
         self,
         nu: float=0.5,
-        kernel="rbf",
+        kernel: Literal['linear', 'poly', 'rbf', 'sigmoid', 'precomputed'] = "rbf",
         window_length: int=10,
     ):
         """One-Class SVM Detector :cite:`conf/icde/KhelifatiKCHLH21`.
@@ -22,7 +23,7 @@ class OCSVMDetector(BaseDetector):
         super().__init__()
         self.nu = nu
         self.kernel = kernel
-        self.buf = []
+        self.buf = deque(maxlen=window_length+1)
         self.count = 0
         self.window_length = window_length
         self.model = None
@@ -35,7 +36,7 @@ class OCSVMDetector(BaseDetector):
         if self.count <= self.window_length:
             pass
         else:
-            self.buf = self.buf[1:]
+            self.buf.popleft()
             scaler = StandardScaler()
             np_scaled = scaler.fit_transform(X_train)
             data = pd.DataFrame(np_scaled)
