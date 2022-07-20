@@ -13,7 +13,7 @@ class OCSVMDetector(BaseDetector):
         kernel: Literal['linear', 'poly', 'rbf', 'sigmoid', 'precomputed'] = "rbf",
         window_length: int=10,
     ):
-        """One-Class SVM Detector :cite:`conf/icde/KhelifatiKCHLH21`.
+        """One-Class SVM Detector :cite:`DBLP:conf/icde/KhelifatiKCHLH21`.
 
         Args:
             nu (float, optional): An upper bound on the fraction of training errors and a lower bound of the fraction of support vectors. Defaults to 0.5.
