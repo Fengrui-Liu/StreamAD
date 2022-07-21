@@ -8,6 +8,7 @@ from .rrcf_Detector import RrcfDetector
 from .hstree_Detector import HSTreeDetector
 from .zscore_Detector import ZScoreDetector
 from .loda_Detector import LodaDetector
+from .Mad_Dectector import MadDetector
 
 __all__ = [
     "KNNDetector",
@@ -20,4 +21,5 @@ __all__ = [
     "HSTreeDetector",
     "ZScoreDetector",
     "LodaDetector",
+    "MadDetector",
 ]
