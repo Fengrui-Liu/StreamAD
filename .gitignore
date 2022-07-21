@@ -131,6 +131,10 @@ venv.bak/
 /docs/build/
 /docs/source/benchmark/streamad-benchmark-dataset/
 
+# benchmark
+
+/benchmark/streamad-benchmark-dataset/
+
 # mypy
 .mypy_cache/
 .dmypy.json

@@ -12,22 +12,25 @@ dataset_usage
 
 ```{toctree}
 
-thresholder_usage
-```
-
-----
-
-
-
-```{toctree}
-
 univariate
 ```
 
 ----
 
-
-
 ```{toctree}
 multivariate
+```
+
+----
+
+```{toctree}
+
+calibrator_usage
+```
+
+----
+
+```{toctree}
+
+ensemble_usage
 ```

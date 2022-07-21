@@ -1,18 +1,15 @@
-from typing import Type
-
 import numpy as np
-from streamad.base import BaseDetector
 from streamad.util import StreamStatistic
 
 
-class ZScoreThresholder:
+class ZScoreCalibrator:
     def __init__(
         self,
         sigma: int = 3,
         is_global: bool = True,
         window_len: int = 100,
     ) -> None:
-        """A thresholder which can filter out outliers using z-score, and normalize the anomaly scores into [0,1].
+        """A calibrator which can filter out outliers using z-score, and normalize the anomaly scores into [0,1].
 
         Args:
             sigma (int, optional): Zscore threshold, we regard the scores out of sigma as anomalies. Defaults to 3.
@@ -27,7 +24,7 @@ class ZScoreThresholder:
         )
 
     def normalize(self, score: float) -> float:
-        if not score:
+        if score is None:
             return None
 
         self.score_stats.update(score)
@@ -49,6 +46,6 @@ class ZScoreThresholder:
             score_min = self.score_stats.get_min()
             score = (score - score_mean) / (score_min - score_mean)
         else:
-            return 0
+            return 0.0
 
         return score

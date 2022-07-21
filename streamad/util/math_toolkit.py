@@ -8,6 +8,12 @@ class StreamStatistic:
     """Data statistics for the streaming data, with supporting max, min, sum, mean, sum of squares, var, std and standard scaler."""
 
     def __init__(self, is_global: bool = True, window_len: int = 10):
+        """Statistics for the streaming data, with supporting max, min, sum, mean, sum of squares, var, std and standard scaler.
+
+        Args:
+            is_global (bool, optional): For whole stream or a windowed stream. Defaults to True.
+            window_len (int, optional): Rolloing window length. Only works when is_global is False. Defaults to 10.
+        """
         self._is_uni = False
         self._is_global = is_global
         self._window = deque(maxlen=window_len)
@@ -68,7 +74,7 @@ class StreamStatistic:
 
     def get_max(self):
         """
-        Get max stattistic.
+        Get max statistic.
         """
 
         if self._is_global:
@@ -80,7 +86,7 @@ class StreamStatistic:
 
     def get_min(self):
         """
-        Get min stattistic.
+        Get min statistic.
         """
 
         if self._is_global:
@@ -92,7 +98,7 @@ class StreamStatistic:
 
     def get_mean(self):
         """
-        Get mean stattistic.
+        Get mean statistic.
         """
 
         if self._is_global:
@@ -104,7 +110,7 @@ class StreamStatistic:
 
     def get_std(self):
         """
-        Get max stattistic.
+        Get max statistic.
         """
 
         if self._is_global:
@@ -116,7 +122,7 @@ class StreamStatistic:
 
     def get_sum(self):
         """
-        Get sum stattistic.
+        Get sum statistic.
         """
 
         if self._is_global:
@@ -128,7 +134,7 @@ class StreamStatistic:
 
     def get_var(self):
         """
-        Get var stattistic.
+        Get var statistic.
         """
 
         if self._is_global:

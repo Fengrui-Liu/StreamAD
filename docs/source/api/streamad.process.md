@@ -5,17 +5,17 @@
 
 
 
-### ZScoreThresholder
+### ZScoreCalibrator
 ```{eval-rst}
-.. autoclass:: streamad.process.ZScoreThresholder
+.. autoclass:: streamad.process.ZScoreCalibrator
     :show-inheritance:
     :members: parse
 ```
 
 ---
-### TDigestThresholder
+### TDigestCalibrator
 ```{eval-rst}
-.. autoclass:: streamad.process.TDigestThresholder
+.. autoclass:: streamad.process.TDigestCalibrator
     :show-inheritance:
     :members: parse
 ```

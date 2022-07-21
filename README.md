@@ -15,14 +15,12 @@ Anomaly detection for data streams/time series. Detectors process the univariate
 
 
 
-![Conda](https://img.shields.io/conda/v/conda-forge/streamad)
 ![PyPI](https://img.shields.io/pypi/v/streamad)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/StreamAD?style=flat)
 ![PyPI - Implementation](https://img.shields.io/pypi/implementation/streamad)
 
 ![Read the Docs](https://img.shields.io/readthedocs/streamad?style=flat)
 ![GitHub](https://img.shields.io/github/license/Fengrui-Liu/StreamAD)
-![Conda](https://img.shields.io/conda/pn/conda-forge/streamad)
 [![Downloads](https://static.pepy.tech/personalized-badge/streamad?period=total&units=international_system&left_color=grey&right_color=orange&left_text=Downloads)](https://pepy.tech/project/streamad)
 
 
@@ -43,12 +41,6 @@ The stable version can be installed from PyPI:
 
 ```bash
 pip install streamad
-```
-
-The stable version can be installed from conda-forge:
-
-```bash
-conda install --channel "conda-forge" streamad
 ```
 
 The development version can be installed from GitHub:

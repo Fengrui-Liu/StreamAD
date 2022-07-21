@@ -2,7 +2,7 @@ from tdigest import TDigest
 from collections import deque
 
 
-class TDigestThresholder:
+class TDigestCalibrator:
     def __init__(
         self,
         percentile_up: float = 95,
@@ -10,7 +10,7 @@ class TDigestThresholder:
         is_global: bool = True,
         window_len: int = 100,
     ) -> None:
-        """A thresholder which can filter out outliers using t-digest, and normalize the anomaly scores into [0,1] :cite:`DBLP:journals/simpa/Dunning21`.
+        """A calibrator which can filter out outliers using t-digest, and normalize the anomaly scores into [0,1] :cite:`DBLP:journals/simpa/Dunning21`.
 
         Args:
             percentile_up (float, optional): We regard the scores above `percentile_up` as anomalies. Defaults to 95.

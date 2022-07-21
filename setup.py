@@ -16,6 +16,7 @@ setup(
     version=__version__,
     description=("An anomaly detection package for data streams."),
     long_description=open("./README.md").read(),
+    long_description_content_type="text/markdown",
     author="liufr",
     author_email="liufengrui18z@ict.ac.cn",
     packages=find_packages(exclude=["test"]),
