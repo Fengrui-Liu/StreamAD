@@ -6,14 +6,17 @@ from streamad.base.detector import BaseDetector
 from collections import deque
 from typing import Literal
 
+
 class OCSVMDetector(BaseDetector):
     def __init__(
         self,
-        nu: float=0.5,
-        kernel: Literal['linear', 'poly', 'rbf', 'sigmoid', 'precomputed'] = "rbf",
-        window_length: int=10,
+        nu: float = 0.5,
+        kernel: Literal[
+            "linear", "poly", "rbf", "sigmoid", "precomputed"
+        ] = "rbf",
+        window_length: int = 10,
     ):
-        """One-Class SVM Detector :cite:`DBLP:conf/icde/KhelifatiKCHLH21`.
+        """One-Class SVM Detector :cite:`enwiki:1098733917`.
 
         Args:
             nu (float, optional): An upper bound on the fraction of training errors and a lower bound of the fraction of support vectors. Defaults to 0.5.
@@ -23,7 +26,7 @@ class OCSVMDetector(BaseDetector):
         super().__init__()
         self.nu = nu
         self.kernel = kernel
-        self.buf = deque(maxlen=window_length+1)
+        self.buf = deque(maxlen=window_length + 1)
         self.count = 0
         self.window_length = window_length
         self.model = None
@@ -41,7 +44,9 @@ class OCSVMDetector(BaseDetector):
             np_scaled = scaler.fit_transform(X_train)
             data = pd.DataFrame(np_scaled)
             # train oneclassSVM
-            self.model = OneClassSVM(gamma="scale", nu=self.nu, kernel=self.kernel)
+            self.model = OneClassSVM(
+                gamma="scale", nu=self.nu, kernel=self.kernel
+            )
             self.model.fit(data)
 
         return self
