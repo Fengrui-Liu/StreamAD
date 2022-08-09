@@ -143,3 +143,40 @@ class StreamStatistic:
             result = np.var(self._window, axis=0)
 
         return result[0] if self._is_uni else np.array(result)
+
+
+class SDFT:
+    def __init__(self, window_len) -> None:
+        self.window_len = window_len
+        self.window = deque(maxlen=window_len)
+        self.coefficients = deque(maxlen=window_len)
+
+    def update(self, X: np.ndarray):
+        # def _get_coefficients(coeff, diff, i):
+        #     self.coefficients[i] = (coeff + diff) * np.exp(
+        #         2j * np.pi * i / self.window_len
+        #     )
+
+        #     return
+
+        if len(self.window) < self.window_len - 1:
+            self.window.append(X)
+        elif len(self.window) == self.window_len - 1:
+            self.window.append(X)
+            self.coefficients.extend(np.fft.fft(self.window))
+        else:
+            diff = X - self.window[0]
+
+            for i, c in enumerate(self.coefficients):
+                self.coefficients[i] = (c + diff) * np.exp(
+                    2j * np.pi * i / self.window_len
+                )
+
+            # This vectorize seems to be slower than the loop above
+            # vfunc = np.vectorize(_get_coefficients)
+            # vfunc(
+            #     self.coefficients, diff, [i for i in range(self.window_len)]
+            # )
+            self.window.append(X)
+
+        return self
