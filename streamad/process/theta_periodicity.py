@@ -1,6 +1,6 @@
 import numpy as np
 from scipy.stats import norm
-import statsmodels.api as sm
+from statsmodels.tsa.stattools import acf
 from scipy.signal import argrelmax
 
 
@@ -27,7 +27,7 @@ class ThetaMultiPeriodicity:
                 min(int(10 * np.log10(X.shape[0])), X.shape[0] - 1), 100
             )
 
-        xacf = sm.tsa.acf(X, nlags=self.max_lag, fft=True)
+        xacf = acf(X, nlags=self.max_lag, fft=True)
         xacf[np.isnan(xacf)] = 0
 
         candidates = np.intersect1d(np.where(xacf > 0), argrelmax(xacf)[0])
