@@ -20,13 +20,6 @@ univariate
 ```{toctree}
 multivariate
 ```
-----
-
-```{toctree}
-
-periodicity_usage
-```
-
 
 ----
 
