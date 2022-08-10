@@ -6,6 +6,7 @@ sphinxcontrib.apidoc
 sphinx-book-theme
 sphinx_design
 sphinx-togglebutton
+sphinx == 4.2
 recommonmark
 myst_nb
 plotly
