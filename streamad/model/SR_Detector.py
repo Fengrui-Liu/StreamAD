@@ -24,6 +24,7 @@ class SRDetector(BaseDetector):
         """
         super().__init__()
         self.window = deque(maxlen=window_len)
+        self.window_len = window_len
         self.extend_len = extend_len
         assert ahead_len > 1, "ahead_len must be greater than 1"
         self.ahead_len = ahead_len
@@ -53,7 +54,12 @@ class SRDetector(BaseDetector):
         avg_mag = self._average_filter(mags, n=self.mag_num * 10)
         safeDivisors = np.clip(avg_mag, EPS, avg_mag.max())
 
-        raw_scores = np.abs(mags - avg_mag) / safeDivisors
+        raw_scores = np.divide(
+            np.abs(mags - avg_mag),
+            safeDivisors,
+            out=np.zeros_like(mags),
+            where=safeDivisors != 0,
+        )
         scores = np.clip(raw_scores / 10.0, 0, 1.0)
 
         return scores
