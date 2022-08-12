@@ -54,19 +54,45 @@ def plot(
             col=1,
         )
 
-    # Plot label by anomalies
+    # Plot label by anomalies with gray line
+    # if label is not None:
+    #     anomalies = date[np.where(label == 1)[0]]
+    #     for anomaly in anomalies:
+    #         fig.add_vrect(
+    #             x0=anomaly,
+    #             x1=anomaly,
+    #             fillcolor="red",
+    #             opacity=0.25,
+    #             row="all",
+    #             col=1,
+    #             name="Anomaly",
+    #         )
+
     if label is not None:
         anomalies = date[np.where(label == 1)[0]]
-        for anomaly in anomalies:
-            fig.add_vrect(
-                x0=anomaly,
-                x1=anomaly,
-                fillcolor="red",
-                opacity=0.25,
-                row="all",
+        for i, feature in enumerate(features):
+
+            fig.add_trace(
+                go.Scatter(
+                    x=anomalies,
+                    y=data[:, i][np.where(label == 1)[0]],
+                    mode="markers",
+                    marker=dict(color="red", size=5),
+                    showlegend=False,
+                ),
+                row=i + 1,
                 col=1,
-                name="Anomaly",
             )
+        # for anomaly in anomalies:
+        #     fig.add_vrect(
+        #         x0=anomaly,
+        #         x1=anomaly,
+        #         fillcolor="red",
+        #         opacity=0.25,
+        #         row="all",
+        #         col=1,
+        #         name="Anomaly",
+        #     )
 
     # Plot score
     fig.add_trace(
