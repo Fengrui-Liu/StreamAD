@@ -1,4 +1,4 @@
-numpy>=1.19
+numpy>=1.22
 pandas>=1.3.0
 scipy>=1.7.0
 scikit-learn>=1.0.0
@@ -6,4 +6,3 @@ mmh3>=3.0.0
 plotly
 rrcf
 tdigest
-statsmodels
