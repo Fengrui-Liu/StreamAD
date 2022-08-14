@@ -6,3 +6,4 @@ mmh3>=3.0.0
 plotly
 rrcf
 tdigest
+statsmodels
