@@ -7,19 +7,15 @@ from streamad.base import BaseDetector
 
 
 class KNNDetector(BaseDetector):
-    def __init__(self, window_len: int = 100, k_neighbor: int = 5):
+    def __init__(self, k_neighbor: int = 5, **kwargs):
         """Univariate KNN-CAD model with mahalanobis distance :cite:`DBLP:journals/corr/BurnaevI16`.
 
         Args:
-            window_len (int, optional): The length of window. Defaults to 100.
             k_neighbor (int, optional): The number of neighbors to cumulate distances. Defaults to 5.
         """
-        super().__init__()
-
-        self.window_len = window_len
-        self.data_type = "univariate"
-        self.window = deque(maxlen=int(np.sqrt(window_len)))
-        self.buffer = deque(maxlen=window_len - self.window.maxlen)
+        super().__init__(data_type="univariate", **kwargs)
+        self.window = deque(maxlen=int(np.sqrt(self.window_len)))
+        self.buffer = deque(maxlen=self.window_len - self.window.maxlen)
 
         assert (
             k_neighbor < self.buffer.maxlen

@@ -7,21 +7,19 @@ np.seterr(divide="ignore", invalid="ignore")
 
 
 class SpotDetector(BaseDetector):
-    def __init__(self, window_len: int = 200, prob: float = 1e-4):
+    def __init__(self, prob: float = 1e-4, **kwargs):
         """Univariate Spot model :cite:`DBLP:conf/kdd/SifferFTL17`.
 
         Args:
             window_len (int, optional): Length of the window for reference. Defaults to 200.
             prob (float, optional): Threshold for probability, a small float value. Defaults to 1e-4.
         """
-        super().__init__()
+        super().__init__(data_type="univariate", **kwargs)
 
-        self.data_type = "univariate"
         self.prob = prob
         self.init_data = []
-        self.window_len = window_len
-        self._window_len = max(int(window_len / 100), 20)
-        self.init_length = window_len - self._window_len
+        self._window_len = max(int(self.window_len / 100), 20)
+        self.init_length = self.window_len - self._window_len
         assert (
             self.init_length > 0
         ), "window_len is too small, default value is 200"
@@ -59,7 +57,7 @@ class SpotDetector(BaseDetector):
                 1 - vs
             )
             jac_vs = np.divide(1, t, out=np.zeros_like(a), where=t != 0) * (
-                -vs + np.mean(1 / s**2)
+                -vs + np.mean(1 / s ** 2)
             )
             return us * jac_vs + vs * jac_us
 
@@ -80,7 +78,7 @@ class SpotDetector(BaseDetector):
         )
         c = 2 * np.divide(
             Ymean - Ym,
-            Ym**2,
+            Ym ** 2,
             out=np.array(np.zeros_like(Ym) + epsilon),
             where=Ym != 0,
         )
@@ -91,7 +89,7 @@ class SpotDetector(BaseDetector):
         left_zeros = self._rootsFinder(
             lambda t: w(self.peaks[side], t),
             lambda t: jac_w(self.peaks[side], t),
-            (d, e),
+            (d, e) if d < e else (e, d),
             n_points,
             "regular",
         )
@@ -99,7 +97,7 @@ class SpotDetector(BaseDetector):
         right_zeros = self._rootsFinder(
             lambda t: w(self.peaks[side], t),
             lambda t: jac_w(self.peaks[side], t),
-            (b, c),
+            (b, c) if b < c else (c, b),
             n_points,
             "regular",
         )
@@ -161,7 +159,7 @@ class SpotDetector(BaseDetector):
             i = 0
             for x in X:
                 fx = f(x)
-                g = g + fx**2
+                g = g + fx ** 2
                 j[i] = 2 * fx * jac(x)
                 i = i + 1
             return g, j
@@ -321,16 +319,24 @@ class SpotDetector(BaseDetector):
 
         elif normal_X > self.init_threshold["up"]:
             side = "up"
-            score = abs(
-                float(self.init_threshold[side] - normal_X)
-                / (self.extreme_quantile[side] - self.init_threshold[side])
+            score = np.divide(
+                normal_X - self.init_threshold[side],
+                (self.extreme_quantile[side] - self.init_threshold[side]),
+                np.array(0.5),
+                where=(
+                    self.extreme_quantile[side] - self.init_threshold[side] != 0
+                ),
             )
 
         elif normal_X < self.init_threshold["down"]:
             side = "down"
-            score = abs(
-                float(self.init_threshold[side] - normal_X)
-                / (self.extreme_quantile[side] - self.init_threshold[side])
+            score = np.divide(
+                self.init_threshold[side] - normal_X,
+                (self.init_threshold[side] - self.extreme_quantile[side]),
+                np.array(0.5),
+                where=(
+                    self.init_threshold[side] - self.extreme_quantile[side] != 0
+                ),
             )
         else:
             score = 0.0

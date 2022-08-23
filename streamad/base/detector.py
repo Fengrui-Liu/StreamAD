@@ -1,17 +1,36 @@
 from abc import ABC, abstractmethod
 
 import numpy as np
-from streamad.util import StreamStatistic
+from collections import deque
 
 
 class BaseDetector(ABC):
     """Abstract class for Detector, supporting for customize detector."""
 
-    def __init__(self):
-        """Initialization BaseDetector"""
-        self.data_type = "multivariate"
+    def __init__(
+        self,
+        window_len: int = 100,
+        detrend: bool = False,
+        detrend_len: int = 20,
+        data_type: str = "multivariate",
+    ):
+        """Initialize the attributes of the BaseDetector class
+
+
+        Args:
+            window_len (int, optional): Length of window for observations. Defaults to 100.
+            detrend (bool, optional): Data is detrended by subtracting the mean. Defaults to True.
+            detrend_len (int, optional): Length of data for reference to detrend. Defaults to 20.
+            data_type (str, optional): Multi/Univariate data type. Defaults to "multivariate".
+        """
+
+        self.data_type = data_type
         self.index = -1
-        self.window_len = 100
+        self.detrend = detrend
+        self.window_len = window_len
+        self.detrend_len = detrend_len
+        self.window = deque(maxlen=self.window_len)
+        self.detrend_window = deque(maxlen=self.detrend_len)
 
     def _check(self, X) -> bool:
         """Check whether the detector can handle the data."""
@@ -23,6 +42,20 @@ class BaseDetector(ABC):
             assert x_shape >= 1, "The data is not univariate or multivariate."
 
         self.index += 1
+
+    def _detrend(self, X: np.ndarray) -> np.ndarray:
+        """Detrend the data by subtracting the mean.
+
+        Args:
+            X (np.ndarray): Data of current observation.
+
+        Returns:
+            np.ndarray: Detrended data.
+        """
+
+        self.detrend_window.append(X)
+
+        return X - np.mean(self.detrend_window, axis=0)
 
     @abstractmethod
     def fit(self, X: np.ndarray):
@@ -39,19 +72,18 @@ class BaseDetector(ABC):
 
         Args:
             X (np.ndarray): Data of current observation.
-            normalized (bool, optional): Whether to normalize the score into a range of [0, 1]. Defaults to True.
-            normalized_sigma (int, optional): We use k-sigma/z-score to report the anomalies, A large sigma inicates few anomalies. Defaults to 3.
-            normalized_global (bool, optional): True for normalizing the score globally, with all history. Flase for normalizing the score within the window, with forgeting long histories. Defaults to True.
 
         Returns:
             float: Anomaly score. A high score indicates a high degree of anomaly.
         """
 
         self._check(X)
+        X = self._detrend(X) if self.detrend else X
+
         if self.index < self.window_len:
             self.fit(X)
             return None
 
         score = self.fit(X).score(X)
 
-        return float(score)
+        return float(abs(score))

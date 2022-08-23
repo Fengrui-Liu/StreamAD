@@ -4,18 +4,18 @@ from streamad.util import StreamStatistic
 
 
 class ZScoreDetector(BaseDetector):
-    def __init__(self, window_len: int = 100, is_global: bool = False):
+    def __init__(self, is_global: bool = False, **kwargs):
         """Univariate Z-Score Detecto :cite:`enwiki:1086685336`
 
         Args:
             window_len (int, optional):  Length of the window for reference. Defaults to 100.
             is_global (bool, optional): Whether to detect anomalies from a global view. Defaults to False.
         """
-        super().__init__()
+        super().__init__(data_type="univariate", **kwargs)
 
-        self.data_type = "univariate"
-        self.window_len = window_len
-        self.stat = StreamStatistic(is_global=is_global, window_len=window_len)
+        self.stat = StreamStatistic(
+            is_global=is_global, window_len=self.window_len
+        )
 
     def fit(self, X: np.ndarray):
         self.stat.update(X[0])

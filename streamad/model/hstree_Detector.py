@@ -17,18 +17,14 @@ class Leaf:
 
 
 class HSTreeDetector(BaseDetector):
-    def __init__(
-        self, window_len: int = 100, tree_height: int = 10, tree_num: int = 100,
-    ):
+    def __init__(self, tree_height: int = 10, tree_num: int = 100, **kwargs):
         """Half space tree detectors. :cite:`DBLP:conf/ijcai/TanTL11`.
 
         Args:
-            window_len (int, optional): The length of reference window. Defaults to 100.
             tree_height (int, optional): Height of a half space tree. Defaults to 10.
             tree_num (int, optional): Totla number of the trees. Defaults to 100.
         """
-        super().__init__()
-        self.window_len = window_len
+        super().__init__(data_type="multivariate", **kwargs)
         self.tree_height = tree_height
         self.tree_num = tree_num
         self.forest = []

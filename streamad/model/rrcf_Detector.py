@@ -7,7 +7,7 @@ from copy import deepcopy
 
 
 class RrcfDetector(BaseDetector):
-    def __init__(self, window_len=100, num_trees=40, tree_size=256):
+    def __init__(self, num_trees=40, tree_size=256, **kwargs):
         """Rrcf detector :cite:`DBLP:conf/icml/GuhaMRS16`.
 
         Args:
@@ -16,9 +16,8 @@ class RrcfDetector(BaseDetector):
             tree_size (int, optional): Size of each tree. Defaults to 256.
         """
 
-        super().__init__()
+        super().__init__(data_type="univariate", **kwargs)
         self.num_trees = num_trees
-        self.window_len = window_len
         self.tree_size = tree_size
         self.forest = []
         for _ in range(num_trees):
@@ -26,15 +25,12 @@ class RrcfDetector(BaseDetector):
             self.forest.append(tree)
         self.avg_codisp = {}
 
-        self.shingle = deque(maxlen=int(np.sqrt(window_len)))
-        self.shingle.extend([0] * int(np.sqrt(window_len)))
+        self.shingle = deque(maxlen=int(np.sqrt(self.window_len)))
+        self.shingle.extend([0] * int(np.sqrt(self.window_len)))
 
     def fit(self, X: np.ndarray):
 
         self.shingle.append(X[0])
-
-        # if self.index < self.window_len:
-        #     return self
 
         for tree in self.forest:
             if len(tree.leaves) > self.tree_size:

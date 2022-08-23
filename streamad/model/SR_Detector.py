@@ -9,10 +9,10 @@ EPS = 1e-8
 class SRDetector(BaseDetector):
     def __init__(
         self,
-        window_len: int = 100,
         extend_len: int = 5,
         ahead_len: int = 10,
         mag_num: int = 5,
+        **kwargs
     ):
         """Spectral Residual Detector :cite:`DBLP:conf/kdd/RenXWYHKXYTZ19`.
 
@@ -22,9 +22,7 @@ class SRDetector(BaseDetector):
             ahead_len (int, optional): Length to look ahead for references. Defaults to 10.
             mag_num (int, optional): Number of FFT magnitude. Defaults to 5.
         """
-        super().__init__()
-        self.window = deque(maxlen=window_len)
-        self.window_len = window_len
+        super().__init__(data_type="univariate", **kwargs)
         self.extend_len = extend_len
         assert ahead_len > 1, "ahead_len must be greater than 1"
         self.ahead_len = ahead_len

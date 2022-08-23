@@ -6,11 +6,7 @@ from collections import deque
 
 class RShashDetector(BaseDetector):
     def __init__(
-        self,
-        window_len: int = 100,
-        decay=0.015,
-        components_num=100,
-        hash_num: int = 10,
+        self, decay=0.015, components_num=100, hash_num: int = 10, **kwargs
     ):
         """Multivariate RSHashDetector :cite:`DBLP:conf/icdm/SatheA16`.
 
@@ -20,10 +16,8 @@ class RShashDetector(BaseDetector):
             components_num (int, optional): Number of components. Defaults to 100.
             hash_num (int, optional): Number of hash functions. Defaults to 10.
         """
-        super().__init__()
+        super().__init__(data_type="multivariate", **kwargs)
 
-        self.window_len = window_len
-        self.buffer = deque(maxlen=window_len)
         self.decay = decay
         self.data_stats = StreamStatistic()
 
@@ -43,7 +37,7 @@ class RShashDetector(BaseDetector):
     def _burn_in(self):
 
         # Normalized the init data
-        buffer = np.array(self.buffer)
+        buffer = np.array(self.window)
         buffer_normalized = np.divide(
             buffer - self.data_stats.get_min(),
             self.data_stats.get_max() - self.data_stats.get_min(),
@@ -81,11 +75,11 @@ class RShashDetector(BaseDetector):
 
         self.data_stats.update(X)
 
-        if self.index == self.buffer.maxlen - 1:
+        if self.index == self.window.maxlen - 1:
             self._burn_in()
 
-        if len(self.buffer) < self.buffer.maxlen:
-            self.buffer.append(X)
+        if len(self.window) < self.window.maxlen:
+            self.window.append(X)
             return self
 
         return self

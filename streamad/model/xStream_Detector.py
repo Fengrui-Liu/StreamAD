@@ -6,25 +6,23 @@ import mmh3
 class xStreamDetector(BaseDetector):
     def __init__(
         self,
-        window_len: int = 100,
         n_components: int = 50,
         n_chains: int = 50,
         depth: int = 25,
+        **kwargs
     ):
         """Multivariate xStreamDetector :cite:`DBLP:conf/kdd/ManzoorLA18`.
 
         Args:
-            window_len (int, optional): Size of reference window. Defaults to 100.
             n_components (int, optional): Number of streamhash projection, similar to feature numbers. Defaults to 50.
             n_chains (int, optional): Number of half-space chains. Defaults to 100.
             depth (int, optional): Maximum depth for each chain. Defaults to 25.
         """
 
-        super().__init__()
+        super().__init__(data_type="multivariate", **kwargs)
         self.projector = StreamhashProjector(
             num_components=n_components, density=1 / 3.0
         )
-        self.window_len = window_len
         self.cur_window = []
         self.ref_window = []
 

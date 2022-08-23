@@ -5,22 +5,19 @@ from streamad.base import BaseDetector
 
 
 class LodaDetector(BaseDetector):
-    def __init__(
-        self, window_len: int = 100, random_cuts_num: int = 100,
-    ):
+    def __init__(self, random_cuts_num: int = 100, **kwargs):
         """Multivariate LODA Detector :cite:`DBLP:journals/ml/Pevny16`.
 
         Args:
             window_len (int, optional): The length of window. Defaults to 100.
             random_cuts_num (int, optional): The number of random experiments. Defaults to 100.
         """
-        super().__init__()
-
-        self.window_len = window_len
-        self.window = deque(maxlen=window_len)
+        super().__init__(data_type="multivariate", **kwargs)
 
         self.random_cuts_num = random_cuts_num
-        self.bins_num = int(1 * (window_len ** 1) * (np.log(window_len) ** -1))
+        self.bins_num = int(
+            1 * (self.window_len ** 1) * (np.log(self.window_len) ** -1)
+        )
         self._weights = np.ones(random_cuts_num) / random_cuts_num
         self.components_num = None
         self.nonzero_components_num = None
