@@ -7,14 +7,13 @@ def test_ZScoreCalibrator():
     ds = UnivariateDS()
     stream = StreamGenerator(ds.data)
     detector = KNNDetector()
-    calibrator = ZScoreCalibrator(sigma=2)
+    calibrator = ZScoreCalibrator(sigma=2, extreme_sigma=3)
 
     for x in stream.iter_item():
         score = detector.fit_score(x)
         score = calibrator.normalize(score)
         if score is not None:
             assert 0 <= score <= 1
-
 
 def test_ZScoreCalibrator_global():
     ds = UnivariateDS()
