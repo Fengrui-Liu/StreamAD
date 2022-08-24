@@ -39,11 +39,14 @@ class TDigestCalibrator:
             return None
 
         self.score_deque.append(score)
+
         if self.is_global:
             self.score_stats.update(score)
         else:
             self.score_stats = TDigest()
             self.score_stats.batch_update(self.score_deque)
+        if self.score_deque.maxlen != len(self.score_deque):
+            return None
 
         percentile_up = self.score_stats.percentile(self.percentile_up)
         percentile_down = self.score_stats.percentile(self.percentile_down)

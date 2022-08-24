@@ -27,10 +27,17 @@ class ZScoreCalibrator:
         )
 
     def normalize(self, score: float) -> float:
+
         if score is None:
             return None
 
         self.score_stats.update(score)
+
+        if (
+            self.score_stats._window.maxlen != len(self.score_stats._window)
+            and self.score_stats._window.maxlen >= self.score_stats._num_items
+        ):
+            return None
 
         score_mean = self.score_stats.get_mean()
         score_std = self.score_stats.get_std()
