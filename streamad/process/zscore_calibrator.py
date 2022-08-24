@@ -57,7 +57,7 @@ class ZScoreCalibrator:
             score = np.divide(
                 (score - score_mean),
                 (score_max - score_mean),
-                out=max(np.array((score - score_mean) / 1e-5), np.array(1.0)),
+                out=min(np.array((score - score_mean) / 1e-5), np.array(1.0)),
                 where=score_max != score_mean,
             )
             score = abs(score)
