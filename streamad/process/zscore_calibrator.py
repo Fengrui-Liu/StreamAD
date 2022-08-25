@@ -54,11 +54,12 @@ class ZScoreCalibrator:
             return 1.0
         elif sigma > self.sigma:
             score_max = self.score_stats.get_max()
+            score_min = self.score_stats.get_min()
             score = np.divide(
-                (score - score_mean),
-                (score_max - score_mean),
-                out=min(np.array((score - score_mean) / 1e-5), np.array(1.0)),
-                where=score_max != score_mean,
+                (score - score_min),
+                (score_max - score_min),
+                out=min(np.array((score - score_min) / 1e-5), np.array(1.0)),
+                where=score_max != score_min,
             )
             score = abs(score)
         else:

@@ -7,7 +7,7 @@ np.seterr(divide="ignore", invalid="ignore")
 
 
 class SpotDetector(BaseDetector):
-    def __init__(self, prob: float = 1e-4, **kwargs):
+    def __init__(self, prob: float = 1e-4, back_mean_len: int = 20, **kwargs):
         """Univariate Spot model :cite:`DBLP:conf/kdd/SifferFTL17`.
 
         Args:
@@ -18,7 +18,7 @@ class SpotDetector(BaseDetector):
 
         self.prob = prob
         self.init_data = []
-        self._window_len = max(int(self.window_len / 100), 20)
+        self._window_len = back_mean_len
         self.init_length = self.window_len - self._window_len
         assert (
             self.init_length > 0
@@ -238,10 +238,24 @@ class SpotDetector(BaseDetector):
     def _back_mean(self):
         M = []
         w = sum(self.init_data[: self._window_len])
-        M.append(w / self._window_len)
-        for i in range(self._window_len, self.index + 1):
+        M.append(
+            np.divide(
+                w,
+                self._window_len,
+                out=np.array(0.0),
+                where=self._window_len != 0,
+            )
+        )
+        for i in range(self._window_len, self.index):
             w = w - self.init_data[i - self._window_len] + self.init_data[i]
-            M.append(w / self._window_len)
+            M.append(
+                np.divide(
+                    w,
+                    self._window_len,
+                    out=np.array(0.0),
+                    where=self._window_len != 0,
+                )
+            )
 
         return np.array(M)
 
@@ -251,16 +265,33 @@ class SpotDetector(BaseDetector):
 
         M = self._back_mean()
 
-        T = self.init_data[self._window_len :] - M[:-1]
+        T = self.init_data[self._window_len :] - M
         S = np.sort(T.tolist())
         self.init_threshold["up"] = S[int(0.98 * n_init)]
         self.init_threshold["down"] = S[int(0.02 * n_init)]
+
         self.peaks["up"] = (
-            T[T >= self.init_threshold["up"]] - self.init_threshold["up"]
+            T[T > self.init_threshold["up"]] - self.init_threshold["up"]
         )
+
+        if len(self.peaks["up"]) < 4:
+            tmp = T[T == self.init_threshold["up"]] - self.init_threshold["up"]
+            self.peaks["up"] = np.append(
+                self.peaks["up"], np.repeat(tmp[0], 4 - len(self.peaks["up"]))
+            )
+
         self.peaks["down"] = (
-            self.init_threshold["down"] - T[T <= self.init_threshold["down"]]
+            self.init_threshold["down"] - T[T < self.init_threshold["down"]]
         )
+        if len(self.peaks["down"]) < 4:
+            tmp = (
+                self.init_threshold["down"]
+                - T[T == self.init_threshold["down"]]
+            )
+            self.peaks["down"] = np.append(
+                self.peaks["down"],
+                np.repeat(tmp[0], 4 - len(self.peaks["down"])),
+            )
 
         self.num_threshold["up"] = self.peaks["up"].size
         self.num_threshold["down"] = self.peaks["down"].size
@@ -291,7 +322,11 @@ class SpotDetector(BaseDetector):
             self._init_drift(X)
 
         if self.index > self.window_len - 1:
-            hist_mean = np.mean(self.init_data[-self._window_len :])
+            hist_mean = (
+                np.mean(self.init_data[-self._window_len :])
+                if self._window_len > 0
+                else 0
+            )
 
             normal_X = float(X) - hist_mean
 
@@ -301,13 +336,17 @@ class SpotDetector(BaseDetector):
             elif normal_X < self.init_threshold["down"]:
                 self._update_one_side("down", normal_X)
 
-            self.init_data = self.init_data[-self._window_len :]
+            self.init_data = self.init_data[-self.window_len :]
 
         return self
 
     def score(self, X: np.ndarray) -> float:
 
-        hist_mean = np.mean(self.init_data[-self._window_len :])
+        hist_mean = (
+            np.mean(self.init_data[-self._window_len :])
+            if self._window_len > 0
+            else 0
+        )
 
         normal_X = float(X) - hist_mean
 
