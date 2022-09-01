@@ -3,12 +3,20 @@ import numpy as np
 from math import log
 from scipy.optimize import minimize
 from collections import deque
+import heapq
 
 np.seterr(divide="ignore", invalid="ignore")
 
 
 class SpotDetector(BaseDetector):
-    def __init__(self, prob: float = 1e-4, back_mean_len: int = 20, **kwargs):
+    def __init__(
+        self,
+        prob: float = 1e-4,
+        back_mean_len: int = 20,
+        num_threshold_up: int = 20,
+        num_threshold_down: int = 20,
+        **kwargs
+    ):
         """Univariate Spot model :cite:`DBLP:conf/kdd/SifferFTL17`.
 
         Args:
@@ -18,19 +26,26 @@ class SpotDetector(BaseDetector):
         super().__init__(data_type="univariate", **kwargs)
 
         self.prob = prob
-        self.init_data = deque(maxlen=self.window_len)
+        # self.window = deque(maxlen=self.window_len)
         self.back_mean_len = back_mean_len
-        self.init_length = self.window_len - self.back_mean_len
+        self.back_mean_window = deque(maxlen=self.back_mean_len)
+        # self.window_len = self.window_len - self.back_mean_len
         assert (
-            self.init_length > 0
+            self.window_len > 0
         ), "window_len is too small, default value is 200"
-        self.num_threshold = {"up": 0, "down": 0}
+
+        self.num_threshold = {
+            "up": num_threshold_up,
+            "down": num_threshold_down,
+        }
 
         nonedict = {"up": None, "down": None}
 
         self.extreme_quantile = dict.copy(nonedict)
         self.init_threshold = dict.copy(nonedict)
         self.peaks = dict.copy(nonedict)
+        self.history_peaks = {"up": [], "down": []}
+        # self.peaks = {'up':deque(maxlen=20),'down':deque(maxlen=20)}
         self.gamma = dict.copy(nonedict)
         self.sigma = dict.copy(nonedict)
         self.normal_X = None
@@ -213,7 +228,7 @@ class SpotDetector(BaseDetector):
     def _quantile(self, side, gamma, sigma):
 
         if side == "up":
-            r = self.init_length * self.prob / self.num_threshold[side]
+            r = self.window_len * self.prob / self.num_threshold[side]
 
             if gamma != 0:
                 return self.init_threshold["up"] + (sigma / gamma) * (
@@ -222,7 +237,7 @@ class SpotDetector(BaseDetector):
             else:
                 return self.init_threshold["up"] - sigma * log(r)
         elif side == "down":
-            r = self.init_length * self.prob / self.num_threshold[side]
+            r = self.window_len * self.prob / self.num_threshold[side]
 
             if gamma != 0:
                 return self.init_threshold["down"] - (sigma / gamma) * (
@@ -233,100 +248,70 @@ class SpotDetector(BaseDetector):
         else:
             raise ValueError("The side is not right")
 
-    def _back_mean(self):
-
-        init_data = list(self.init_data)
-        M = []
-        w = sum(init_data[: self.back_mean_len])
-        M.append(
-            np.divide(
-                w,
-                self.back_mean_len,
-                out=np.array(0.0),
-                where=self.back_mean_len != 0,
-            )
-        )
-        for i in range(self.back_mean_len, self.index):
-            w = w - init_data[i - self.back_mean_len] + self.init_data[i]
-            M.append(
-                np.divide(
-                    w,
-                    self.back_mean_len,
-                    out=np.array(0.0),
-                    where=self.back_mean_len != 0,
-                )
-            )
-
-        return np.array(M)
-
     def _init_drift(self, X: np.ndarray, verbose=False):
 
-        M = self._back_mean()
-
-        T = list(self.init_data)[self.back_mean_len :] - M[:-1]
-        S = np.sort(T.tolist())
-        self.init_threshold["up"] = S[int(0.98 * self.init_length)]
-        self.init_threshold["down"] = S[int(0.02 * self.init_length)]
-
-        self.peaks["up"] = (
-            T[T > self.init_threshold["up"]] - self.init_threshold["up"]
-        )
-
-        if len(self.peaks["up"]) < 4:
-            self.peaks["up"] = np.append(
-                self.peaks["up"], np.repeat(0, 4 - len(self.peaks["up"]))
-            )
-
-        self.peaks["down"] = (
-            self.init_threshold["down"] - T[T < self.init_threshold["down"]]
-        )
-        if len(self.peaks["down"]) < 4:
-            self.peaks["down"] = np.append(
-                self.peaks["down"], np.repeat(0, 4 - len(self.peaks["down"])),
-            )
-
-        self.num_threshold["up"] = self.peaks["up"].size
-        self.num_threshold["down"] = self.peaks["down"].size
-
         for side in ["up", "down"]:
-            gamma, sigma, _ = self._grimshaw(side)
-            self.extreme_quantile[side] = self._quantile(side, gamma, sigma)
-            self.gamma[side] = gamma
-            self.sigma[side] = sigma
+            self._update_one_side(side)
+
         return self
 
-    def _update_one_side(self, side: str, X: float):
+    def _update_one_side(self, side: str):
 
-        self.peaks[side] = np.append(
-            self.peaks[side], abs(X - self.init_threshold[side])
-        )
-        self.num_threshold[side] += 1
+        if side == "up":
+            self.history_peaks[side] = heapq.nlargest(
+                self.num_threshold[side],
+                list(self.window) + self.history_peaks[side],
+            )
+            self.init_threshold[side] = self.history_peaks[side][-1]
+            self.peaks[side] = np.array(self.history_peaks[side]) - np.array(
+                self.init_threshold[side]
+            )
+        elif side == "down":
+            self.history_peaks[side] = heapq.nsmallest(
+                self.num_threshold["down"],
+                list(self.window) + self.history_peaks[side],
+            )
+            self.init_threshold[side] = self.history_peaks[side][-1]
+            self.peaks[side] = np.array(self.init_threshold[side]) - np.array(
+                self.history_peaks[side]
+            )
+
         gamma, sigma, _ = self._grimshaw(side)
-        self.extreme_quantile[side] = self._quantile(
-            side, gamma=gamma, sigma=sigma
+        self.extreme_quantile[side] = self._quantile(side, gamma, sigma)
+        self.gamma[side] = gamma
+        self.sigma[side] = sigma
+
+    def _cal_back_mean(self, X):
+        back_mean = (
+            np.mean(self.back_mean_window)
+            if self.back_mean_window.maxlen > 0
+            else np.array(0.0)
         )
+
+        return X - back_mean
 
     def fit(self, X: np.ndarray):
+        X = float(X[0])
+
+        self.back_mean_window.append(X)
+
+        if self.index >= self.back_mean_len:
+            X = self._cal_back_mean(X)
+            self.window.append(X)
 
         if self.index == self.window_len:
             self._init_drift(X)
 
         if self.index >= self.window_len:
-            hist_mean = (
-                np.mean(list(self.init_data)[-self.back_mean_len :])
-                if self.back_mean_len > 0
-                else 0
-            )
 
-            self.normal_X = float(X) - hist_mean
+            self.normal_X = X
 
             if self.normal_X > self.init_threshold["up"]:
-                self._update_one_side("up", self.normal_X)
+                self._update_one_side("up")
 
             elif self.normal_X < self.init_threshold["down"]:
-                self._update_one_side("down", self.normal_X)
 
-        self.init_data.append(float(X[0]))
+                self._update_one_side("down")
 
         return self
 
