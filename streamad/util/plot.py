@@ -48,51 +48,20 @@ def plot(
 
     # Plot data by features
     for i, feature in enumerate(features):
+        anomalies = np.where(label == 1)[0] if label is not None else []
         fig.add_trace(
-            go.Scatter(x=date, y=data[:, i], name=str(feature)),
+            go.Scatter(
+                x=date,
+                y=data[:, i],
+                mode="lines+markers",
+                name=str(feature),
+                selectedpoints=anomalies,
+                selected=dict(marker=dict(color="red", size=5)),
+                unselected=dict(marker=dict(size=0)),
+            ),
             row=i + 1,
             col=1,
         )
-
-    # Plot label by anomalies with gray line
-    # if label is not None:
-    #     anomalies = date[np.where(label == 1)[0]]
-    #     for anomaly in anomalies:
-    #         fig.add_vrect(
-    #             x0=anomaly,
-    #             x1=anomaly,
-    #             fillcolor="red",
-    #             opacity=0.25,
-    #             row="all",
-    #             col=1,
-    #             name="Anomaly",
-    #         )
-
-    if label is not None:
-        anomalies = date[np.where(label == 1)[0]]
-        for i, feature in enumerate(features):
-
-            fig.add_trace(
-                go.Scatter(
-                    x=anomalies,
-                    y=data[:, i][np.where(label == 1)[0]],
-                    mode="markers",
-                    marker=dict(color="red", size=5),
-                    showlegend=False,
-                ),
-                row=i + 1,
-                col=1,
-            )
-        # for anomaly in anomalies:
-        #     fig.add_vrect(
-        #         x0=anomaly,
-        #         x1=anomaly,
-        #         fillcolor="red",
-        #         opacity=0.25,
-        #         row="all",
-        #         col=1,
-        #         name="Anomaly",
-        #     )
 
     # Plot score
     fig.add_trace(

@@ -15,17 +15,24 @@ class SpotDetector(BaseDetector):
         back_mean_len: int = 20,
         num_threshold_up: int = 20,
         num_threshold_down: int = 20,
+        deviance_ratio: float = 0.01,
         **kwargs
     ):
         """Univariate Spot model :cite:`DBLP:conf/kdd/SifferFTL17`.
 
         Args:
+            prob (float, optional): Threshold for the probability of anomalies, a small float value. Defaults to 1e-4.. Defaults to 1e-4.
+            back_mean_len (int, optional): The length of backward window to calculate the first-order difference. Defaults to 20.
+            num_threshold_up (int, optional): Number of peaks over upper threshold to estimate distribution. Defaults to 20.
+            num_threshold_down (int, optional): Number of peaks over lower threshold to estimate distribution. Defaults to 20.
+            deviance_ratio (float, optional): Deviance ratio aginest the absolute value of data, which is useful when the value is very large and deviances are small. Defaults to 0.01.
             window_len (int, optional): Length of the window for reference. Defaults to 200.
-            prob (float, optional): Threshold for probability, a small float value. Defaults to 1e-4.
         """
+
         super().__init__(data_type="univariate", **kwargs)
 
         self.prob = prob
+        self.deviance_ratio = deviance_ratio
         # self.window = deque(maxlen=self.window_len)
         self.back_mean_len = back_mean_len
         self.back_mean_window = deque(maxlen=self.back_mean_len)
@@ -70,14 +77,15 @@ class SpotDetector(BaseDetector):
             s = 1 + t * Y
             us = u(s)
             vs = v(s)
-            jac_us = np.divide(1, t, out=np.zeros_like(a), where=t != 0) * (
-                1 - vs
-            )
-            jac_vs = np.divide(1, t, out=np.zeros_like(a), where=t != 0) * (
-                -vs + np.mean(1 / s ** 2)
-            )
+            jac_us = np.divide(
+                1, t, out=np.array(1 / epsilon), where=t != 0
+            ) * (1 - vs)
+            jac_vs = np.divide(
+                1, t, out=np.array(1 / epsilon), where=t != 0
+            ) * (-vs + np.mean(1 / s**2))
             return us * jac_vs + vs * jac_us
 
+        self.peaks[side][self.peaks[side] == 0] = epsilon
         Ym = self.peaks[side].min()
         YM = self.peaks[side].max()
         Ymean = self.peaks[side].mean()
@@ -95,7 +103,7 @@ class SpotDetector(BaseDetector):
         )
         c = 2 * np.divide(
             Ymean - Ym,
-            Ym ** 2,
+            Ym**2,
             out=np.array((Ymean - Ym) / epsilon + epsilon),
             where=Ym != 0,
         )
@@ -178,7 +186,7 @@ class SpotDetector(BaseDetector):
             i = 0
             for x in X:
                 fx = f(x)
-                g = g + fx ** 2
+                g = g + fx**2
                 j[i] = 2 * fx * jac(x)
                 i = i + 1
             return g, j
@@ -248,7 +256,7 @@ class SpotDetector(BaseDetector):
         else:
             raise ValueError("The side is not right")
 
-    def _init_drift(self, X: np.ndarray, verbose=False):
+    def _init_drift(self, verbose=False):
 
         for side in ["up", "down"]:
             self._update_one_side(side)
@@ -276,6 +284,8 @@ class SpotDetector(BaseDetector):
                 self.history_peaks[side]
             )
 
+        # remove the largest incase the first anomaly change the threshold
+        self.peaks[side] = self.peaks[side][1:]
         gamma, sigma, _ = self._grimshaw(side)
         self.extreme_quantile[side] = self._quantile(side, gamma, sigma)
         self.gamma[side] = gamma
@@ -296,15 +306,29 @@ class SpotDetector(BaseDetector):
         self.back_mean_window.append(X)
 
         if self.index >= self.back_mean_len:
-            X = self._cal_back_mean(X)
-            self.window.append(X)
+            self.normal_X = self._cal_back_mean(X)
+            self.window.append(self.normal_X)
 
         if self.index == self.window_len:
-            self._init_drift(X)
+            self._init_drift()
 
         if self.index >= self.window_len:
 
-            self.normal_X = X
+            last_X = (
+                self.window[-2]
+                if self.back_mean_len == 0
+                else (X - self.window[-1])
+            )
+
+            if (
+                abs(
+                    np.divide(
+                        X - last_X, last_X, np.array(X), where=last_X != 0
+                    )
+                )
+                < self.deviance_ratio
+            ):
+                return self
 
             if self.normal_X > self.init_threshold["up"]:
                 self._update_one_side("up")
@@ -317,7 +341,21 @@ class SpotDetector(BaseDetector):
 
     def score(self, X: np.ndarray) -> float:
 
+        X = float(X[0])
+
+        last_X = (
+            self.window[-2]
+            if self.back_mean_len == 0
+            else (X - self.window[-1])
+        )
+
         if (
+            abs(np.divide(X - last_X, last_X, np.array(X), where=last_X != 0))
+            < self.deviance_ratio
+        ):
+            score = 0.0
+
+        elif (
             self.normal_X > self.extreme_quantile["up"]
             or self.normal_X < self.extreme_quantile["down"]
         ):
