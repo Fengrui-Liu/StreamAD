@@ -41,7 +41,10 @@ class BaseDetector(ABC):
         elif self.data_type == "multivariate":
             assert x_shape >= 1, "The data is not univariate or multivariate."
 
+        if np.isnan(X).any():
+            return False
         self.index += 1
+        return True
 
     def _detrend(self, X: np.ndarray) -> np.ndarray:
         """Detrend the data by subtracting the mean.
@@ -77,7 +80,9 @@ class BaseDetector(ABC):
             float: Anomaly score. A high score indicates a high degree of anomaly.
         """
 
-        self._check(X)
+        check_flag = self._check(X)
+        if not check_flag:
+            return None
         X = self._detrend(X) if self.detrend else X
 
         if self.index < self.window_len:
