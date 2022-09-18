@@ -1,15 +1,12 @@
 from streamad.util import StreamGenerator, UnivariateDS
-from streamad.model import ArimaDetector
+from streamad.model import SArimaDetector
 
 
-def test_score():
+def test_sarima():
     ds = UnivariateDS()
     stream = StreamGenerator(ds.data)
-    detector = ArimaDetector()
+    detector = SArimaDetector()
     for x in stream.iter_item():
         score = detector.fit_score(x)
-        #print(score)
         if score is not None:
             assert type(score) is float
-
-#test_score()

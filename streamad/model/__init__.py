@@ -10,7 +10,7 @@ from .zscore_Detector import ZScoreDetector
 from .loda_Detector import LodaDetector
 from .OCSVM_Detector import OCSVMDetector
 from .Mad_Dectector import MadDetector
-from .Arima_Detector import ArimaDetector
+from .SArima_Detector import SArimaDetector
 
 __all__ = [
     "KNNDetector",
@@ -25,5 +25,5 @@ __all__ = [
     "LodaDetector",
     "OCSVMDetector",
     "MadDetector",
-    "ArimaDetector",
+    "SArimaDetector",
 ]
