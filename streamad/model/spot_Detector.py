@@ -285,7 +285,7 @@ class SpotDetector(BaseDetector):
             )
 
         # remove the largest incase the first anomaly change the threshold
-        self.peaks[side] = self.peaks[side][1:]
+        # self.peaks[side] = self.peaks[side][1:]
         gamma, sigma, _ = self._grimshaw(side)
         self.extreme_quantile[side] = self._quantile(side, gamma, sigma)
         self.gamma[side] = gamma
