@@ -16,6 +16,7 @@ class SpotDetector(BaseDetector):
         num_threshold_up: int = 20,
         num_threshold_down: int = 20,
         deviance_ratio: float = 0.01,
+        global_memory: bool = True,
         **kwargs
     ):
         """Univariate Spot model :cite:`DBLP:conf/kdd/SifferFTL17`.
@@ -33,6 +34,7 @@ class SpotDetector(BaseDetector):
 
         self.prob = prob
         self.deviance_ratio = deviance_ratio
+        self.global_memory = global_memory
         # self.window = deque(maxlen=self.window_len)
         self.back_mean_len = back_mean_len
         self.back_mean_window = deque(maxlen=self.back_mean_len)
@@ -266,18 +268,30 @@ class SpotDetector(BaseDetector):
     def _update_one_side(self, side: str):
 
         if side == "up":
+            candidates = (
+                list(self.window) + self.history_peaks[side]
+                if self.global_memory
+                else list(self.window)
+            )
+
             self.history_peaks[side] = heapq.nlargest(
                 self.num_threshold[side],
-                list(self.window) + self.history_peaks[side],
+                candidates,
             )
             self.init_threshold[side] = self.history_peaks[side][-1]
             self.peaks[side] = np.array(self.history_peaks[side]) - np.array(
                 self.init_threshold[side]
             )
         elif side == "down":
+            candidates = (
+                list(self.window) + self.history_peaks[side]
+                if self.global_memory
+                else list(self.window)
+            )
+
             self.history_peaks[side] = heapq.nsmallest(
-                self.num_threshold["down"],
-                list(self.window) + self.history_peaks[side],
+                self.num_threshold[side],
+                candidates,
             )
             self.init_threshold[side] = self.history_peaks[side][-1]
             self.peaks[side] = np.array(self.init_threshold[side]) - np.array(
