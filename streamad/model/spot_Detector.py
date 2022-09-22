@@ -239,6 +239,7 @@ class SpotDetector(BaseDetector):
 
         if side == "up":
             r = self.window_len * self.prob / self.num_threshold[side]
+            # r = 1000 * self.prob
 
             if gamma != 0:
                 return self.init_threshold["up"] + (sigma / gamma) * (
@@ -248,6 +249,7 @@ class SpotDetector(BaseDetector):
                 return self.init_threshold["up"] - sigma * log(r)
         elif side == "down":
             r = self.window_len * self.prob / self.num_threshold[side]
+            # r = 1000 * self.prob
 
             if gamma != 0:
                 return self.init_threshold["down"] - (sigma / gamma) * (
