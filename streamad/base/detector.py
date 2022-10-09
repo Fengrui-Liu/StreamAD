@@ -61,16 +61,16 @@ class BaseDetector(ABC):
         return X - np.mean(self.detrend_window, axis=0)
 
     @abstractmethod
-    def fit(self, X: np.ndarray, timestamp=None):
+    def fit(self, X: np.ndarray, timestamp: int = None):
 
         return NotImplementedError
 
     @abstractmethod
-    def score(self, X: np.ndarray, timestamp=None) -> float:
+    def score(self, X: np.ndarray, timestamp: int = None) -> float:
 
         return NotImplementedError
 
-    def fit_score(self, X: np.ndarray, timestamp=None) -> float:
+    def fit_score(self, X: np.ndarray, timestamp: int = None) -> float:
         """Fit one observation and calculate its anomaly score.
 
         Args:
@@ -86,7 +86,7 @@ class BaseDetector(ABC):
         X = self._detrend(X) if self.detrend else X
 
         if self.index < self.window_len:
-            self.fit(X,timestamp)
+            self.fit(X, timestamp)
             return None
 
         score = self.fit(X, timestamp).score(X, timestamp)

@@ -31,7 +31,7 @@ class xStreamDetector(BaseDetector):
             deltamax=delta, n_chains=n_chains, depth=depth
         )
 
-    def fit(self, X: np.ndarray):
+    def fit(self, X: np.ndarray, timestamp: int = None):
 
         projected_X = self.projector.transform(X)
         self.cur_window.append(projected_X)
@@ -48,7 +48,7 @@ class xStreamDetector(BaseDetector):
 
         return self
 
-    def score(self, X: np.ndarray) -> float:
+    def score(self, X: np.ndarray, timestamp: int = None):
 
         projected_X = self.projector.transform(X)
 
@@ -215,7 +215,7 @@ class StreamhashProjector:
 
     def _hash_string(self, k, s):
 
-        hash_value = int(mmh3.hash(s, signed=False, seed=k)) / (2.0 ** 32 - 1)
+        hash_value = int(mmh3.hash(s, signed=False, seed=k)) / (2.0**32 - 1)
         s = self.density
         if hash_value <= s / 2.0:
             return -1 * self.constant

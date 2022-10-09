@@ -65,7 +65,7 @@ class RShashDetector(BaseDetector):
                     value = (0, value[1] + 1)
                     self.cmsketches[w][mod_entry] = value
 
-    def fit(self, X):
+    def fit(self, X: np.ndarray, timestamp: int = None):
 
         if self.index == 0:
             self.alpha = [
@@ -84,7 +84,7 @@ class RShashDetector(BaseDetector):
 
         return self
 
-    def score(self, X):
+    def score(self, X: np.ndarray, timestamp: int = None) -> float:
 
         X_normalized = np.divide(
             X - self.data_stats.get_min(),

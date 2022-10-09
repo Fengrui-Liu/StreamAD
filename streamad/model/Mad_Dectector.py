@@ -18,12 +18,12 @@ class MadDetector(BaseDetector):
         super().__init__(data_type="univariate", **kwargs)
         self.scale_factor = 1.4826
 
-    def fit(self, X: np.ndarray) -> None:
+    def fit(self, X: np.ndarray, timestamp: int = None):
         self.window.append(X[0])
 
         return self
 
-    def score(self, X: np.ndarray) -> float:
+    def score(self, X: np.ndarray, timestamp: int = None):
 
         ori_median = np.median(self.window)
         abs_diff = np.abs(self.window - ori_median)

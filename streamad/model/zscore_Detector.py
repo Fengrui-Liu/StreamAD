@@ -17,11 +17,11 @@ class ZScoreDetector(BaseDetector):
             is_global=is_global, window_len=self.window_len
         )
 
-    def fit(self, X: np.ndarray):
+    def fit(self, X: np.ndarray, timestamp: int = None):
         self.stat.update(X[0])
         return self
 
-    def score(self, X: np.ndarray):
+    def score(self, X: np.ndarray, timestamp: int = None):
 
         mean = self.stat.get_mean()
         std = self.stat.get_std()

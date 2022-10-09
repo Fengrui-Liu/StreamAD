@@ -316,7 +316,7 @@ class SpotDetector(BaseDetector):
 
         return X - back_mean
 
-    def fit(self, X: np.ndarray):
+    def fit(self, X: np.ndarray, timestamp: int = None):
         X = float(X[0])
 
         self.back_mean_window.append(X)
@@ -355,7 +355,7 @@ class SpotDetector(BaseDetector):
 
         return self
 
-    def score(self, X: np.ndarray) -> float:
+    def score(self, X: np.ndarray, timestamp: int = None):
 
         X = float(X[0])
 

@@ -81,7 +81,7 @@ class HSTreeDetector(BaseDetector):
             self._reset_tree(tree.left)
             self._reset_tree(tree.right)
 
-    def fit(self, X: np.ndarray) -> None:
+    def fit(self, X: np.ndarray, timestamp: int = None):
 
         self.data_stats.update(X)
 
@@ -113,7 +113,7 @@ class HSTreeDetector(BaseDetector):
 
         return self
 
-    def score(self, X: np.ndarray) -> float:
+    def score(self, X: np.ndarray, timestamp: int = None) -> float:
 
         score = 0.0
 

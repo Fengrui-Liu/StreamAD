@@ -10,9 +10,9 @@ class RandomDetector(BaseDetector):
     def __init__(self, **kwargs):
         super().__init__(data_type="multivariate", **kwargs)
 
-    def fit(self, X: np.ndarray) -> None:
+    def fit(self, X: np.ndarray, timestamp: int = None):
         return self
 
-    def score(self, X: np.ndarray) -> float:
+    def score(self, X: np.ndarray, timestamp: int = None):
 
         return random.random()

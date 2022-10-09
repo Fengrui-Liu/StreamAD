@@ -28,12 +28,12 @@ class SRDetector(BaseDetector):
         self.ahead_len = ahead_len
         self.mag_num = mag_num
 
-    def fit(self, X):
+    def fit(self, X: np.ndarray, timestamp: int = None):
         self.window.append(X[0])
 
         return self
 
-    def score(self, X):
+    def score(self, X: np.ndarray, timestamp: int = None) -> float:
 
         window = deepcopy(self.window)
 

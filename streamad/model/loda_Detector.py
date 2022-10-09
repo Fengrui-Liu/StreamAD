@@ -16,7 +16,7 @@ class LodaDetector(BaseDetector):
 
         self.random_cuts_num = random_cuts_num
         self.bins_num = int(
-            1 * (self.window_len ** 1) * (np.log(self.window_len) ** -1)
+            1 * (self.window_len**1) * (np.log(self.window_len) ** -1)
         )
         self._weights = np.ones(random_cuts_num) / random_cuts_num
         self.components_num = None
@@ -26,7 +26,7 @@ class LodaDetector(BaseDetector):
         self._histograms = None
         self._limits = None
 
-    def fit(self, X: np.ndarray):
+    def fit(self, X: np.ndarray, timestamp: int = None):
         self.window.append(X)
         if self.index == 0:
             self.components_num = len(X)
@@ -58,7 +58,7 @@ class LodaDetector(BaseDetector):
 
         return self
 
-    def score(self, X: np.ndarray):
+    def score(self, X: np.ndarray, timestamp: int = None):
 
         score = 0
 

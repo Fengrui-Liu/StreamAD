@@ -48,7 +48,7 @@ class SArimaDetector(BaseDetector):
 
         self.best_result = self.best_model.fit(disp=0)
 
-    def fit(self, X: np.ndarray) -> None:
+    def fit(self, X: np.ndarray, timestamp: int = None):
 
         self.window.append(X[0])
         if self.index == self.window_len:
@@ -59,7 +59,7 @@ class SArimaDetector(BaseDetector):
 
         return self
 
-    def score(self, X: np.ndarray) -> float:
+    def score(self, X: np.ndarray, timestamp: int = None):
 
         pred_uc = self.best_result.get_forecast(steps=1)
 

@@ -23,7 +23,7 @@ class KNNDetector(BaseDetector):
 
         self.k = k_neighbor
 
-    def fit(self, X: np.ndarray):
+    def fit(self, X: np.ndarray, timestamp: int = None):
 
         self.window.append(X[0])
 
@@ -32,7 +32,7 @@ class KNNDetector(BaseDetector):
 
         return self
 
-    def score(self, X) -> float:
+    def score(self, X: np.ndarray, timestamp: int = None) -> float:
 
         window = deepcopy(self.window)
         window.pop()

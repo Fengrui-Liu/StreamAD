@@ -25,7 +25,7 @@ class OCSVMDetector(BaseDetector):
         self.kernel = kernel
         self.model = None
 
-    def fit(self, X: np.ndarray):
+    def fit(self, X: np.ndarray, timestamp: int = None):
 
         self.window.append(X)
         if self.index >= self.window_len:
@@ -36,7 +36,7 @@ class OCSVMDetector(BaseDetector):
 
         return self
 
-    def score(self, X: np.ndarray) -> float:
+    def score(self, X: np.ndarray, timestamp: int = None):
 
         score = self.model.decision_function(X.reshape(1, -1))
         return abs(score)

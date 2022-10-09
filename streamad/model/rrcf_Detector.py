@@ -28,7 +28,7 @@ class RrcfDetector(BaseDetector):
         self.shingle = deque(maxlen=int(np.sqrt(self.window_len)))
         self.shingle.extend([0] * int(np.sqrt(self.window_len)))
 
-    def fit(self, X: np.ndarray):
+    def fit(self, X: np.ndarray, timestamp: int = None):
 
         self.shingle.append(X[0])
 
@@ -40,7 +40,7 @@ class RrcfDetector(BaseDetector):
 
         return self
 
-    def score(self, X: np.ndarray) -> float:
+    def score(self, X: np.ndarray, timestamp: int = None):
 
         score_list = []
         shingle = deepcopy(self.shingle)
