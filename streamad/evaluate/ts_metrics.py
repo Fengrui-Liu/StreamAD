@@ -219,10 +219,14 @@ class TSMetric:
 
             real_anomalies_ = np.argwhere(values_real == 1).ravel()
             real_anomalies_shift_forward = self._shift(
-                real_anomalies_, 1, fill_value=real_anomalies_[0]
+                real_anomalies_,
+                1,
+                fill_value=real_anomalies_[0] if len(real_anomalies_) else 0,
             )
             real_anomalies_shift_backward = self._shift(
-                real_anomalies_, -1, fill_value=real_anomalies_[-1]
+                real_anomalies_,
+                -1,
+                fill_value=real_anomalies_[-1] if len(real_anomalies_) else 0,
             )
             real_anomalies_start = np.argwhere(
                 (real_anomalies_shift_forward - real_anomalies_) != -1
@@ -243,10 +247,14 @@ class TSMetric:
             )
             real_anomalies_ = np.argwhere(values_real == 1).ravel()
             real_anomalies_shift_forward = self._shift(
-                real_anomalies_, 1, fill_value=real_anomalies_[0]
+                real_anomalies_,
+                1,
+                fill_value=real_anomalies_[0] if len(real_anomalies_) else 0,
             )
             real_anomalies_shift_backward = self._shift(
-                real_anomalies_, -1, fill_value=real_anomalies_[-1]
+                real_anomalies_,
+                -1,
+                fill_value=real_anomalies_[-1] if len(real_anomalies_) else 0,
             )
             real_anomalies_start = np.argwhere(
                 (real_anomalies_shift_forward - real_anomalies_) != -1
