@@ -15,6 +15,7 @@ class ZSpotDetector(BaseDetector):
         deviance_ratio: float = 0.01,
         z: int = 2,
         expire_days: int = 14,
+        ignore_n: int = 10,
         **kwargs
     ):
 
@@ -42,6 +43,7 @@ class ZSpotDetector(BaseDetector):
         self.normal_X = None
         self.time_X = None
         self.z = z
+        self.ignore_n = ignore_n
 
     def _update_oneside(self, side: str, init: bool = False):
         if side == "up":
@@ -117,7 +119,7 @@ class ZSpotDetector(BaseDetector):
         """
         X = float(X[0])
 
-        if self.index >= self.back_mean_len:
+        if self.index >= self.back_mean_len + self.ignore_n:
             self.normal_X = self._cal_back_mean(X)
             self.time_X = datetime.datetime.fromtimestamp(timestamp)
 
@@ -148,7 +150,8 @@ class ZSpotDetector(BaseDetector):
                 elif self.normal_X < self.local_init_threshold["down"]:
                     self._update_oneside("down")
 
-        self.back_mean_window.append(X)
+        if self.index >= self.ignore_n:
+            self.back_mean_window.append(X)
         return self
 
     def score(self, X: np.ndarray, timestamp=None) -> float:

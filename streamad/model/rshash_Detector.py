@@ -41,7 +41,7 @@ class RShashDetector(BaseDetector):
         buffer_normalized = np.divide(
             buffer - self.data_stats.get_min(),
             self.data_stats.get_max() - self.data_stats.get_min(),
-            out=np.zeros_like(buffer),
+            out=np.zeros_like(buffer).astype(float),
             where=self.data_stats.get_max() - self.data_stats.get_min() != 0,
         )
         buffer_normalized[np.abs(buffer_normalized) == np.inf] = 0
@@ -89,7 +89,7 @@ class RShashDetector(BaseDetector):
         X_normalized = np.divide(
             X - self.data_stats.get_min(),
             self.data_stats.get_max() - self.data_stats.get_min(),
-            out=np.zeros_like(X),
+            out=np.zeros_like(X).astype(float),
             where=self.data_stats.get_max() - self.data_stats.get_min() != 0,
         )
         X_normalized[np.abs(X_normalized) == np.inf] = 0
