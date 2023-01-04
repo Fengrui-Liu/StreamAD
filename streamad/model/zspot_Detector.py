@@ -45,6 +45,8 @@ class ZSpotDetector(BaseDetector):
         self.z = z
         self.ignore_n = ignore_n
 
+        assert self.window_len > self.ignore_n + self.back_mean_len, "window_len must be larger than (ignore_n + back_mean_len)"
+
     def _update_oneside(self, side: str, init: bool = False):
         if side == "up":
             if init is False:
