@@ -1,11 +1,16 @@
 import os
 import subprocess
 import pandas as pd
+import numpy as np
 from typing import Literal
 import json
+import ast
+import gdown
+import zipfile
 
 DS = {
     "AIOPS_KPI": ["preliminary_train", "finals_train", "finals_ground_truth"],
+    "MICRO": [],
     "AWSCloudwatch": [],
     "GAIA": [
         "changepoint_data",
@@ -16,19 +21,20 @@ DS = {
         "periodic_data",
         "staircase_data",
     ],
+    "SMD": ["test"],
 }
 
 
 def check(ds_name, path="./streamad-benchmark-dataset"):
-
-    assert ds_name in DS, "Unavailable dataset, only support {}".format(DS)
+    assert ds_name in DS, "Unavailable dataset, only support {}".format(
+        DS.keys()
+    )
 
     if not os.path.exists(path):
         os.makedirs(path)
 
 
 def download_ds(ds_name, path="./streamad-benchmark-dataset"):
-
     check(ds_name, path)
 
     if os.path.exists(path + "/" + ds_name):
@@ -61,6 +67,23 @@ def download_ds(ds_name, path="./streamad-benchmark-dataset"):
                 path + "/AIOPS_KPI/Finals_dataset/",
             ]
         )
+    elif str.lower(ds_name) == "micro":
+        os.makedirs(path + "/MICRO/", exist_ok=True)
+        gdown.download(
+            id="1nkEsD1g7THm_T58KwUQZ7o-b174fdx-n",
+            output=path + "/MICRO/data.zip",
+        )
+
+        with zipfile.ZipFile(path + "/MICRO/data.zip") as zip_ref:
+            zip_ref.extractall(path + "/MICRO/")
+
+        for root, dirs, files in os.walk(path + "/MICRO/AIOps挑战赛数据"):
+            for filename in files:
+                if filename.endswith(".zip"):
+                    fileSpec = path + "/MICRO/AIOps挑战赛数据/" + filename
+                    with zipfile.ZipFile(fileSpec) as zip_ref:
+                        zip_ref.extractall(path + "/MICRO/")
+
     elif str.lower(ds_name) == "awscloudwatch":
         subprocess.check_call(
             [
@@ -99,22 +122,53 @@ def download_ds(ds_name, path="./streamad-benchmark-dataset"):
             ]
         )
 
+    elif str.lower(ds_name) == "smd":
+        subprocess.check_call(
+            [
+                "wget",
+                "https://s3-us-west-2.amazonaws.com/telemanom/data.zip",
+                "-P",
+                path + "/SMD",
+            ]
+        )
+
+        subprocess.check_call(
+            [
+                "unzip",
+                path + "/SMD/data.zip",
+                "-d",
+                path + "/SMD/",
+            ]
+        )
+        subprocess.check_call(
+            [
+                "rm",
+                path + "/SMD/data.zip",
+            ]
+        )
+
+        subprocess.check_call(
+            [
+                "wget",
+                "https://raw.githubusercontent.com/khundman/telemanom/master/labeled_anomalies.csv",
+                "-P",
+                path + "/SMD",
+            ]
+        )
+
 
 def prepare_ds(
     ds_name: Literal["AIOPS_KPI"], path="./streamad-benchmark-dataset"
 ):
-
-    check(ds_name, path)
+    # check(ds_name, path)
 
     download_ds(ds_name, path)
 
 
 def read_ds(ds_name, ds_file, path="./streamad-benchmark-dataset"):
-
     check(ds_name, path)
 
     if str.lower(ds_name) == "aiops_kpi":
-
         if ds_file == "preliminary_train":
             df = pd.read_csv(
                 path + "/" + ds_name + "/Preliminary_dataset/train.csv"
@@ -145,8 +199,45 @@ def read_ds(ds_name, ds_file, path="./streamad-benchmark-dataset"):
 
         return dfs
 
-    elif str.lower(ds_name) == "awscloudwatch":
+    elif str.lower(ds_name) == "micro":
+        labels = pd.read_csv(path + "/MICRO/故障整理（预赛）.csv", index_col=["index"])
+        labels = labels.dropna(subset=["kpi", "start_time"])
+        dfs = {}
+        for idx, fault in labels.iterrows():
+            start_time = fault["start_time"]
+            duration = fault["duration"]
+            folder = pd.to_datetime(start_time).strftime("%Y_%m_%d")
+            start_time = pd.to_datetime(start_time + "+0800", utc=True)
+            end_time = start_time + pd.Timedelta(duration)
 
+            df_lst = []
+            for root, dirs, files in os.walk(
+                path + "/MICRO/" + folder + "/平台指标/"
+            ):
+                for filename in files:
+                    if filename.endswith(".csv"):
+                        df = pd.read_csv(
+                            path + "/MICRO/" + folder + "/平台指标/" + filename
+                        )
+                        df_lst.append(df)
+
+            df = pd.concat(df_lst, axis=0)
+
+            for kpi in fault["kpi"].split(";"):
+                df_kpi = df[
+                    (df["name"] == kpi) & (df["cmdb_id"] == fault["name"])
+                ][["timestamp", "value"]]
+                df_kpi["label"] = 0
+                df_kpi.loc[
+                    (df_kpi["timestamp"] > start_time.timestamp() * 1000)
+                    & (df_kpi["timestamp"] < end_time.timestamp() * 1000),
+                    "label",
+                ] = 1
+                dfs[kpi + "_" + fault["name"]] = (df_kpi, df_kpi["label"])
+
+        return dfs
+
+    elif str.lower(ds_name) == "awscloudwatch":
         labels = json.load(open(path + "/AWSCloudwatch/combined_labels.json"))
         dfs = {}
         for f in os.listdir(path + "/AWSCloudwatch/data/realAWSCloudwatch"):
@@ -176,3 +267,47 @@ def read_ds(ds_name, ds_file, path="./streamad-benchmark-dataset"):
             return dfs
         else:
             raise FileNotFoundError
+
+    elif str.lower(ds_name) == "smd":
+        labels = pd.read_csv(path + "/SMD/labeled_anomalies.csv")
+        if ds_file in DS[ds_name]:
+            dfs = {}
+            folder = path + "/SMD/data/" + ds_file
+            for root, dirs, files in os.walk(folder):
+                for item in files:
+                    name = item.replace(".npy", "")
+                    df = pd.DataFrame(np.load(root + "/" + item))
+                    df.columns = df.columns.astype(str)
+                    anomalies = labels[labels["chan_id"] == name][
+                        "anomaly_sequences"
+                    ]
+                    df["label"] = 0
+                    if len(anomalies) > 0:
+                        anomalies = ast.literal_eval(anomalies.values[0])
+                        for seg in anomalies:
+                            seg_begin = seg[0]
+                            seg_end = seg[1]
+                            df.iloc[seg_begin:seg_end] = 1
+
+                    dfs[name] = (df, df["label"])
+
+            return dfs
+
+        else:
+            raise FileNotFoundError
+
+
+if __name__ == "__main__":
+    ds_name = "MICRO"
+    df_file = "test"
+    prepare_ds(
+        ds_name=ds_name,
+        path="./benchmark/streamad-benchmark-dataset",
+    )
+    dfs = read_ds(
+        ds_name=ds_name,
+        ds_file=df_file,
+        path="./benchmark/streamad-benchmark-dataset",
+    )
+
+    dfs
