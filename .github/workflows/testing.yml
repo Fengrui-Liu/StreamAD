@@ -60,7 +60,6 @@ jobs:
         run: poetry install --no-interaction --no-root
       - name: Generate coverage report
         run: |
-          source $VENV
           poetry add pytest-cov
           poetry run pytest --cov=./ --cov-report=xml
       - name: Upload coverage to Codecov
