@@ -2,15 +2,16 @@ from collections import deque
 
 import numpy as np
 from streamad.base import BaseDetector
+from fast_histogram import histogram1d
 
 
 class LodaDetector(BaseDetector):
-    def __init__(self, random_cuts_num: int = 100, **kwargs):
+    def __init__(self, random_cuts_num: int = 10, **kwargs):
         """Multivariate LODA Detector :cite:`DBLP:journals/ml/Pevny16`.
 
         Args:
-            window_len (int, optional): The length of window. Defaults to 100.
-            random_cuts_num (int, optional): The number of random experiments. Defaults to 100.
+            window_len (int, optional): The length of window. Defaults to 50.
+            random_cuts_num (int, optional): The number of random experiments. Defaults to 10.
         """
         super().__init__(data_type="multivariate", **kwargs)
 
@@ -50,16 +51,42 @@ class LodaDetector(BaseDetector):
                 projected_data = self._projections[i, :].dot(
                     np.array(self.window).T
                 )
-                self._histograms[i, :], self._limits[i, :] = np.histogram(
-                    projected_data, bins=self.bins_num, density=False
+
+                try:
+                    self._histograms[i, :] = (
+                        histogram1d(
+                            projected_data,
+                            range=(
+                                projected_data.min(),
+                                projected_data.max() + 1e-12,
+                            ),
+                            bins=self.bins_num,
+                        )
+                        + 1e-12
+                    )
+                except:
+                    self._histograms[i, :] = (
+                        histogram1d(
+                            projected_data,
+                            range=(
+                                projected_data.min(),
+                                projected_data.max() + 1e-5,
+                            ),
+                            bins=self.bins_num,
+                        )
+                        + 1e-12
+                    )
+                self._limits[i, :] = np.linspace(
+                    projected_data.min(),
+                    projected_data.max() + 1e-12,
+                    num=self.bins_num + 1,
                 )
-                self._histograms[i, :] += 1e-12
+
                 self._histograms[i, :] /= np.sum(self._histograms[i, :])
 
         return self
 
     def score(self, X: np.ndarray, timestamp: int = None):
-
         score = 0
 
         for i in range(self.random_cuts_num):
@@ -73,3 +100,29 @@ class LodaDetector(BaseDetector):
 
         score = score / self.random_cuts_num
         return float(score)
+
+
+if __name__ == "__main__":
+    import cProfile
+    import resource
+
+    # from line_profiler import LineProfiler
+
+    # lp = LineProfiler()
+
+    model = LodaDetector()
+
+    # lp.add_function(model.fit)
+    # lp.add_function(model.score)
+    # lp_wrapper = lp(model.fit_score)
+    import sys
+
+    for i in range(1500):
+        # lp_wrapper(np.array([i]))
+        model.fit_score(np.array([i * 10]))
+
+        r = sys.getsizeof(model)
+        # r = resource.getrusage(resource.RUSAGE_CHILDREN).ru_maxrss
+        print(r)
+
+    # lp.print_stats()

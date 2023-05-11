@@ -5,7 +5,10 @@ from streamad.util import StreamStatistic
 
 class Leaf:
     def __init__(
-        self, left=None, right=None, depth=0,
+        self,
+        left=None,
+        right=None,
+        depth=0,
     ):
         self.left = left
         self.right = right
@@ -17,12 +20,12 @@ class Leaf:
 
 
 class HSTreeDetector(BaseDetector):
-    def __init__(self, tree_height: int = 10, tree_num: int = 100, **kwargs):
+    def __init__(self, tree_height: int = 10, tree_num: int = 20, **kwargs):
         """Half space tree detectors. :cite:`DBLP:conf/ijcai/TanTL11`.
 
         Args:
             tree_height (int, optional): Height of a half space tree. Defaults to 10.
-            tree_num (int, optional): Totla number of the trees. Defaults to 100.
+            tree_num (int, optional): Totla number of the trees. Defaults to 20.
         """
         super().__init__(data_type="multivariate", **kwargs)
         self.tree_height = tree_height
@@ -82,14 +85,14 @@ class HSTreeDetector(BaseDetector):
             self._reset_tree(tree.right)
 
     def fit(self, X: np.ndarray, timestamp: int = None):
-
         self.data_stats.update(X)
 
         X_normalized = np.divide(
             X - self.data_stats.get_min(),
             self.data_stats.get_max() - self.data_stats.get_min(),
-            out=np.zeros_like(X),
+            out=np.zeros_like(X, dtype=float),
             where=self.data_stats.get_max() - self.data_stats.get_min() != 0,
+            dtype=float,
         )
         X_normalized[np.abs(X_normalized) == np.inf] = 0
 
@@ -114,13 +117,12 @@ class HSTreeDetector(BaseDetector):
         return self
 
     def score(self, X: np.ndarray, timestamp: int = None) -> float:
-
         score = 0.0
 
         X_normalized = np.divide(
             X - self.data_stats.get_min(),
             self.data_stats.get_max() - self.data_stats.get_min(),
-            out=np.zeros_like(X),
+            out=np.zeros_like(X, dtype=float),
             where=self.data_stats.get_max() - self.data_stats.get_min() != 0,
         )
         X_normalized[np.abs(X_normalized) == np.inf] = 0
@@ -137,7 +139,7 @@ class HSTreeDetector(BaseDetector):
         if not tree:
             return s
 
-        s += tree.r * (2 ** k)
+        s += tree.r * (2**k)
 
         if X[tree.split_attrib] > tree.split_value:
             tree_new = tree.right

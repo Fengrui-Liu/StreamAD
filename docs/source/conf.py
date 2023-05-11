@@ -23,7 +23,7 @@ exec(open(version_path).read())
 # -- Project information -----------------------------------------------------
 
 project = "StreamAD"
-copyright = "2022, Fengrui-Liu"
+copyright = "2023, Fengrui-Liu"
 author = "Fengrui-Liu"
 
 # The full version, including alpha/beta/rc tags

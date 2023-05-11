@@ -13,7 +13,7 @@ class SArimaDetector(BaseDetector):
         """Auto Regressive Integrated Moving Averages Detector :cite:`durbin2012time`
 
         Args:
-            window_len (int, optional): Length of sliding window. Defaults to 200.
+            window_len (int, optional): Length of sliding window. Defaults to 50.
         """
         super().__init__(data_type="univariate", **kwargs)
         self.best_result = None
@@ -22,7 +22,6 @@ class SArimaDetector(BaseDetector):
         self.best_seasonal_order = None
 
     def _init_fit(self):
-
         best_aic = float("inf")
         p = d = q = range(0, 2)
         pdq = list(itertools.product(p, d, q))
@@ -49,7 +48,6 @@ class SArimaDetector(BaseDetector):
         self.best_result = self.best_model.fit(disp=0)
 
     def fit(self, X: np.ndarray, timestamp: int = None):
-
         self.window.append(X[0])
         if self.index == self.window_len:
             self._init_fit()
@@ -60,7 +58,6 @@ class SArimaDetector(BaseDetector):
         return self
 
     def score(self, X: np.ndarray, timestamp: int = None):
-
         pred_uc = self.best_result.get_forecast(steps=1)
 
         pred_ci = pred_uc.conf_int()

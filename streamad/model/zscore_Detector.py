@@ -8,7 +8,7 @@ class ZScoreDetector(BaseDetector):
         """Univariate Z-Score Detecto :cite:`enwiki:1086685336`
 
         Args:
-            window_len (int, optional):  Length of the window for reference. Defaults to 100.
+            window_len (int, optional):  Length of the window for reference. Defaults to 50.
             is_global (bool, optional): Whether to detect anomalies from a global view. Defaults to False.
         """
         super().__init__(data_type="univariate", **kwargs)
@@ -22,7 +22,6 @@ class ZScoreDetector(BaseDetector):
         return self
 
     def score(self, X: np.ndarray, timestamp: int = None):
-
         mean = self.stat.get_mean()
         std = self.stat.get_std()
 

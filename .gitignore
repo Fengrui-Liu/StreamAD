@@ -151,5 +151,5 @@ dmypy.json
 cython_debug/
 
 # Others
-benchmark/image/
+benchmark/
 .DS_Store

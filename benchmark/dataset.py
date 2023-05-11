@@ -21,14 +21,14 @@ DS = {
         "periodic_data",
         "staircase_data",
     ],
-    "SMD": ["test"],
+    "MSL": ["test"],
+    "SMD": [],
+    "CHM": [],
 }
 
 
 def check(ds_name, path="./streamad-benchmark-dataset"):
-    assert ds_name in DS, "Unavailable dataset, only support {}".format(
-        DS.keys()
-    )
+    assert ds_name in DS, f"Unavailable dataset {ds_name}, only support {list(DS.keys())}"
 
     if not os.path.exists(path):
         os.makedirs(path)
@@ -122,28 +122,28 @@ def download_ds(ds_name, path="./streamad-benchmark-dataset"):
             ]
         )
 
-    elif str.lower(ds_name) == "smd":
+    elif str.lower(ds_name) == "msl":
         subprocess.check_call(
             [
                 "wget",
                 "https://s3-us-west-2.amazonaws.com/telemanom/data.zip",
                 "-P",
-                path + "/SMD",
+                path + "/MSL",
             ]
         )
 
         subprocess.check_call(
             [
                 "unzip",
-                path + "/SMD/data.zip",
+                path + "/MSL/data.zip",
                 "-d",
-                path + "/SMD/",
+                path + "/MSL/",
             ]
         )
         subprocess.check_call(
             [
                 "rm",
-                path + "/SMD/data.zip",
+                path + "/MSL/data.zip",
             ]
         )
 
@@ -152,6 +152,30 @@ def download_ds(ds_name, path="./streamad-benchmark-dataset"):
                 "wget",
                 "https://raw.githubusercontent.com/khundman/telemanom/master/labeled_anomalies.csv",
                 "-P",
+                path + "/MSL",
+            ]
+        )
+    elif str.lower(ds_name) == "chm":
+        subprocess.check_call(
+            [
+                "git",
+                "clone",
+                "--depth=1",
+                "https://github.com/Fengrui-Liu/Cloud-host-metrics-dataset",
+                path + "/CHM",
+            ]
+        )
+        subprocess.check_call(
+            ["unzip", path + "/CHM/data.zip", "-d", path + "/CHM/"]
+        )
+        subprocess.check_call(["rm", "-rf", path + "/CHM/.git"])
+    elif str.lower(ds_name) == "smd":
+        subprocess.check_call(
+            [
+                "git",
+                "clone",
+                "--depth=1",
+                "https://github.com/NetManAIOps/OmniAnomaly",
                 path + "/SMD",
             ]
         )
@@ -265,14 +289,24 @@ def read_ds(ds_name, ds_file, path="./streamad-benchmark-dataset"):
                     df_label = df["label"]
                     dfs[item.split(".csv")[0]] = (df, df_label)
             return dfs
+        elif ds_file == 'all':
+            dfs = {}
+            for ds_file in DS[ds_name]:
+                folder = path + "/GAIA/metric_detection/" + ds_file
+                for root, dirs, files in os.walk(folder):
+                    for item in files:
+                        df = pd.read_csv(root + "/" + item)
+                        df_label = df["label"]
+                        dfs[item.split(".csv")[0]] = (df, df_label)
+            return dfs
         else:
             raise FileNotFoundError
 
-    elif str.lower(ds_name) == "smd":
-        labels = pd.read_csv(path + "/SMD/labeled_anomalies.csv")
+    elif str.lower(ds_name) == "msl":
+        labels = pd.read_csv(path + "/MSL/labeled_anomalies.csv")
         if ds_file in DS[ds_name]:
             dfs = {}
-            folder = path + "/SMD/data/" + ds_file
+            folder = path + "/MSL/data/" + ds_file
             for root, dirs, files in os.walk(folder):
                 for item in files:
                     name = item.replace(".npy", "")
@@ -296,10 +330,36 @@ def read_ds(ds_name, ds_file, path="./streamad-benchmark-dataset"):
         else:
             raise FileNotFoundError
 
+    elif str.lower(ds_name) == "chm":
+        dfs = {}
+        for root, dirs, files in os.walk(path + "/CHM/data"):
+            for item in files:
+                df = pd.read_csv(root + "/" + item, index_col=["timestamp"])
+                df = df.sort_index()
+                dfs[item.split(".csv")[0]] = (df, df["label"])
+
+        return dfs
+    elif str.lower(ds_name) == "smd":
+        dfs = {}
+        for root, dirs, files in os.walk(
+            path + "/SMD/ServerMachineDataset/test"
+        ):
+            for item in files:
+                df = pd.read_csv(root + "/" + item, header=None)
+                label = pd.read_csv(
+                    path + "/SMD/ServerMachineDataset/test_label/" + item,
+                    header=None,
+                    names=["label"],
+                )
+                df.columns = df.columns.astype(str)
+                df["label"] = label
+                dfs[item.split(".txt")[0]] = (df, df["label"])
+        return dfs
+
 
 if __name__ == "__main__":
-    ds_name = "MICRO"
-    df_file = "test"
+    ds_name = "SMD"
+    df_file = ""
     prepare_ds(
         ds_name=ds_name,
         path="./benchmark/streamad-benchmark-dataset",

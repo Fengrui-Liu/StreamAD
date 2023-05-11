@@ -9,18 +9,19 @@ class BaseDetector(ABC):
 
     def __init__(
         self,
-        window_len: int = 100,
+        window_len: int = 50,
         detrend: bool = False,
-        detrend_len: int = 20,
+        detrend_len: int = 10,
         data_type: str = "multivariate",
+        score_first: bool = False,
     ):
         """Initialize the attributes of the BaseDetector class
 
 
         Args:
-            window_len (int, optional): Length of window for observations. Defaults to 100.
+            window_len (int, optional): Length of window for observations. Defaults to 50.
             detrend (bool, optional): Data is detrended by subtracting the mean. Defaults to True.
-            detrend_len (int, optional): Length of data for reference to detrend. Defaults to 20.
+            detrend_len (int, optional): Length of data for reference to detrend. Defaults to 10.
             data_type (str, optional): Multi/Univariate data type. Defaults to "multivariate".
         """
 
@@ -31,6 +32,7 @@ class BaseDetector(ABC):
         self.detrend_len = detrend_len
         self.window = deque(maxlen=self.window_len)
         self.detrend_window = deque(maxlen=self.detrend_len)
+        self.score_first = score_first
 
     def _check(self, X) -> bool:
         """Check whether the detector can handle the data."""
@@ -62,12 +64,10 @@ class BaseDetector(ABC):
 
     @abstractmethod
     def fit(self, X: np.ndarray, timestamp: int = None):
-
         return NotImplementedError
 
     @abstractmethod
     def score(self, X: np.ndarray, timestamp: int = None) -> float:
-
         return NotImplementedError
 
     def fit_score(self, X: np.ndarray, timestamp: int = None) -> float:
@@ -89,6 +89,10 @@ class BaseDetector(ABC):
             self.fit(X, timestamp)
             return None
 
-        score = self.fit(X, timestamp).score(X, timestamp)
+        if self.score_first:
+            score = self.score(X, timestamp)
+            self.fit(X, timestamp)
+        else:
+            score = self.fit(X, timestamp).score(X, timestamp)
 
         return float(abs(score))

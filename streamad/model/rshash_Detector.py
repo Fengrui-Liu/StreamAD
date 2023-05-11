@@ -6,14 +6,14 @@ from collections import deque
 
 class RShashDetector(BaseDetector):
     def __init__(
-        self, decay=0.015, components_num=100, hash_num: int = 10, **kwargs
+        self, decay=0.015, components_num=10, hash_num: int = 10, **kwargs
     ):
         """Multivariate RSHashDetector :cite:`DBLP:conf/icdm/SatheA16`.
 
         Args:
-            window_len (int, optional): Length of data to burn in/init. Defaults to 150.
+            window_len (int, optional): Length of data to burn in/init. Defaults to 50.
             decay (float, optional): Decay ratio. Defaults to 0.015.
-            components_num (int, optional): Number of components. Defaults to 100.
+            components_num (int, optional): Number of components. Defaults to 10.
             hash_num (int, optional): Number of hash functions. Defaults to 10.
         """
         super().__init__(data_type="multivariate", **kwargs)
@@ -35,7 +35,6 @@ class RShashDetector(BaseDetector):
         )
 
     def _burn_in(self):
-
         # Normalized the init data
         buffer = np.array(self.window)
         buffer_normalized = np.divide(
@@ -53,7 +52,8 @@ class RShashDetector(BaseDetector):
                     / self.f[r]
                 )
 
-                mod_entry = np.insert(Y, 0, r)
+                # mod_entry = np.insert(Y, 0, r)
+                mod_entry = np.concatenate(([r], Y))
                 mod_entry = tuple(mod_entry.astype(int))
 
                 for w in range(self.hash_num):
@@ -66,7 +66,6 @@ class RShashDetector(BaseDetector):
                     self.cmsketches[w][mod_entry] = value
 
     def fit(self, X: np.ndarray, timestamp: int = None):
-
         if self.index == 0:
             self.alpha = [
                 np.random.uniform(low=0, high=self.f[r], size=len(X))
@@ -85,7 +84,6 @@ class RShashDetector(BaseDetector):
         return self
 
     def score(self, X: np.ndarray, timestamp: int = None) -> float:
-
         X_normalized = np.divide(
             X - self.data_stats.get_min(),
             self.data_stats.get_max() - self.data_stats.get_min(),
@@ -98,7 +96,8 @@ class RShashDetector(BaseDetector):
 
         for r in range(self.components_num):
             Y = np.floor((X_normalized + np.array(self.alpha[r])) / self.f[r])
-            mod_entry = np.insert(Y, 0, r)
+            # mod_entry = np.insert(Y, 0, r)
+            mod_entry = np.concatenate(([r], Y))
             mod_entry = tuple(mod_entry.astype(int))
 
             c = []

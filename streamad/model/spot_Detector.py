@@ -236,7 +236,6 @@ class SpotDetector(BaseDetector):
         return L
 
     def _quantile(self, side, gamma, sigma):
-
         if side == "up":
             r = self.window_len * self.prob / self.num_threshold[side]
             # r = 1000 * self.prob
@@ -261,14 +260,12 @@ class SpotDetector(BaseDetector):
             raise ValueError("The side is not right")
 
     def _init_drift(self, verbose=False):
-
         for side in ["up", "down"]:
             self._update_one_side(side)
 
         return self
 
     def _update_one_side(self, side: str):
-
         if side == "up":
             candidates = (
                 list(self.window) + self.history_peaks[side]
@@ -329,7 +326,6 @@ class SpotDetector(BaseDetector):
             self._init_drift()
 
         if self.index >= self.window_len:
-
             last_X = (
                 self.window[-2]
                 if self.back_mean_len == 0
@@ -350,15 +346,16 @@ class SpotDetector(BaseDetector):
                 self._update_one_side("up")
 
             elif self.normal_X < self.init_threshold["down"]:
-
                 self._update_one_side("down")
 
         return self
 
     def score(self, X: np.ndarray, timestamp: int = None):
-
         X = float(X[0])
 
+        # if self.score_first:
+        #     last_X = self._cal_back_mean(X)
+        # else:
         last_X = (
             self.window[-2]
             if self.back_mean_len == 0

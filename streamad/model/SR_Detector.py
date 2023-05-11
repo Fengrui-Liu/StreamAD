@@ -17,7 +17,7 @@ class SRDetector(BaseDetector):
         """Spectral Residual Detector :cite:`DBLP:conf/kdd/RenXWYHKXYTZ19`.
 
         Args:
-            window_len (int, optional): Length of sliding window. Defaults to 100.
+            window_len (int, optional): Length of sliding window. Defaults to 50.
             extend_len (int, optional): Length to be extended, for FFT transforme. Defaults to 5.
             ahead_len (int, optional): Length to look ahead for references. Defaults to 10.
             mag_num (int, optional): Number of FFT magnitude. Defaults to 5.
@@ -34,7 +34,6 @@ class SRDetector(BaseDetector):
         return self
 
     def score(self, X: np.ndarray, timestamp: int = None) -> float:
-
         window = deepcopy(self.window)
 
         window.pop()
@@ -48,7 +47,6 @@ class SRDetector(BaseDetector):
         return anomaly_scores[-1 - self.extend_len]
 
     def _spectral_score(self, mags):
-
         avg_mag = self._average_filter(mags, n=self.mag_num * 10)
         safeDivisors = np.clip(avg_mag, EPS, avg_mag.max())
 
@@ -63,9 +61,8 @@ class SRDetector(BaseDetector):
         return scores
 
     def _sr_transform(self, window):
-
         trans = np.fft.fft(window)
-        mag = np.sqrt(trans.real ** 2 + trans.imag ** 2)
+        mag = np.sqrt(trans.real**2 + trans.imag**2)
         eps_index = np.where(mag <= EPS)[0]
         mag[eps_index] = EPS
 
@@ -84,7 +81,7 @@ class SRDetector(BaseDetector):
 
         wave_r = np.fft.ifft(trans)
 
-        mag = np.sqrt(wave_r.real ** 2, wave_r.imag ** 2)
+        mag = np.sqrt(wave_r.real**2, wave_r.imag**2)
 
         return mag
 
@@ -102,7 +99,6 @@ class SRDetector(BaseDetector):
         return res
 
     def _extend_window(self, window):
-
         predicted_window = [
             self._predict_next(list(window)[-self.ahead_len : -1])
         ] * self.extend_len
@@ -112,7 +108,6 @@ class SRDetector(BaseDetector):
         return extended_window
 
     def _predict_next(self, ahead_window):
-
         assert (
             len(ahead_window) > 1
         ), "ahead window must have at least 2 elements"

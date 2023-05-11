@@ -8,7 +8,7 @@ class MadDetector(BaseDetector):
         """Median Absolute Deviation Detector :cite: `InfluxDB:MAD`.
 
         Args:
-            window_len (int, optional): Length of sliding window. Defaults to 10.
+            window_len (int, optional): Length of sliding window. Defaults to 50.
             threshold (float, optional): threshold to decide a anomaly data. Defaults to 3.0.
 
         parameters:
@@ -24,7 +24,6 @@ class MadDetector(BaseDetector):
         return self
 
     def score(self, X: np.ndarray, timestamp: int = None):
-
         ori_median = np.median(self.window)
         abs_diff = np.abs(self.window - ori_median)
         mad = self.scale_factor * np.median(abs_diff)
