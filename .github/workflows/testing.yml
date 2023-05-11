@@ -20,16 +20,13 @@ on:
 
 jobs:
   build:
-    defaults:
-      run:
-        shell: bash
-    runs-on: ${{ matrix.os }}
-
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: [3.8, 3.9, "3.10", 3.11]
+        python-version: ["3.8", "3.9", "3.10", "3.11"]
+        poetry-version: ["1.4.2"]
+    runs-on: ${{ matrix.os }}
 
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
@@ -53,11 +50,12 @@ jobs:
       #  -----  install & configure poetry  -----
       #----------------------------------------------
       - name: Install Poetry
-        uses: snok/install-poetry@v1
+        uses: abatilo/actions-poetry@v2
         with:
           virtualenvs-create: true
           virtualenvs-in-project: true
           installer-parallel: true
+          poetry-version: ${{ matrix.poetry-version }}
       - name: Install dependencies
         run: poetry install --no-interaction --no-root
       - name: Generate coverage report
