@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "streamad"
+version = "0.3.1"
+description = "An anomaly detection package for data streams."
+authors = ["Fengrui-Liu <liufengrui18z@ict.ac.cn>"]
+license = "Apache Software License"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+numpy = "^1.22"
+pandas = "^1.3.0"
+scipy = "^1.7.0"
+scikit-learn = "^1.0.0"
+mmh3 = "^3.0.0"
+rrcf = "^0.4.4"
+plotly = "^5.14.1"
+tdigest = "^0.5.2.2"
+statsmodels = "^0.14.0"
+fast-histogram = "^0.11"
+pytest = "^7.3.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
