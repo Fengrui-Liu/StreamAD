@@ -12,4 +12,4 @@ myst_nb
 plotly
 rrcf
 tdigest
-setuptools==58.2.0
+setuptools==65.5.1
